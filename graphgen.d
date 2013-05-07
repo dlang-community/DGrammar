@@ -384,10 +384,13 @@ void main(string[] args)
         o.write(q"[digraph grammar
 {
 rankdir=LR
-fontsize=8
+fontsize=10
+fontname="Liberation Mono"
+node [fontsize=10, fontname="Liberation Mono", margin=0.1, height=0.3]
 ranksep=0.2
 edge [arrowhead=vee, arrowsize=0.5, len=0.2]
 ]");
+        o.writeln("label=\"", rule.name, "\"");
         rule.assignIds(format("rule%d", i));
         rule.print(o, null);
         o.writeln("}");
