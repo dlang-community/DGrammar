@@ -1,0 +1,2 @@
+rm *.dot
+rm *.png

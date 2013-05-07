@@ -9,7 +9,7 @@ class Node
 {
 	string id;
 	abstract void assignIds(string id);
-	abstract void print(string[] startIds);
+	abstract void print(File f, string[] startIds);
 	abstract string[] getStartIds();
 	abstract string[] getEndIds();
 }
@@ -25,15 +25,15 @@ class RuleDefinition : Node
 		alternatives.assignIds(id ~ "_0");
 	}
 
-	override void print(string[] startIds)
+	override void print(File f, string[] startIds)
 	{
 		string startDot = format("%s_start", id);
 		string endDot = format("%s_end", id);
-        printDotNode(startDot);
-        printDotNode(endDot);
-		alternatives.print([startDot]);
+        printDotNode(f, startDot);
+        printDotNode(f, endDot);
+		alternatives.print(f, [startDot]);
 		foreach (end; alternatives.getEndIds())
-			printArrow(end, endDot);
+			printArrow(f, end, endDot);
 	}
 
 	override string[] getStartIds() { return null; }
@@ -55,24 +55,24 @@ class Alternatives : Node
 			alt.assignIds(format("%s_%d", id, i));
 	}
 
-	override void print(string[] startIds)
+	override void print(File f, string[] startIds)
 	{
         if (alternatives.length > 1)
         {
-            printDotNode(startDot);
-            printDotNode(endDot);
+            printDotNode(f, startDot);
+            printDotNode(f, endDot);
             foreach (start; startIds)
-                printArrow(start, startDot);
+                printArrow(f, start, startDot);
             foreach (alt; alternatives)
             {
-                alt.print([startDot]);
+                alt.print(f, [startDot]);
                 foreach (end; alt.getEndIds())
-                    printArrow(end, endDot);
+                    printArrow(f, end, endDot);
             }
         }
         else
         {
-            alternatives[0].print(startIds);
+            alternatives[0].print(f, startIds);
         }
 	}
 
@@ -101,17 +101,17 @@ class Sequence : Node
             item.assignIds(format("%s_%d", id, i));
     }
 
-    override void print(string[] startIds)
+    override void print(File f, string[] startIds)
     {
-        if (items.length > 1) writeln("subgraph cluster_", id, " {\nstyle=invis");
+        if (items.length > 1) f.writeln("subgraph cluster_", id, " {\nstyle=invis");
         for (int i = 0; i < items.length; i++)
         {
             if (i == 0)
-                items[0].print(startIds);
+                items[0].print(f, startIds);
             else
-                items[i].print(items[i - 1].getEndIds());
+                items[i].print(f, items[i - 1].getEndIds());
         }
-        if (items.length > 1) writeln("}");
+        if (items.length > 1) f.writeln("}");
     }
 
     override string[] getStartIds()
@@ -134,11 +134,11 @@ class Terminal : Node
 		this.id = id;
 	}
 
-	override void print(string[] startIds)
+	override void print(File f, string[] startIds)
 	{
-		writeln(id, `[shape=rectangle, style=rounded, label="`, terminal.replace(`"`, `\"`), `"]`);
+		f.writeln(id, `[shape=rectangle, style=rounded, label="`, terminal.replace(`"`, `\"`), `"]`);
 		foreach (s; startIds)
-            writefln("%s -> %s [weight=9001]", s, id);
+            f.writefln("%s -> %s [weight=9001]", s, id);
 
 	}
 
@@ -156,11 +156,11 @@ class RuleReference : Node
 		this.id = id;
 	}
 
-	override void print(string[] startIds)
+	override void print(File f, string[] startIds)
 	{
-		writeln(id, `[shape=rectangle, label="`, ruleReference.replace(`"`, `\"`), `"]`);
+		f.writeln(id, `[shape=rectangle, label="`, ruleReference.replace(`"`, `\"`), `"]`);
 		foreach (s; startIds)
-			writefln("%s -> %s [weight=9001]", s, id);//printArrow(s, id);
+			f.writefln("%s -> %s [weight=9001]", s, id);//printArrow(s, id);
 	}
 
 	override string[] getStartIds() { return [id]; }
@@ -187,55 +187,55 @@ class OptionOrRepeat : Node
         node.assignIds(id ~ "_0");
     }
 
-	override void print(string[] startIds)
+	override void print(File f, string[] startIds)
 	{
 		final switch (qualifier)
 		{
 			case Qualifier.star:
-				printDotNode(optionStart);
-                printDotNode(optionEnd);
+				printDotNode(f, optionStart);
+                printDotNode(f, optionEnd);
 
-                writeln("subgraph cluster_", id, "_repeat {");
-                    printDotNode(repeatEnd);
-                    printDotNode(repeatStart);
-                    node.print([repeatStart]);
-                    writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
-                writeln("}");
+                f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
+                printDotNode(f, repeatEnd);
+                printDotNode(f, repeatStart);
+                node.print(f, [repeatStart]);
+                f.writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
+                f.writeln("}");
 
                 foreach (start; startIds)
-					writefln("%s -> %s [weight=9001]", start, optionStart);
+					f.writefln("%s -> %s [weight=9001]", start, optionStart);
 
-                writefln("%s -> %s [weight=9001]", optionStart, repeatStart);
+                f.writefln("%s -> %s [weight=9001]", optionStart, repeatStart);
                 foreach (end; node.getEndIds())
-					writefln("%s -> %s [weight=9001]", end, repeatEnd);
-				writefln("%s -> %s [weight=9001]", repeatEnd, optionEnd);
-				writefln("%s -> %s", optionStart, optionEnd);
+					f.writefln("%s -> %s [weight=9001]", end, repeatEnd);
+				f.writefln("%s -> %s [weight=9001]", repeatEnd, optionEnd);
+				f.writefln("%s -> %s", optionStart, optionEnd);
 				break;
 			case Qualifier.question:
-				writeln("subgraph cluster_", id, "_repeat {");
-                printDotNode(optionStart);
-                printDotNode(optionEnd);
-                node.print([optionStart]);
-                writeln("}");
+				f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
+                printDotNode(f, optionStart);
+                printDotNode(f, optionEnd);
+                node.print(f, [optionStart]);
+                f.writeln("}");
 
                 foreach (start; startIds)
-					writefln("%s -> %s [weight=9001]", start, optionStart);
-				writefln("%s -> %s", optionStart, optionEnd);
+					f.writefln("%s -> %s [weight=9001]", start, optionStart);
+				f.writefln("%s -> %s", optionStart, optionEnd);
 				foreach (end; node.getEndIds())
-					writefln("%s -> %s [weight=9001]", end, optionEnd);
+					f.writefln("%s -> %s [weight=9001]", end, optionEnd);
 				break;
 			case Qualifier.plus:
-                writeln("subgraph cluster_", id, "_repeat {");
-                printDotNode(repeatStart);
-                printDotNode(repeatEnd);
-                node.print([repeatStart]);
-                writeln("}");
+                f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
+                printDotNode(f, repeatStart);
+                printDotNode(f, repeatEnd);
+                node.print(f, [repeatStart]);
+                f.writeln("}");
 
 				foreach (start; startIds)
-					writefln("%s -> %s [weight=9001]", start, repeatStart);
+					f.writefln("%s -> %s [weight=9001]", start, repeatStart);
 				foreach (end; node.getEndIds())
-					writefln("%s -> %s [weight=9001]", end, repeatEnd);
-                writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
+					f.writefln("%s -> %s [weight=9001]", end, repeatEnd);
+                f.writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
 				break;
 		}
 	}
@@ -372,26 +372,28 @@ void main(string[] args)
 	auto f = File(args[1]);
 	auto tokens = (cast(ubyte[]) f.byLine(KeepTerminator.yes).join()).byToken(config);
 
-	write(q"[digraph grammar
-{
-rankdir=LR
-fontsize=8
-ranksep=0.2
-edge [arrowhead=vee, arrowsize=0.5, len=0.2]
-]");
-    writeln("concentrate=true");
+
+    //writeln("concentrate=true");
     //writeln("splines=ortho");
     //writeln("splines=spline");
 
     for (int i = 0; !tokens.empty; i++)
     {
         auto rule = parseRuleDefinition(tokens);
-        //auto rule = createTestRule();
+        auto o = File(rule.name ~ ".dot", "w");
+        o.write(q"[digraph grammar
+{
+rankdir=LR
+fontsize=8
+ranksep=0.2
+edge [arrowhead=vee, arrowsize=0.5, len=0.2]
+]");
         rule.assignIds(format("rule%d", i));
-        rule.print(null);
+        rule.print(o, null);
+        o.writeln("}");
     }
 
-	writeln("}");
+
 }
 
 RuleDefinition createTestRule()
@@ -420,15 +422,15 @@ RuleDefinition createTestRule()
 }
 
 
-void printDotNode(string nodeName)
+void printDotNode(File f, string nodeName)
 {
-	writeln(nodeName, `[shape=point, label="", width=0, height=0, fixedsize=true]`);
+	f.writeln(nodeName, `[shape=point, label="", width=0, height=0, fixedsize=true]`);
 }
 
-void printArrow(string src, string dst, bool arrowHead = true)
+void printArrow(File f, string src, string dst, bool arrowHead = true)
 {
     if (arrowHead)
-        writefln("%s -> %s [arrowhead=vee]", src, dst);
+        f.writefln("%s -> %s [arrowhead=vee]", src, dst);
     else
-        writefln("%s -> %s", src, dst);
+        f.writefln("%s -> %s", src, dst);
 }

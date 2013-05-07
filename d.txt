@@ -1,4 +1,4 @@
-/+module: moduleDeclaration? declaration*
+module: moduleDeclaration? declaration*
     ;
 
 moduleDeclaration: "module" identifierChain ";"
@@ -180,13 +180,13 @@ tryStatement: "try" nonEmptyStatementNoCaseNoDefault (catches | catches finally_
     ;
 
 catches: lastCatch
-    | catch_ catches?
+    | catch catches?
     ;
 
 lastCatch: "catch" nonEmptyStatementNoCaseNoDefault
     ;
 
-catch_: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
+catch: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
     ;
 
 finally_: "finally" nonEmptyStatementNoCaseNoDefault
@@ -846,7 +846,7 @@ protectionAttribute: "private"
 
 deprecated: "deprecated" ("(" assignExpression ")")?
     ;
-+/
+
 traitsExpression: "__traits" "(" Identifier "," traitsArgument ("," traitsArgument)* ")"
     ;
 
@@ -868,7 +868,7 @@ staticAssertDeclaration: staticAssertStatement
 
 templateDeclaration: "template" Identifier templateParameters constraint? "{" declaration+ "}"
     ;
-/+
+
 staticConstructor: "static" "this" "(" ")" functionBody
     ;
 
@@ -928,4 +928,3 @@ keyValuePairs: keyValuePair ("," keyValuePair)*
 
 keyValuePair: assignExpression ":" assignExpression
     ;
-+/
