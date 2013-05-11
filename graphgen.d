@@ -1,3 +1,9 @@
+/**
+ * Written by Brian Schott (@Hackerpilot on github)
+ *
+ * Licensed under the WTFPL
+ */
+
 import std.d.lexer;
 import std.stdio;
 import std.range;
