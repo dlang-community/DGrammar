@@ -15,9 +15,9 @@ class Node
 {
 	string id;
 	abstract void assignIds(string id);
-	abstract void print(File f, string[] startIds);
-	abstract string[] getStartIds();
-	abstract string[] getEndIds();
+	abstract void print(File f);
+	abstract string getStartId();
+	abstract string getEndId();
 }
 
 class RuleDefinition : Node
@@ -31,19 +31,19 @@ class RuleDefinition : Node
 		alternatives.assignIds(id ~ "_0");
 	}
 
-	override void print(File f, string[] startIds)
+	override void print(File f)
 	{
 		string startDot = format("%s_start", id);
 		string endDot = format("%s_end", id);
         printDotNode(f, startDot);
         printDotNode(f, endDot);
-		alternatives.print(f, [startDot]);
-		foreach (end; alternatives.getEndIds())
-			printArrow(f, end, endDot);
+		alternatives.print(f);
+		printHeavyArrow(f, startDot, alternatives.getStartId());
+		printHeavyArrow(f, alternatives.getEndId(), endDot);
 	}
 
-	override string[] getStartIds() { return null; }
-	override string[] getEndIds() { return null; }
+	override string getStartId() { return null; }
+	override string getEndId() { return null; }
 }
 
 class Alternatives : Node
@@ -61,38 +61,50 @@ class Alternatives : Node
 			alt.assignIds(format("%s_%d", id, i));
 	}
 
-	override void print(File f, string[] startIds)
+	override void print(File f)
 	{
+
         if (alternatives.length > 1)
         {
+			//f.writeln("subgraph cluster_", id, " {\nstyle=invis");
             printDotNode(f, startDot);
             printDotNode(f, endDot);
-            foreach (start; startIds)
-                printArrow(f, start, startDot);
-            foreach (alt; alternatives)
+            foreach (i, alt; alternatives)
             {
-                alt.print(f, [startDot]);
-                foreach (end; alt.getEndIds())
-                    printArrow(f, end, endDot);
+                alt.print(f);
+				if (i > 0)
+				{
+					printHeavyArrow(f, startDot, alt.getStartId());
+					printHeavyArrow(f, alt.getEndId(), endDot);
+				}
+				else
+				{
+					printLightArrow(f, startDot, alt.getStartId());
+					printLightArrow(f, alt.getEndId(), endDot);
+				}
             }
+			//f.writeln("}");
         }
         else
         {
-            alternatives[0].print(f, startIds);
+            alternatives[0].print(f);
         }
 	}
 
-	override string[] getStartIds()
-	{
-		return [startDot];
-	}
-
-	override string[] getEndIds()
+	override string getStartId()
 	{
 		if (alternatives.length > 1)
-            return [endDot];
+			return startDot;
+		else
+			return alternatives[0].getStartId();
+	}
+
+	override string getEndId()
+	{
+		if (alternatives.length > 1)
+            return endDot;
         else
-            return alternatives[0].getEndIds();
+            return alternatives[0].getEndId();
 	}
 }
 
@@ -107,27 +119,26 @@ class Sequence : Node
             item.assignIds(format("%s_%d", id, i));
     }
 
-    override void print(File f, string[] startIds)
+    override void print(File f)
     {
-        if (items.length > 1) f.writeln("subgraph cluster_", id, " {\nstyle=invis");
+		//if (items.length > 1) f.writeln("subgraph cluster_", id, " {\nstyle=invis");
         for (int i = 0; i < items.length; i++)
         {
-            if (i == 0)
-                items[0].print(f, startIds);
-            else
-                items[i].print(f, items[i - 1].getEndIds());
+			items[i].print(f);
+            if (i > 0)
+                printHeavyArrow(f, items[i - 1].getEndId(), items[i].getStartId());
         }
-        if (items.length > 1) f.writeln("}");
+		//if (items.length > 1) f.writeln("}");
     }
 
-    override string[] getStartIds()
+    override string getStartId()
     {
-        return items[0].getStartIds();
+        return items[0].getStartId();
     }
 
-    override string[] getEndIds()
+    override string getEndId()
     {
-        return items[$ - 1].getEndIds();
+        return items[$ - 1].getEndId();
     }
 }
 
@@ -140,17 +151,13 @@ class Terminal : Node
 		this.id = id;
 	}
 
-	override void print(File f, string[] startIds)
+	override void print(File f)
 	{
 		f.writeln(id, `[shape=rectangle, style=rounded, label="`, terminal.replace(`"`, `\"`), `"]`);
-		foreach (s; startIds)
-            f.writefln("%s -> %s [weight=9001]", s, id);
-
 	}
 
-	override string[] getStartIds() { return [id]; }
-
-	override string[] getEndIds() { return [id]; }
+	override string getStartId() { return id; }
+	override string getEndId() { return id; }
 }
 
 class RuleReference : Node
@@ -162,16 +169,13 @@ class RuleReference : Node
 		this.id = id;
 	}
 
-	override void print(File f, string[] startIds)
+	override void print(File f)
 	{
 		f.writeln(id, `[shape=rectangle, label="`, ruleReference.replace(`"`, `\"`), `"]`);
-		foreach (s; startIds)
-			f.writefln("%s -> %s [weight=9001]", s, id);//printArrow(s, id);
 	}
 
-	override string[] getStartIds() { return [id]; }
-
-	override string[] getEndIds() { return [id]; }
+	override string getStartId() { return id; }
+	override string getEndId() { return id; }
 }
 
 class OptionOrRepeat : Node
@@ -193,73 +197,58 @@ class OptionOrRepeat : Node
         node.assignIds(id ~ "_0");
     }
 
-	override void print(File f, string[] startIds)
+	override void print(File f)
 	{
+		//f.writeln("subgraph cluster_", id, "{\nstyle=invis");
 		final switch (qualifier)
 		{
 			case Qualifier.star:
 				printDotNode(f, optionStart);
                 printDotNode(f, optionEnd);
-
-                f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
+				printOptionArrow(f, optionStart, optionEnd);
                 printDotNode(f, repeatEnd);
                 printDotNode(f, repeatStart);
-                node.print(f, [repeatStart]);
-                f.writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
-                f.writeln("}");
-
-                foreach (start; startIds)
-					f.writefln("%s -> %s [weight=9001]", start, optionStart);
-
-                f.writefln("%s -> %s [weight=9001]", optionStart, repeatStart);
-                foreach (end; node.getEndIds())
-					f.writefln("%s -> %s [weight=9001]", end, repeatEnd);
-				f.writefln("%s -> %s [weight=9001]", repeatEnd, optionEnd);
-				f.writefln("%s -> %s", optionStart, optionEnd);
+				printHeavyArrow(f, repeatEnd, optionEnd);
+				printBackArrow(f, repeatStart, repeatEnd);
+				printHeavyArrow(f, optionStart, repeatStart);
+                node.print(f);
+                printHeavyArrow(f, repeatStart, node.getStartId());
+                printHeavyArrow(f, node.getEndId(), repeatEnd);
 				break;
 			case Qualifier.question:
-				f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
                 printDotNode(f, optionStart);
                 printDotNode(f, optionEnd);
-                node.print(f, [optionStart]);
-                f.writeln("}");
-
-                foreach (start; startIds)
-					f.writefln("%s -> %s [weight=9001]", start, optionStart);
-				f.writefln("%s -> %s", optionStart, optionEnd);
-				foreach (end; node.getEndIds())
-					f.writefln("%s -> %s [weight=9001]", end, optionEnd);
+				printLightArrow(f, optionStart, optionEnd);
+                node.print(f);
+				printHeavyArrow(f, optionStart, node.getStartId());
+                printHeavyArrow(f, node.getEndId(), optionEnd);
 				break;
 			case Qualifier.plus:
-                f.writeln("subgraph cluster_", id, "_repeat {\nstyle=invis");
                 printDotNode(f, repeatStart);
                 printDotNode(f, repeatEnd);
-                node.print(f, [repeatStart]);
-                f.writeln("}");
-
-				foreach (start; startIds)
-					f.writefln("%s -> %s [weight=9001]", start, repeatStart);
-				foreach (end; node.getEndIds())
-					f.writefln("%s -> %s [weight=9001]", end, repeatEnd);
-                f.writefln("%s -> %s [dir=back]", repeatStart, repeatEnd);
+				printBackArrow(f, repeatStart, repeatEnd);
+                node.print(f);
+				printHeavyArrow(f, repeatStart, node.getStartId());
+                printHeavyArrow(f, node.getEndId(), repeatEnd);
 				break;
 		}
+		//f.writeln("}");
 	}
 
-	override string[] getStartIds()
+	override string getStartId()
 	{
 		if (qualifier == Qualifier.star || qualifier == Qualifier.question)
-			return [optionStart];
+			return optionStart;
 		else
-			return [repeatStart];
+			return repeatStart;
 	}
 
-	override string[] getEndIds()
+	override string getEndId()
 	{
 		if (qualifier == Qualifier.star || qualifier == Qualifier.question)
-			return [optionEnd];
+			return optionEnd;
 		else
-			return [repeatEnd];
+			return repeatEnd;
 	}
 
 }
@@ -379,9 +368,8 @@ void main(string[] args)
 	auto tokens = (cast(ubyte[]) f.byLine(KeepTerminator.yes).join()).byToken(config);
 
 
-    //writeln("concentrate=true");
-    //writeln("splines=ortho");
-    //writeln("splines=spline");
+
+
 
     for (int i = 0; !tokens.empty; i++)
     {
@@ -392,13 +380,13 @@ void main(string[] args)
 rankdir=LR
 fontsize=10
 fontname="Liberation Mono"
-node [fontsize=10, fontname="Liberation Mono", margin=0.1, height=0.3]
+node [fontsize=10, fontname="Liberation Mono", margin=0.05, height=0.3]
+edge [arrowhead=none, arrowsize=0.5, length=0.2]
 ranksep=0.2
-edge [arrowhead=vee, arrowsize=0.5, len=0.2]
 ]");
         o.writeln("label=\"", rule.name, "\"");
         rule.assignIds(format("rule%d", i));
-        rule.print(o, null);
+        rule.print(o);
         o.writeln("}");
     }
 
@@ -436,10 +424,22 @@ void printDotNode(File f, string nodeName)
 	f.writeln(nodeName, `[shape=point, label="", width=0, height=0, fixedsize=true]`);
 }
 
-void printArrow(File f, string src, string dst, bool arrowHead = true)
+void printHeavyArrow(File f, string src, string dst)
 {
-    if (arrowHead)
-        f.writefln("%s -> %s [arrowhead=vee]", src, dst);
-    else
-        f.writefln("%s -> %s", src, dst);
+	f.writefln("%s -> %s [weight=100]", src, dst);
+}
+
+void printLightArrow(File f, string src, string dst)
+{
+	f.writefln("%s -> %s [weight=0]", src, dst);
+}
+
+void printOptionArrow(File f, string src, string dst)
+{
+	f.writefln("%s -> %s [weight=0, constraint=false]", src, dst);
+}
+
+void printBackArrow(File f, string src, string dst)
+{
+	f.writefln("%s -> %s [arrowstyle=normal, weight=0, constraint=false, dir=back]", src, dst);
 }

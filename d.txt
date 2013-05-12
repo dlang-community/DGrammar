@@ -180,13 +180,13 @@ tryStatement: "try" nonEmptyStatementNoCaseNoDefault (catches | catches finally_
     ;
 
 catches: lastCatch
-    | catch catches?
+    | catch_ catches?
     ;
 
 lastCatch: "catch" nonEmptyStatementNoCaseNoDefault
     ;
 
-catch: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
+catch_: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
     ;
 
 finally_: "finally" nonEmptyStatementNoCaseNoDefault
@@ -198,14 +198,14 @@ throwStatement: "throw" expression ";"
 scopeGuardStatement: "scope" "(" Identifier ")" nonEmptyStatementNoCaseNoDefault
     ;
 
-asmStatement: "asm" "{" asminstruction+ "}"
+asmStatement: "asm" "{" asmInstruction+ "}"
     ;
 
-asminstruction: Identifier
+asmInstruction: Identifier
     | "align" IntegerLiteral
     | "align" Identifier
-    | Identifier ":" asminstruction
-    | Identifier asmexp
+    | Identifier ":" asmInstruction
+    | Identifier asmExp
     | opcode operands
     ;
 
@@ -219,74 +219,74 @@ register: Identifier
 opcode: Identifier
     ;
 
-operand: asmexp
+operand: asmExp
     ;
 
-asmexp: asmlogorexp
-    | asmlogorexp "?" asmexp ":" asmexp
+asmExp: asmLogOrExp
+    | asmLogOrExp "?" asmExp ":" asmExp
     ;
 
-asmlogorexp: asmlogandexp
-    | asmlogandexp "||" asmlogandexp
+asmLogOrExp: asmLogAndExp
+    | asmLogAndExp "||" asmLogAndExp
     ;
 
-asmlogandexp: asmorexp
-    | asmorexp "&&" asmorexp
+asmLogAndExp: asmOrExp
+    | asmOrExp "&&" asmOrExp
     ;
 
-asmorexp: asmxorexp
-    | asmxorexp "|" asmxorexp
+asmOrExp: asmXorExp
+    | asmXorExp "|" asmXorExp
     ;
 
-asmxorexp: asmandexp
-    | asmandexp "^" asmandexp
+asmXorExp: asmAndExp
+    | asmAndExp "^" asmAndExp
     ;
 
-asmandexp: asmequalexp
-    | asmequalexp "&" asmequalexp
+asmAndExp: asmEqualExp
+    | asmEqualExp "&" asmEqualExp
     ;
 
-asmequalexp: asmrelexp
-    | asmrelexp ("==" | "!=") asmrelexp
+asmEqualExp: asmRelExp
+    | asmRelExp ("==" | "!=") asmRelExp
     ;
 
-asmrelexp: asmshiftexp
-    | asmshiftexp ("<" | "<=" | ">" | ">=") asmshiftexp
+asmRelExp: asmShiftExp
+    | asmShiftExp ("<" | "<=" | ">" | ">=") asmShiftExp
     ;
 
-asmshiftexp: asmaddexp
-    | asmaddexp ("<<" | ">>" | ">>>") asmaddexp
+asmShiftExp: asmAddExp
+    | asmAddExp ("<<" | ">>" | ">>>") asmAddExp
     ;
 
-asmaddexp: asmmulexp
-    | asmmulexp ("+" | "-") asmmulexp
+asmAddExp: asmMulExp
+    | asmMulExp ("+" | "-") asmMulExp
     ;
 
-asmmulexp: asmbrexp
-    | asmbrexp ("*" | "/" | "%") asmbrexp
+asmMulExp: asmBrExp
+    | asmBrExp ("*" | "/" | "%") asmBrExp
     ;
 
-asmbrexp: asmunaexp
-    | asmbrexp "[" asmexp "]"
+asmBrExp: asmUnaExp
+    | asmBrExp "[" asmExp "]"
     ;
 
-asmunaexp: asmtypeprefix asmexp
-    | Identifier asmexp
-    | "+" asmunaexp
-    | "-" asmunaexp
-    | "!" asmunaexp
-    | "~" asmunaexp
-    | asmprimaryexp
+asmUnaExp: asmTypePrefix asmExp
+    | Identifier asmExp
+    | "+" asmUnaExp
+    | "-" asmUnaExp
+    | "!" asmUnaExp
+    | "~" asmUnaExp
+    | asmPrimaryExp
     ;
 
-asmprimaryexp: IntegerLiteral
+asmPrimaryExp: IntegerLiteral
     | FloatLiteral
     | "$"
     | register
     | identifierChain
     ;
 
-asmtypeprefix: Identifier Identifier
+asmTypePrefix: Identifier Identifier
     | "byte" Identifier
     | "short" Identifier
     | "int" Identifier
