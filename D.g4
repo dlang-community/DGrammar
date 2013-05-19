@@ -430,8 +430,7 @@ synchronizedStatement: 'synchronized' ('(' expression ')')? nonEmptyStatementNoC
 tryStatement: 'try' nonEmptyStatementNoCaseNoDefault (catches | catches finally_ | finally_)
     ;
 
-catches: lastCatch
-    | catch_ catches?
+catches: catch_* lastCatch
     ;
 
 lastCatch: 'catch' nonEmptyStatementNoCaseNoDefault
@@ -582,8 +581,7 @@ castQualifier: 'const'
     | 'shared'
     ;
 
-debugCondition: 'debug'
-    | 'debug' '(' (IntegerLiteral | Identifier) ')'
+debugCondition: 'debug' ('(' (IntegerLiteral | Identifier) ')')?
     ;
 
 debugSpecification: 'debug' '=' (Identifier | IntegerLiteral) ';'

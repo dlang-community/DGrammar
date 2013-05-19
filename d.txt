@@ -176,20 +176,19 @@ withStatement: "with" "(" (expression | symbol | templateInstance) ")" nonEmptyS
 synchronizedStatement: "synchronized" ("(" expression ")")? nonEmptyStatementNoCaseNoDefault
     ;
 
-tryStatement: "try" nonEmptyStatementNoCaseNoDefault (catches | catches finally_ | finally_)
+tryStatement: "try" nonEmptyStatementNoCaseNoDefault (catches | catches finally | finally)
     ;
 
-catches: lastCatch
-    | catch_ catches?
+catches: catch* lastCatch
     ;
 
 lastCatch: "catch" nonEmptyStatementNoCaseNoDefault
     ;
 
-catch_: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
+catch: "catch" "(" type Identifier? ")" nonEmptyStatementNoCaseNoDefault
     ;
 
-finally_: "finally" nonEmptyStatementNoCaseNoDefault
+finally: "finally" nonEmptyStatementNoCaseNoDefault
     ;
 
 throwStatement: "throw" expression ";"
@@ -331,8 +330,7 @@ castQualifier: "const"
     | "shared"
     ;
 
-debugCondition: "debug"
-    | "debug" "(" (IntegerLiteral | Identifier) ")"
+debugCondition: "debug" ("(" (IntegerLiteral | Identifier) ")")?
     ;
 
 debugSpecification: "debug" "=" (Identifier | IntegerLiteral) ";"
