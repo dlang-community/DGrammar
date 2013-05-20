@@ -599,9 +599,7 @@ assertStatement: assertExpression ';'
 templateMixinStatement: 'mixin' mixinTemplateName templateArguments? Identifier? ';'
     ;
 
-mixinTemplateName: '.' identifierOrTemplateChain
-    | identifierOrTemplateChain
-    | typeof '.' identifierOrTemplateChain
+mixinTemplateName: (typeofExpression? '.')? identifierOrTemplateChain
     ;
 
 functionCallStatement: functionCallExpression ';'
@@ -917,7 +915,7 @@ type2: type3 typeSuffix?
 
 type3: builtinType
     | symbol
-    | typeof ('.' identifierOrTemplateChain)?
+    | typeofExpression ('.' identifierOrTemplateChain)?
     | typeConstructor '(' type ')'
     ;
 
@@ -960,9 +958,6 @@ typeConstructor: 'const'
     | 'immutable'
     | 'inout'
     | 'shared'
-    ;
-
-typeof: 'typeof' '(' (expression | 'return') ')'
     ;
 
 parameters: '(' ((parameter (',' parameter)*)? (',' '...')? | '...') ')'
