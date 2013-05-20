@@ -35,8 +35,11 @@ class RuleDefinition : Node
 	{
 		string startDot = format("%s_start", id);
 		string endDot = format("%s_end", id);
-        printDotNode(f, startDot);
-        printDotNode(f, endDot);
+        f.writefln(`%s[shape=point, label="", width=.05, height=.05, fixedsize=true]`, startDot);
+        f.writefln(`%s[shape=point, label="", width=.05, height=.05, fixedsize=true]`, endDot);
+
+        //printDotNode(f, startDot);
+        //printDotNode(f, endDot);
 		alternatives.print(f);
 		printHeavyArrow(f, startDot, alternatives.getStartId());
 		printHeavyArrow(f, alternatives.getEndId(), endDot);
@@ -421,7 +424,7 @@ RuleDefinition createTestRule()
 
 void printDotNode(File f, string nodeName)
 {
-	f.writeln(nodeName, `[shape=point, label="", width=0, height=0, fixedsize=true]`);
+	f.writeln(nodeName, `[shape=point, label="", width=.01, height=.01, fixedsize=true]`);
 }
 
 void printHeavyArrow(File f, string src, string dst)
