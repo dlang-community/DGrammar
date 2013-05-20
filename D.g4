@@ -472,48 +472,37 @@ opcode: Identifier
 operand: asmExp
     ;
 
-asmExp: asmLogOrExp
-    | asmLogOrExp '?' asmExp ':' asmExp
+asmExp: asmLogOrExp ('?' asmExp ':' asmExp)?
     ;
 
-asmLogOrExp: asmLogAndExp
-    | asmLogAndExp '||' asmLogAndExp
+asmLogOrExp: asmLogAndExp ('||' asmLogAndExp)?
     ;
 
-asmLogAndExp: asmOrExp
-    | asmOrExp '&&' asmOrExp
+asmLogAndExp: asmOrExp ('&&' asmOrExp)?
     ;
 
-asmOrExp: asmXorExp
-    | asmXorExp '|' asmXorExp
+asmOrExp: asmXorExp ('|' asmXorExp)?
     ;
 
-asmXorExp: asmAndExp
-    | asmAndExp '^' asmAndExp
+asmXorExp: asmAndExp ('^' asmAndExp)?
     ;
 
-asmAndExp: asmEqualExp
-    | asmEqualExp '&' asmEqualExp
+asmAndExp: asmEqualExp ('&' asmEqualExp)?
     ;
 
-asmEqualExp: asmRelExp
-    | asmRelExp ('==' | '!=') asmRelExp
+asmEqualExp: asmRelExp (('==' | '!=') asmRelExp)?
     ;
 
-asmRelExp: asmShiftExp
-    | asmShiftExp ('<' | '<=' | '>' | '>=') asmShiftExp
+asmRelExp: asmShiftExp (('<' | '<=' | '>' | '>=') asmShiftExp)?
     ;
 
-asmShiftExp: asmAddExp
-    | asmAddExp ('<<' | '>>' | '>>>') asmAddExp
+asmShiftExp: asmAddExp (('<<' | '>>' | '>>>') asmAddExp)?
     ;
 
-asmAddExp: asmMulExp
-    | asmMulExp ('+' | '-') asmMulExp
+asmAddExp: asmMulExp (('+' | '-') asmMulExp)?
     ;
 
-asmMulExp: asmBrExp
-    | asmBrExp ('*' | '/' | '%') asmBrExp
+asmMulExp: asmBrExp (('*' | '/' | '%') asmBrExp)?
     ;
 
 asmBrExp: asmUnaExp
@@ -767,33 +756,25 @@ newAnonClassExpression: 'new' arguments? 'class' arguments? Identifier identifie
 deleteExpression: 'delete' unaryExpression
     ;
 
-assignExpression: ternaryExpression
-    | ternaryExpression assignOperator assignExpression
+assignExpression: ternaryExpression (assignOperator assignExpression)?
     ;
 
-ternaryExpression: orOrExpression
-    | orOrExpression '?' expression ':' ternaryExpression
+ternaryExpression: orOrExpression ('?' expression ':' ternaryExpression)?
     ;
 
-orOrExpression: andAndExpression
-    | orOrExpression '||' andAndExpression
+orOrExpression: andAndExpression ('||' andAndExpression)?
     ;
 
-andAndExpression: orExpression
-    | cmpExpression
-    | andAndExpression '&&' (orExpression | cmpExpression)
+andAndExpression: orExpression '&&' (orExpression | andAndExpression)
     ;
 
-orExpression: xorExpression
-    | orExpression '|' xorExpression
+orExpression: xorExpression ('|' xorExpression)?
     ;
 
-xorExpression: andExpression
-    | xorExpression '^' andExpression
+xorExpression: andExpression ('^' andExpression)?
     ;
 
-andExpression: shiftExpression
-    | andExpression '&' shiftExpression
+andExpression: cmpExpression ('&' cmpExpression)?
     ;
 
 cmpExpression: shiftExpression
@@ -811,19 +792,16 @@ relExpression: shiftExpression ('<' | '<=' | '>' | '>=' | '!<>=' | '!<>' | '<>' 
 
 inExpression: shiftExpression ('in' | '!' 'in') shiftExpression;
 
-shiftExpression: addExpression
-    | shiftExpression ('<<' | '>>' | '>>>') addExpression;
-
-addExpression: mulExpression
-    | addExpression ('+' | '-' | '~') mulExpression
+shiftExpression: addExpression (('<<' | '>>' | '>>>') addExpression)?
     ;
 
-mulExpression: powExpression
-    | mulExpression ('*' | '/' | '%') powExpression
+addExpression: mulExpression (('+' | '-' | '~') mulExpression)?
     ;
 
-powExpression: unaryExpression
-    | unaryExpression '^^' powExpression
+mulExpression: powExpression (('*' | '/' | '%') powExpression)?
+    ;
+
+powExpression: unaryExpression ('^^' unaryExpression)?
     ;
 
 unaryExpression: primaryExpression
