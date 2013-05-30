@@ -765,7 +765,8 @@ ternaryExpression: orOrExpression ('?' expression ':' ternaryExpression)?
 orOrExpression: andAndExpression ('||' andAndExpression)?
     ;
 
-andAndExpression: orExpression '&&' (orExpression | andAndExpression)
+andAndExpression: orExpression
+	| andAndExpression '&&' orExpression
     ;
 
 orExpression: xorExpression ('|' xorExpression)?
@@ -795,13 +796,16 @@ inExpression: shiftExpression ('in' | '!' 'in') shiftExpression;
 shiftExpression: addExpression (('<<' | '>>' | '>>>') addExpression)?
     ;
 
-addExpression: mulExpression (('+' | '-' | '~') mulExpression)?
+addExpression:  mulExpression
+    | addExpression '+' addExpression
     ;
 
-mulExpression: powExpression (('*' | '/' | '%') powExpression)?
+mulExpression: unaryExpression
+	| mulExpression ('*' | '/' | '%') unaryExpression
     ;
 
-powExpression: unaryExpression ('^^' unaryExpression)?
+powExpression: unaryExpression
+	| powExpression '^^' unaryExpression
     ;
 
 unaryExpression: primaryExpression
