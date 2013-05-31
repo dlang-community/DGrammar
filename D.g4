@@ -562,13 +562,14 @@ castExpression: 'cast' '(' (type | castQualifier)? ')' unaryExpression
 
 castQualifier: 'const'
     | 'const' 'shared'
-    | 'shared' 'const'
+    | 'immutable'
     | 'inout'
     | 'inout' 'shared'
-    | 'shared' 'inout'
-    | 'immutable'
     | 'shared'
+    | 'shared' 'const'
+    | 'shared' 'inout'
     ;
+
 
 debugCondition: 'debug' ('(' (IntegerLiteral | Identifier) ')')?
     ;
@@ -716,7 +717,7 @@ symbol: '.'? identifierOrTemplateChain
     ;
 
 templateSingleArgument: Identifier
-    | builtinType
+    | basicType
     | CharacterLiteral
     | StringLiteral
     | IntegerLiteral
@@ -789,15 +790,18 @@ equalExpression: shiftExpression ('==' | '!=') shiftExpression;
 
 identityExpression: shiftExpression ('is' | '!' 'is') shiftExpression;
 
-relExpression: shiftExpression ('<' | '<=' | '>' | '>=' | '!<>=' | '!<>' | '<>' | '<>=' | '!>' | '!>=' | '!<' | '!<=') shiftExpression;
+relExpression: shiftExpression
+    | relExpression ('<' | '<=' | '>' | '>=' | '!<>=' | '!<>' | '<>' | '<>=' | '!>' | '!>=' | '!<' | '!<=') shiftExpression
+    ;
 
 inExpression: shiftExpression ('in' | '!' 'in') shiftExpression;
 
-shiftExpression: addExpression (('<<' | '>>' | '>>>') addExpression)?
+shiftExpression: addExpression
+    | shiftExpression ('<<' | '>>' | '>>>') addExpression
     ;
 
 addExpression:  mulExpression
-    | addExpression '+' addExpression
+    | addExpression ('+' | '-' | '~') mulExpression
     ;
 
 mulExpression: unaryExpression
@@ -895,7 +899,7 @@ type2: type3 typeSuffix?
     | type2 typeSuffix
     ;
 
-type3: builtinType
+type3: basicType
     | symbol
     | typeofExpression ('.' identifierOrTemplateChain)?
     | typeConstructor '(' type ')'
@@ -909,7 +913,7 @@ typeSuffix: '*'
     | ('delegate' | 'function') parameters memberFunctionAttribute*
     ;
 
-builtinType: 'bool'
+basicType: 'bool'
     | 'byte'
     | 'ubyte'
     | 'short'
