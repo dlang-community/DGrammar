@@ -255,29 +255,29 @@ module: moduleDeclaration? declaration*
 moduleDeclaration: 'module' identifierChain ';'
     ;
 
-declaration: attributedDeclaration
-    | importDeclaration
-    | functionDeclaration
-    | variableDeclaration
+declaration: aliasDeclaration
     | aliasThisDeclaration
-    | structDeclaration
+    | attributedDeclaration
     | classDeclaration
-    | interfaceDeclaration
-    | unionDeclaration
-    | enumDeclaration
-    | aliasDeclaration
-    | mixinDeclaration
-    | unittest
-    | staticAssertDeclaration
-    | templateDeclaration
+    | conditionalDeclaration
     | constructor
     | destructor
+    | enumDeclaration
+    | functionDeclaration
+    | importDeclaration
+    | interfaceDeclaration
+    | mixinDeclaration
+    | pragmaDeclaration
+    | sharedStaticConstructor
+    | sharedStaticDestructor
+    | staticAssertDeclaration
     | staticConstructor
     | staticDestructor
-    | sharedStaticDestructor
-    | sharedStaticConstructor
-    | conditionalDeclaration
-    | pragmaDeclaration
+    | structDeclaration
+    | templateDeclaration
+    | unionDeclaration
+    | unittest
+    | variableDeclaration
     ;
 
 importDeclaration: 'static'? 'import' importList ';'
@@ -314,7 +314,11 @@ structBody: '{' declaration* '}'
 classDeclaration: 'class' Identifier (templateParameters constraint?)? (':' identifierList )? classBody
     ;
 
-classBody: '{' (declaration | invariant)* '}'
+classBody: '{' declarationOrInvariant* '}'
+    ;
+
+declarationOrInvariant : declaration
+    | invariant
     ;
 
 invariant: 'invariant' '(' ')' blockStatement
