@@ -311,8 +311,16 @@ constraint: 'if' '(' expression ')'
 structBody: '{' declaration* '}'
     ;
 
-classDeclaration: 'class' Identifier (templateParameters constraint?)? (':' identifierList )? classBody
+classDeclaration: 'class' Identifier (templateParameters constraint?)? (':' baseClassList)? classBody
     ;
+
+baseClassList: baseClass (',' baseClass)*
+	;
+
+baseClass:
+	 typeofExpression ('.' identifierOrTemplateChain)?
+	| identifierOrTemplateChain
+	;
 
 classBody: '{' declarationOrInvariant* '}'
     ;
@@ -434,7 +442,7 @@ synchronizedStatement: 'synchronized' ('(' expression ')')? nonEmptyStatementNoC
 tryStatement: 'try' nonEmptyStatementNoCaseNoDefault (catches | catches finally_ | finally_)
     ;
 
-catches: catch_* lastCatch
+catches: catch_* lastCatch?
     ;
 
 lastCatch: 'catch' nonEmptyStatementNoCaseNoDefault
@@ -460,20 +468,14 @@ asmInstruction: Identifier
     | 'align' Identifier
     | Identifier ':' asmInstruction
     | Identifier asmExp
-    | opcode operands
+    | Identifier operands
     ;
 
-operands: operand+
+operands: asmExp+
     ;
 
 register: Identifier
     | Identifier '(' IntegerLiteral ')'
-    ;
-
-opcode: Identifier
-    ;
-
-operand: asmExp
     ;
 
 asmExp: asmLogOrExp ('?' asmExp ':' asmExp)?
@@ -642,7 +644,7 @@ foreachTypeList: foreachType (',' foreachType)*
 foreachType: 'ref'? type? Identifier
     ;
 
-expression: assignExpression (',' assignExpression)*
+expression: assignExpression (',' expression)?
     ;
 
 identifierOrTemplateInstance: Identifier
@@ -767,20 +769,24 @@ assignExpression: ternaryExpression (assignOperator assignExpression)?
 ternaryExpression: orOrExpression ('?' expression ':' ternaryExpression)?
     ;
 
-orOrExpression: andAndExpression ('||' andAndExpression)?
+orOrExpression: andAndExpression
+	| orOrExpression '||' andAndExpression
     ;
 
 andAndExpression: orExpression
 	| andAndExpression '&&' orExpression
     ;
 
-orExpression: xorExpression ('|' xorExpression)?
+orExpression: xorExpression
+	| orExpression '|' xorExpression
     ;
 
 xorExpression: andExpression ('^' andExpression)?
     ;
 
-andExpression: cmpExpression ('&' cmpExpression)?
+andExpression:
+	cmpExpression
+	andExpression '&' cmpExpression
     ;
 
 cmpExpression: shiftExpression
@@ -823,18 +829,23 @@ unaryExpression: primaryExpression
     | '+' unaryExpression
     | '-' unaryExpression
     | '~' unaryExpression
-    | preIncDecExpression
     | newExpression
     | deleteExpression
     | castExpression
-    | /*unaryExpression templateArguments? arguments*/ functionCallExpression /* This causes an error in ANTLR */
-    | /*unaryExpression ('++'| '--')*/  postIncDecExpression /* This causes an error in ANTLR */
-    | unaryExpression '[' ']'
-    | unaryExpression '[' argumentList ']'
-    | unaryExpression '[' assignExpression '..' assignExpression ']'
+    | functionCallExpression
+	| preIncDecExpression
+    | postIncDecExpression
+    | sliceExpression
+    | indexExpression
     | unaryExpression '.' identifierOrTemplateInstance
     | assertExpression
     ;
+
+sliceExpression: unaryExpression '[' (assignExpression '..' assignExpression)? ']'
+	;
+
+indexExpression: unaryExpression '[' argumentList ']'
+	;
 
 assertExpression: 'assert' '(' assignExpression (',' assignExpression)? ')'
     ;
@@ -884,7 +895,7 @@ primaryExpression: identifierOrTemplateInstance
 whileStatement: 'while' '(' expression ')' statementNoCaseNoDefault
     ;
 
-doStatement: 'do' blockStatement 'while' '(' expression ')' ';'
+doStatement: 'do' nonEmptyStatementNoCaseNoDefault 'while' '(' expression ')' ';'
     ;
 
 blockStatement: '{' declarationsAndStatements? '}'
@@ -1039,11 +1050,17 @@ identifierChain: Identifier ('.' Identifier)*
 attributedDeclaration: attribute (':' | declaration | '{' declaration* '}')
     ;
 
-attribute: linkageAttribute
+attribute:
+      linkageAttribute
     | alignAttribute
     | pragmaExpression
-    | protectionAttribute
     | deprecated
+    | atAttribute
+    | 'private'
+    | 'package'
+    | 'protected'
+    | 'public'
+    | 'export'
     | 'extern'
     | 'final'
     | 'synchronized'
@@ -1059,7 +1076,6 @@ attribute: linkageAttribute
     | 'static'
     | 'pure'
     | 'nothrow'
-    | atAttribute
     ;
 
 linkageAttribute: 'extern' '(' Identifier '++'? ')'
@@ -1069,13 +1085,6 @@ atAttribute: '@' (Identifier | '(' argumentList ')' | functionCallExpression)
     ;
 
 alignAttribute: 'align' ('(' IntegerLiteral ')')?
-    ;
-
-protectionAttribute: 'private'
-    | 'package'
-    | 'protected'
-    | 'public'
-    | 'export'
     ;
 
 deprecated: 'deprecated' ('(' assignExpression ')')?
@@ -1118,10 +1127,9 @@ sharedStaticConstructor: 'shared' 'static' '~' 'this' '(' ')' functionBody
 conditionalDeclaration: compileCondition (declaration | '{' declaration* '}') ('else' (declaration | '{' declaration* '}'))?
     ;
 
-arrayInitializer: '[' arrayMemberInitializations? ']'
-    ;
-
-arrayMemberInitializations: arrayMemberInitialization (',' arrayMemberInitializations?)*
+arrayInitializer:
+	  '[' ']'
+	| '[' arrayMemberInitialization (',' arrayMemberInitialization)* ']'
     ;
 
 arrayMemberInitialization: (assignExpression ':')? nonVoidInitializer
