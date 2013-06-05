@@ -308,7 +308,13 @@ templateParameters: '(' templateParameterList? ')'
 constraint: 'if' '(' expression ')'
     ;
 
-structBody: '{' declaration* '}'
+structBody: '{' structBodyItem* '}'
+    ;
+
+structBodyItem: declaration | postBlit | invariant
+    ;
+
+postBlit: 'this' '(' 'this' ')' functionBody
     ;
 
 classDeclaration: 'class' Identifier (templateParameters constraint?)? (':' baseClassList)? classBody
@@ -781,12 +787,12 @@ orExpression: xorExpression
 	| orExpression '|' xorExpression
     ;
 
-xorExpression: andExpression ('^' andExpression)?
+xorExpression: andExpression
+    | xorExpression '^' andExpression
     ;
 
-andExpression:
-	cmpExpression
-	andExpression '&' cmpExpression
+andExpression: cmpExpression
+    | andExpression '&' cmpExpression
     ;
 
 cmpExpression: shiftExpression
@@ -856,8 +862,8 @@ postIncDecExpression: unaryExpression ('++' | '--')
 preIncDecExpression: ('++' | '--') unaryExpression
     ;
 
-primaryExpression: identifierOrTemplateInstance
-    | '.' identifierOrTemplateInstance
+primaryExpression:
+    | symbol
     | type '.' Identifier
     | typeofExpression
     | typeidExpression
