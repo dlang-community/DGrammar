@@ -280,7 +280,7 @@ declaration: aliasDeclaration
     | variableDeclaration
     ;
 
-importDeclaration: 'static'? 'import' importList ';'
+importDeclaration: 'import' (singleImport (',' singleImport)* | importBindings) ';'
     ;
 
 importList: singleImport (',' importList)?
@@ -344,10 +344,6 @@ constructor: 'this' parameters functionBody
 destructor: '~' 'this' '(' ')' functionBody
     ;
 
-statement: ';'
-    | nonEmptyStatement
-    ;
-
 interfaceDeclaration: 'interface' Identifier (templateParameters constraint?)? (':' identifierList)? structBody
     ;
 
@@ -373,13 +369,13 @@ untypedEnumBody: ';'
 untypedEnumMember: Identifier ('=' assignExpression)?
     ;
 
-nonEmptyStatement: nonEmptyStatementNoCaseNoDefault
+statement: statementNoCaseNoDefault
     | caseStatement
     | caseRangeStatement
     | defaultStatement
     ;
 
-nonEmptyStatementNoCaseNoDefault: labeledStatement
+statementNoCaseNoDefault: labeledStatement
     | blockStatement
     | assignStatement
     | ifStatement
@@ -435,7 +431,7 @@ defaultStatement: 'default' ':' declarationsAndStatements
     ;
 
 statementNoCaseNoDefault: ';'
-    | nonEmptyStatementNoCaseNoDefault
+    | statementNoCaseNoDefault
     ;
 
 continueStatement: 'continue' Identifier? ';'
@@ -447,31 +443,31 @@ breakStatement: 'break' Identifier? ';'
 gotoStatement: 'goto' (Identifier | 'default' | 'case' expression?) ';'
     ;
 
-withStatement: 'with' '(' (expression | symbol | templateInstance) ')' nonEmptyStatementNoCaseNoDefault
+withStatement: 'with' '(' (expression | symbol | templateInstance) ')' statementNoCaseNoDefault
     ;
 
-synchronizedStatement: 'synchronized' ('(' expression ')')? nonEmptyStatementNoCaseNoDefault
+synchronizedStatement: 'synchronized' ('(' expression ')')? statementNoCaseNoDefault
     ;
 
-tryStatement: 'try' nonEmptyStatementNoCaseNoDefault (catches | catches finally_ | finally_)
+tryStatement: 'try' statementNoCaseNoDefault (catches | catches finally_ | finally_)
     ;
 
 catches: catch_* lastCatch?
     ;
 
-lastCatch: 'catch' nonEmptyStatementNoCaseNoDefault
+lastCatch: 'catch' statementNoCaseNoDefault
     ;
 
-catch_: 'catch' '(' type Identifier? ')' nonEmptyStatementNoCaseNoDefault
+catch_: 'catch' '(' type Identifier? ')' statementNoCaseNoDefault
     ;
 
-finally_: 'finally' nonEmptyStatementNoCaseNoDefault
+finally_: 'finally' statementNoCaseNoDefault
     ;
 
 throwStatement: 'throw' expression ';'
     ;
 
-scopeGuardStatement: 'scope' '(' Identifier ')' nonEmptyStatementNoCaseNoDefault
+scopeGuardStatement: 'scope' '(' Identifier ')' statementNoCaseNoDefault
     ;
 
 asmStatement: 'asm' '{' asmInstruction+ '}'
@@ -560,10 +556,10 @@ pragmaDeclaration: pragmaExpression ';'
 pragmaExpression: 'pragma' '(' Identifier (',' argumentList)? ')'
     ;
 
-foreachRangeStatement: 'foreach' '(' foreachType ';' expression '..' expression ')' nonEmptyStatementNoCaseNoDefault
+foreachRangeStatement: 'foreach' '(' foreachType ';' expression '..' expression ')' statementNoCaseNoDefault
     ;
 
-conditionalStatement: compileCondition nonEmptyStatementNoCaseNoDefault ('else' nonEmptyStatementNoCaseNoDefault)?
+conditionalStatement: compileCondition statementNoCaseNoDefault ('else' statementNoCaseNoDefault)?
     ;
 
 compileCondition: versionCondition
@@ -639,17 +635,17 @@ assignOperator: '='
     | '~='
     ;
 
-ifStatement: 'if' '(' expression ')' nonEmptyStatementNoCaseNoDefault ('else' nonEmptyStatementNoCaseNoDefault)?
+ifStatement: 'if' '(' expression ')' statementNoCaseNoDefault ('else' statementNoCaseNoDefault)?
     ;
 
-forStatement: 'for' '(' (declaration | statement) expression? ';' expression? ')' nonEmptyStatementNoCaseNoDefault
+forStatement: 'for' '(' (declaration | statement) expression? ';' expression? ')' statementNoCaseNoDefault
     ;
 
 initialize: ';'
-    | nonEmptyStatementNoCaseNoDefault
+    | statementNoCaseNoDefault
     ;
 
-foreachStatement: ('foreach' | 'foreach_reverse') '(' foreachTypeList ';' expression ')' nonEmptyStatementNoCaseNoDefault
+foreachStatement: ('foreach' | 'foreach_reverse') '(' foreachTypeList ';' expression ')' statementNoCaseNoDefault
     ;
 
 foreachTypeList: foreachType (',' foreachType)*
@@ -909,7 +905,7 @@ primaryExpression:
 whileStatement: 'while' '(' expression ')' statementNoCaseNoDefault
     ;
 
-doStatement: 'do' nonEmptyStatementNoCaseNoDefault 'while' '(' expression ')' ';'
+doStatement: 'do' statementNoCaseNoDefault 'while' '(' expression ')' ';'
     ;
 
 blockStatement: '{' declarationsAndStatements? '}'
@@ -1104,7 +1100,7 @@ alignAttribute: 'align' ('(' IntegerLiteral ')')?
 deprecated: 'deprecated' ('(' assignExpression ')')?
     ;
 
-traitsExpression: '__traits' '(' Identifier ',' traitsArgument (',' traitsArgument)* ')'
+traitsExpression: '__traits' '(' Identifier (',' traitsArgument)+ ')'
     ;
 
 traitsArgument: assignExpression
