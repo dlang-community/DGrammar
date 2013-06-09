@@ -354,15 +354,23 @@ interfaceDeclaration: 'interface' Identifier (templateParameters constraint?)? (
 unionDeclaration: 'union' Identifier ((templateParameters constraint? structBody)? | (structBody | ';'))
     ;
 
-enumDeclaration: 'enum' Identifier? (':' type )? enumBody
+enumDeclaration: 'enum' Identifier (':' type )? untypedEnumBody
+    | 'enum' typedEnumBody
     ;
 
-enumBody: ';'
-    | '{' enumMember (',' enumMember?)* '}'
+typedEnumBody: ';'
+    | '{' typedEnumMember (',' typedEnumMember?)* '}'
     ;
 
-enumMember: Identifier
-    | (Identifier | type) '=' assignExpression
+typedEnumMember: Identifier
+    | Identifier type? '=' assignExpression
+    ;
+
+untypedEnumBody: ';'
+    | '{' untypedEnumMember (',' untypedEnumMember?)* '}'
+    ;
+
+untypedEnumMember: Identifier ('=' assignExpression)?
     ;
 
 nonEmptyStatement: nonEmptyStatementNoCaseNoDefault
