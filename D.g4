@@ -199,8 +199,8 @@ Comment : (BlockComment | LineComment | NestingBlockComment) -> skip;
 
 Identifier : ([a-zA-Z_])([a-zA-Z0-9_])*;
 
-fragment WysiwygString : 'r"' '"' StringPostfix?;
-fragment AlternativeWysiwygString : '`' (~['`'])* '`' StringPostfix?;
+fragment WysiwygString : 'r"' .*? '"' StringPostfix?;
+fragment AlternativeWysiwygString : '`' .*? '`' StringPostfix?;
 fragment EscapeSequence : '\\\''
     | '\\"'
     | '\\\\'
