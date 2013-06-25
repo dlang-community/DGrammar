@@ -204,6 +204,7 @@ fragment AlternativeWysiwygString : '`' .*? '`' StringPostfix?;
 fragment EscapeSequence : '\\\''
     | '\\"'
     | '\\\\'
+    | '\\?'
     | '\\0'
     | '\\a'
     | '\\b'
@@ -213,8 +214,7 @@ fragment EscapeSequence : '\\\''
     | '\\t'
     | '\\v'
     | '\\x' HexDigit HexDigit
-    | '\\' OctalDigit OctalDigit
-    | '\\' OctalDigit OctalDigit OctalDigit
+    | '\\' OctalDigit OctalDigit? OctalDigit?
     | '\\u' HexDigit HexDigit HexDigit HexDigit
     | '\\U' HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit
     | '\\&' Character+ ';';
