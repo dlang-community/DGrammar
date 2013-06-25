@@ -193,7 +193,7 @@ fragment BinDigit: [01];
 fragment DecimalDigit: [0-9];
 
 fragment BlockComment: '/*' .*? '*/';
-fragment LineComment: '//' (~[\r\n])* EndOfLine;
+fragment LineComment: '//' (~[\u000D\u000A\u2028\u2029])* EndOfLine?;
 fragment NestingBlockComment: '/+' (NestingBlockComment | .)*? '+/';
 Comment : (BlockComment | LineComment | NestingBlockComment) -> skip;
 
