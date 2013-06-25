@@ -217,7 +217,7 @@ fragment EscapeSequence : '\\\''
     | '\\' OctalDigit OctalDigit? OctalDigit?
     | '\\u' HexDigit HexDigit HexDigit HexDigit
     | '\\U' HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit
-    | '\\&' Character+ ';';
+    | '\\&' Identifier ';';
 fragment HexStringChar : [0-9a-fA-F] | Whitespace | EndOfLine;
 fragment StringPostfix : [dwc];
 fragment DoubleQuotedCharacter : EscapeSequence | ~('"' | '\\' );
