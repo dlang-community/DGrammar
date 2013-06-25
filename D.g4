@@ -239,7 +239,11 @@ fragment HexadecimalInteger: ('0x' | '0X') HexDigit (HexDigit | '_')*;
 
 FloatLiteral: (FloatOption (FloatSuffix | RealSuffix)?) | (Integer (FloatSuffix | RealSuffix)? ImaginarySuffix);
 fragment FloatOption: DecimalFloat | HexFloat;
-fragment DecimalFloat: (DecimalInteger '.' DecimalDigit*); /* BUG: can't lex a[0..1] properly */
+fragment DecimalFloat
+    : DecimalInteger '.' (DecimalDigit (DecimalDigit | '_')* DecimalExponent?)?  // BUG: can't lex a[0..1] properly
+    | '.' DecimalInteger DecimalExponent?
+    | DecimalInteger DecimalExponent
+    ;
 fragment DecimalExponent: ('e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-') DecimalInteger;
 fragment FloatSuffix: 'F' | 'f';
 fragment RealSuffix: 'L';
