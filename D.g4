@@ -193,7 +193,7 @@ fragment BinDigit: [01];
 fragment DecimalDigit: [0-9];
 
 fragment BlockComment: '/*' .*? '*/';
-fragment LineComment: '//' (~[\u000D\u000A\u2028\u2029])* EndOfLine?;
+fragment LineComment: '//' (~[\u000D\u000A\u2028\u2029])* (EndOfLine | EOF);
 fragment NestingBlockComment: '/+' (NestingBlockComment | .)*? '+/';
 Comment : (BlockComment | LineComment | NestingBlockComment) -> skip;
 
@@ -251,7 +251,8 @@ fragment ImaginarySuffix: 'i';
 fragment HexFloat: ('0x' | '0X') ((HexDigit (HexDigit | '_')* '.' HexDigit (HexDigit | '_')*) | ('.' HexDigit (HexDigit | '_')*) | (HexDigit (HexDigit | '_')*)) HexExponent;
 fragment HexExponent: ('p' | 'P' | 'p+' | 'P+' | 'p-' | 'P-') DecimalDigit (DecimalDigit | '_')*;
 
-SpecialTokenSequence: ('#line' IntegerLiteral ('"' Character+ '"')? EndOfLine) -> skip;
+SpecialTokenSequence: '#line' Space+ IntegerLiteral Space* ('"' .*? '"' Space*)? (EndOfLine | EOF) -> skip;
+fragment Space: [\u0020\u0009\u000B\u000C];
 
 module: moduleDeclaration? declaration*
     ;
