@@ -193,17 +193,18 @@ fragment BinDigit: [01];
 fragment DecimalDigit: [0-9];
 
 fragment BlockComment: '/*' .*? '*/';
-fragment LineComment: '//' (~[\r\n])* EndOfLine;
+fragment LineComment: '//' (~[\u000D\u000A\u2028\u2029])* (EndOfLine | EOF);
 fragment NestingBlockComment: '/+' (NestingBlockComment | .)*? '+/';
 Comment : (BlockComment | LineComment | NestingBlockComment) -> skip;
 
 Identifier : ([a-zA-Z_])([a-zA-Z0-9_])*;
 
-fragment WysiwygString : 'r"' '"' StringPostfix?;
-fragment AlternativeWysiwygString : '`' (~['`'])* '`' StringPostfix?;
+fragment WysiwygString : 'r"' .*? '"' StringPostfix?;
+fragment AlternativeWysiwygString : '`' .*? '`' StringPostfix?;
 fragment EscapeSequence : '\\\''
     | '\\"'
     | '\\\\'
+    | '\\?'
     | '\\0'
     | '\\a'
     | '\\b'
@@ -213,11 +214,10 @@ fragment EscapeSequence : '\\\''
     | '\\t'
     | '\\v'
     | '\\x' HexDigit HexDigit
-    | '\\' OctalDigit OctalDigit
-    | '\\' OctalDigit OctalDigit OctalDigit
+    | '\\' OctalDigit OctalDigit? OctalDigit?
     | '\\u' HexDigit HexDigit HexDigit HexDigit
     | '\\U' HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit
-    | '\\&' Character+ ';';
+    | '\\&' Identifier ';';
 fragment HexStringChar : [0-9a-fA-F] | Whitespace | EndOfLine;
 fragment StringPostfix : [dwc];
 fragment DoubleQuotedCharacter : EscapeSequence | ~('"' | '\\' );
@@ -239,7 +239,11 @@ fragment HexadecimalInteger: ('0x' | '0X') HexDigit (HexDigit | '_')*;
 
 FloatLiteral: (FloatOption (FloatSuffix | RealSuffix)?) | (Integer (FloatSuffix | RealSuffix)? ImaginarySuffix);
 fragment FloatOption: DecimalFloat | HexFloat;
-fragment DecimalFloat: (DecimalInteger '.' DecimalDigit*); /* BUG: can't lex a[0..1] properly */
+fragment DecimalFloat
+    : DecimalInteger '.' (DecimalDigit (DecimalDigit | '_')* DecimalExponent?)?  // BUG: can't lex a[0..1] properly
+    | '.' DecimalInteger DecimalExponent?
+    | DecimalInteger DecimalExponent
+    ;
 fragment DecimalExponent: ('e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-') DecimalInteger;
 fragment FloatSuffix: 'F' | 'f';
 fragment RealSuffix: 'L';
@@ -247,7 +251,8 @@ fragment ImaginarySuffix: 'i';
 fragment HexFloat: ('0x' | '0X') ((HexDigit (HexDigit | '_')* '.' HexDigit (HexDigit | '_')*) | ('.' HexDigit (HexDigit | '_')*) | (HexDigit (HexDigit | '_')*)) HexExponent;
 fragment HexExponent: ('p' | 'P' | 'p+' | 'P+' | 'p-' | 'P-') DecimalDigit (DecimalDigit | '_')*;
 
-SpecialTokenSequence: ('#line' IntegerLiteral ('"' Character+ '"')? EndOfLine) -> skip;
+SpecialTokenSequence: '#line' Space+ IntegerLiteral Space* ('"' .*? '"' Space*)? (EndOfLine | EOF) -> skip;
+fragment Space: [\u0020\u0009\u000B\u000C];
 
 module: moduleDeclaration? declaration*
     ;
