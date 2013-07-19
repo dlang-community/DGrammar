@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>std.d.parser</title>
+		<style type="text/css">
+		body {background-color: #fdf6e3; color: #586e75; }
+		.ruleDef { font-weight: bold; }
+		.ruleRef { font-weight: bold; }
+		.literal { font-weight: normal; font-style: italic; color: #cb4b16; }
+		a {color: #586e75; }
+		</style>
+
+	</head>
+	<body>
+
+<pre class="grammar"><span class="ruleDef"><a name="addExpression">addExpression</a></span>:
+      <span class="ruleRef"><a href="#mulExpression">mulExpression</a></span>
+    | <span class="ruleRef"><a href="#addExpression">addExpression</a></span> (<span class="literal">'+'</span> | <span class="literal">'-'</span> | <span class="literal">'~'</span>) <span class="ruleRef"><a href="#mulExpression">mulExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="aliasDeclaration">aliasDeclaration</a></span>:
+    <span class="literal">'alias'</span> (<span class="ruleRef"><a href="#aliasInitializer">aliasInitializer</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#aliasInitializer">aliasInitializer</a></span>)* | <span class="ruleRef"><a href="#type">type</a></span> <span class="ruleRef"><a href="#declarator">declarator</a></span>) <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="aliasInitializer">aliasInitializer</a></span>:
+    <span class="literal">Identifier</span> <span class="literal">'='</span> <span class="ruleRef"><a href="#type">type</a></span>
+    ;
+
+<span class="ruleDef"><a name="aliasThisDeclaration">aliasThisDeclaration</a></span>:
+    <span class="literal">'alias'</span> <span class="literal">Identifier</span> <span class="literal">'this'</span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="alignAttribute">alignAttribute</a></span>:
+    <span class="literal">'align'</span> (<span class="literal">'('</span> <span class="literal">IntegerLiteral</span> <span class="literal">')'</span>)?
+    ;
+
+<span class="ruleDef"><a name="andAndExpression">andAndExpression</a></span>:
+      <span class="ruleRef"><a href="#orExpression">orExpression</a></span>
+    | <span class="ruleRef"><a href="#andAndExpression">andAndExpression</a></span> <span class="literal">'&amp;&amp;'</span> <span class="ruleRef"><a href="#orExpression">orExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="andExpression">andExpression</a></span>:
+      <span class="ruleRef"><a href="#cmpExpression">cmpExpression</a></span>
+    | <span class="ruleRef"><a href="#andExpression">andExpression</a></span> <span class="literal">'&amp;'</span> <span class="ruleRef"><a href="#cmpExpression">cmpExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="argumentList">argumentList</a></span>:
+    <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>?)*
+    ;
+
+<span class="ruleDef"><a name="arguments">arguments</a></span>:
+    <span class="literal">'('</span> <span class="ruleRef"><a href="#argumentList">argumentList</a></span>? <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="arrayInitializer">arrayInitializer</a></span>:
+      <span class="literal">'['</span> <span class="literal">']'</span>
+    | <span class="literal">'['</span> <span class="ruleRef"><a href="#arrayMemberInitialization">arrayMemberInitialization</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#arrayMemberInitialization">arrayMemberInitialization</a></span>?)* <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="arrayLiteral">arrayLiteral</a></span>:
+    <span class="literal">'['</span> (<span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)*)? <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="arrayMemberInitialization">arrayMemberInitialization</a></span>:
+    (<span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">':'</span>)? <span class="ruleRef"><a href="#nonVoidInitializer">nonVoidInitializer</a></span>
+    ;
+
+<span class="ruleDef"><a name="asmAddExp">asmAddExp</a></span>:
+      <span class="ruleRef"><a href="#asmMulExp">asmMulExp</a></span>
+    | <span class="ruleRef"><a href="#asmAddExp">asmAddExp</a></span> (<span class="literal">'+'</span> | <span class="literal">'-'</span>) <span class="ruleRef"><a href="#asmMulExp">asmMulExp</a></span>
+    ;
+
+<span class="ruleDef"><a name="asmAndExp">asmAndExp</a></span>:
+    <span class="ruleRef"><a href="#asmEqualExp">asmEqualExp</a></span> (<span class="literal">'&amp;'</span> <span class="ruleRef"><a href="#asmEqualExp">asmEqualExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmBrExp">asmBrExp</a></span>:
+      <span class="ruleRef"><a href="#asmUnaExp">asmUnaExp</a></span>
+    | <span class="ruleRef"><a href="#asmBrExp">asmBrExp</a></span> <span class="literal">'['</span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span> <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="asmEqualExp">asmEqualExp</a></span>:
+    <span class="ruleRef"><a href="#asmRelExp">asmRelExp</a></span> (('==' | '!=') <span class="ruleRef"><a href="#asmRelExp">asmRelExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmExp">asmExp</a></span>:
+    <span class="ruleRef"><a href="#asmLogOrExp">asmLogOrExp</a></span> (<span class="literal">'?'</span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmInstruction">asmInstruction</a></span>:
+    <span class="literal">Identifier</span>
+    | <span class="literal">'align'</span> <span class="ruleRef"><a href="#IntegerLiteral">IntegerLiteral</a></span>
+    | <span class="literal">'align'</span> <span class="literal">Identifier</span>
+    | <span class="literal">Identifier</span> <span class="literal">':'</span> <span class="ruleRef"><a href="#asmInstruction">asmInstruction</a></span>
+    | <span class="literal">Identifier</span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span>
+    | <span class="literal">Identifier</span> <span class="ruleRef"><a href="#operands">operands</a></span>
+    ;
+
+<span class="ruleDef"><a name="asmLogAndExp">asmLogAndExp</a></span>:
+    <span class="ruleRef"><a href="#asmOrExp">asmOrExp</a></span> ('&amp;&amp;' <span class="ruleRef"><a href="#asmOrExp">asmOrExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmLogOrExp">asmLogOrExp</a></span>:
+    <span class="ruleRef"><a href="#asmLogAndExp">asmLogAndExp</a></span> ('||' <span class="ruleRef"><a href="#asmLogAndExp">asmLogAndExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmMulExp">asmMulExp</a></span>:
+    <span class="ruleRef"><a href="#asmBrExp">asmBrExp</a></span> ((<span class="literal">'*'</span> | <span class="literal">'/'</span> | <span class="literal">'%'</span>) <span class="ruleRef"><a href="#asmBrExp">asmBrExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmOrExp">asmOrExp</a></span>:
+    <span class="ruleRef"><a href="#asmXorExp">asmXorExp</a></span> (<span class="literal">'|'</span> <span class="ruleRef"><a href="#asmXorExp">asmXorExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmPrimaryExp">asmPrimaryExp</a></span>:
+      <span class="ruleRef"><a href="#IntegerLiteral">IntegerLiteral</a></span>
+    | <span class="ruleRef"><a href="#FloatLiteral">FloatLiteral</a></span>
+    | <span class="ruleRef"><a href="#register">register</a></span>
+    | <span class="ruleRef"><a href="#identifierChain">identifierChain</a></span>
+    | <span class="literal">'$'</span>
+    ;
+
+<span class="ruleDef"><a name="asmRelExp">asmRelExp</a></span>:
+    <span class="ruleRef"><a href="#asmShiftExp">asmShiftExp</a></span> ((<span class="literal">'&lt;'</span> | <span class="literal">'&lt;='</span> | <span class="literal">'&gt;'</span> | <span class="literal">'&gt;='</span>) <span class="ruleRef"><a href="#asmShiftExp">asmShiftExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmShiftExp">asmShiftExp</a></span>:
+    <span class="ruleRef"><a href="#asmAddExp">asmAddExp</a></span> ((<span class="literal">'&lt;&lt;'</span> | <span class="literal">'&gt;&gt;'</span> | <span class="literal">'&gt;&gt;&gt;'</span>) <span class="ruleRef"><a href="#asmAddExp">asmAddExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="asmStatement">asmStatement</a></span>:
+    <span class="literal">'asm'</span> <span class="literal">'{'</span> <span class="ruleRef"><a href="#asmInstruction">asmInstruction</a></span>+ <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="asmTypePrefix">asmTypePrefix</a></span>:
+      <span class="literal">Identifier</span> <span class="literal">Identifier</span>
+    | <span class="literal">'byte'</span> <span class="literal">Identifier</span>
+    | <span class="literal">'short'</span> <span class="literal">Identifier</span>
+    | <span class="literal">'int'</span> <span class="literal">Identifier</span>
+    | <span class="literal">'float'</span> <span class="literal">Identifier</span>
+    | <span class="literal">'double'</span> <span class="literal">Identifier</span>
+    | <span class="literal">'real'</span> <span class="literal">Identifier</span>
+    ;
+
+<span class="ruleDef"><a name="asmUnaExp">asmUnaExp</a></span>:
+      <span class="ruleRef"><a href="#asmTypePrefix">asmTypePrefix</a></span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span>
+    | <span class="literal">Identifier</span> <span class="ruleRef"><a href="#asmExp">asmExp</a></span>
+    | <span class="literal">'+'</span> <span class="ruleRef"><a href="#asmUnaExp">asmUnaExp</a></span>
+    | <span class="literal">'-'</span> <span class="ruleRef"><a href="#asmUnaExp">asmUnaExp</a></span>
+    | <span class="literal">'!'</span> <span class="ruleRef"><a href="#asmUnaExp">asmUnaExp</a></span>
+    | <span class="literal">'~'</span> <span class="ruleRef"><a href="#asmUnaExp">asmUnaExp</a></span>
+    | <span class="ruleRef"><a href="#asmPrimaryExp">asmPrimaryExp</a></span>
+    ;
+
+<span class="ruleDef"><a name="asmXorExp">asmXorExp</a></span>:
+    <span class="ruleRef"><a href="#asmAndExp">asmAndExp</a></span> (<span class="literal">'^'</span> <span class="ruleRef"><a href="#asmAndExp">asmAndExp</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="assertExpression">assertExpression</a></span>:
+    <span class="literal">'assert'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)? <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="assignExpression">assignExpression</a></span>:
+    <span class="ruleRef"><a href="#ternaryExpression">ternaryExpression</a></span> (<span class="ruleRef"><a href="#assignOperator">assignOperator</a></span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)?
+    ;
+<span class="ruleDef"><a name="assignOperator">assignOperator</a></span>:
+      <span class="literal">'='</span>
+    | <span class="literal">'&gt;&gt;&gt;='</span>
+    | <span class="literal">'&gt;&gt;='</span>
+    | <span class="literal">'&lt;&lt;='</span>
+    | <span class="literal">'+='</span>
+    | <span class="literal">'-='</span>
+    | <span class="literal">'*='</span>
+    | <span class="literal">'%='</span>
+    | <span class="literal">'&amp;='</span>
+    | <span class="literal">'/='</span>
+    | <span class="literal">'|='</span>
+    | <span class="literal">'^^='</span>
+    | <span class="literal">'^='</span>
+    | <span class="literal">'~='</span>
+    ;
+
+<span class="ruleDef"><a name="assocArrayLiteral">assocArrayLiteral</a></span>:
+    <span class="literal">'['</span> <span class="ruleRef"><a href="#keyValuePairs">keyValuePairs</a></span> <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="atAttribute">atAttribute</a></span>:
+    <span class="literal">'@'</span> (<span class="literal">Identifier</span> | <span class="literal">'('</span> <span class="ruleRef"><a href="#argumentList">argumentList</a></span> <span class="literal">')'</span> | <span class="ruleRef"><a href="#functionCallExpression">functionCallExpression</a></span>)
+    ;
+
+<span class="ruleDef"><a name="attribute">attribute</a></span>:
+      <span class="ruleRef"><a href="#alignAttribute">alignAttribute</a></span>
+    | <span class="ruleRef"><a href="#linkageAttribute">linkageAttribute</a></span>
+    | <span class="ruleRef"><a href="#pragmaExpression">pragmaExpression</a></span>
+    | <span class="ruleRef"><a href="#storageClass">storageClass</a></span>
+    | <span class="literal">'export'</span>
+    | <span class="literal">'package'</span>
+    | <span class="literal">'private'</span>
+    | <span class="literal">'protected'</span>
+    | <span class="literal">'public'</span>
+    ;
+
+<span class="ruleDef"><a name="attributeDeclaration">attributeDeclaration</a></span>:
+    <span class="ruleRef"><a href="#"></a></span> <span class="literal">':'</span>
+    ;
+
+<span class="ruleDef"><a name="autoDeclaration">autoDeclaration</a></span>:
+    <span class="ruleRef"><a href="#storageClass">storageClass</a></span> <span class="literal">Identifier</span> <span class="literal">'='</span> <span class="ruleRef"><a href="#initializer">initializer</a></span> (<span class="literal">','</span> <span class="literal">Identifier</span> <span class="literal">'='</span> <span class="ruleRef"><a href="#initializer">initializer</a></span>)* <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="blockStatement">blockStatement</a></span>:
+    <span class="literal">'{'</span> <span class="ruleRef"><a href="#declarationsAndStatements">declarationsAndStatements</a></span>? <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="bodyStatement">bodyStatement</a></span>:
+    <span class="literal">'body'</span> <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="breakStatement">breakStatement</a></span>:
+    <span class="literal">'break'</span> <span class="literal">Identifier</span>? <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="baseClass">baseClass</a></span>:
+    (<span class="ruleRef"><a href="#typeofExpression">typeofExpression</a></span> <span class="literal">'.'</span>)? <span class="ruleRef"><a href="#identifierOrTemplateChain">identifierOrTemplateChain</a></span>
+    ;
+
+<span class="ruleDef"><a name="baseClassList">baseClassList</a></span>:
+    <span class="ruleRef"><a href="#baseClass">baseClass</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#baseClass">baseClass</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="builtinType">builtinType</a></span>:
+     <span class="literal">'bool'</span>
+    | <span class="literal">'byte'</span>
+    | <span class="literal">'ubyte'</span>
+    | <span class="literal">'short'</span>
+    | <span class="literal">'ushort'</span>
+    | <span class="literal">'int'</span>
+    | <span class="literal">'uint'</span>
+    | <span class="literal">'long'</span>
+    | <span class="literal">'ulong'</span>
+    | <span class="literal">'char'</span>
+    | <span class="literal">'wchar'</span>
+    | <span class="literal">'dchar'</span>
+    | <span class="literal">'float'</span>
+    | <span class="literal">'double'</span>
+    | <span class="literal">'real'</span>
+    | <span class="literal">'ifloat'</span>
+    | <span class="literal">'idouble'</span>
+    | <span class="literal">'ireal'</span>
+    | <span class="literal">'cfloat'</span>
+    | <span class="literal">'cdouble'</span>
+    | <span class="literal">'creal'</span>
+    | <span class="literal">'void'</span>
+    ;
+
+<span class="ruleDef"><a name="caseRangeStatement">caseRangeStatement</a></span>:
+    <span class="literal">'case'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">':'</span> <span class="literal">'...'</span> <span class="literal">'case'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#declarationsAndStatements">declarationsAndStatements</a></span>
+    ;
+
+<span class="ruleDef"><a name="caseStatement">caseStatement</a></span>:
+    <span class="literal">'case'</span> <span class="ruleRef"><a href="#"></a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#declarationsAndStatements">declarationsAndStatements</a></span>
+    ;
+
+<span class="ruleDef"><a name="castExpression">castExpression</a></span>:
+    <span class="literal">'cast'</span> <span class="literal">'('</span> (<span class="ruleRef"><a href="#type">type</a></span> | <span class="ruleRef"><a href="#castQualifier">castQualifier</a></span>)? <span class="literal">')'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="castQualifier">castQualifier</a></span>:
+     <span class="literal">'const'</span>
+    | <span class="literal">'const'</span> <span class="literal">'shared'</span>
+    | <span class="literal">'immutable'</span>
+    | <span class="literal">'inout'</span>
+    | <span class="literal">'inout'</span> <span class="literal">'shared'</span>
+    | <span class="literal">'shared'</span>
+    | <span class="literal">'shared'</span> <span class="literal">'const'</span>
+    | <span class="literal">'shared'</span> <span class="literal">'inout'</span>
+    ;
+
+<span class="ruleDef"><a name="catch">catch</a></span>:
+    <span class="literal">'catch'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">Identifier</span>? <span class="literal">')'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="catches">catches</a></span>:
+      <span class="ruleRef"><a href="#catch">catch</a></span>+
+    | <span class="ruleRef"><a href="#catch">catch</a></span>* <span class="ruleRef"><a href="#lastCatch">lastCatch</a></span>
+    ;
+
+<span class="ruleDef"><a name="classDeclaration">classDeclaration</a></span>:
+    <span class="literal">'class'</span> <span class="literal">Identifier</span> (<span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#constraint">constraint</a></span>?)? (<span class="literal">':'</span> <span class="ruleRef"><a href="#baseClassList">baseClassList</a></span>)? <span class="ruleRef"><a href="#structBody">structBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="cmpExpression">cmpExpression</a></span>:
+      <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    | <span class="ruleRef"><a href="#equalExpression">equalExpression</a></span>
+    | <span class="ruleRef"><a href="#identityExpression">identityExpression</a></span>
+    | <span class="ruleRef"><a href="#relExpression">relExpression</a></span>
+    | <span class="ruleRef"><a href="#inExpression">inExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="compileCondition">compileCondition</a></span>:
+      <span class="ruleRef"><a href="#versionCondition">versionCondition</a></span>
+    | <span class="ruleRef"><a href="#debugCondition">debugCondition</a></span>
+    | <span class="ruleRef"><a href="#staticIfCondition">staticIfCondition</a></span>
+    ;
+
+<span class="ruleDef"><a name="conditionalDeclaration">conditionalDeclaration</a></span>:
+    <span class="ruleRef"><a href="#compileCondition">compileCondition</a></span> (<span class="ruleRef"><a href="#declaration">declaration</a></span> | <span class="literal">'{'</span> <span class="ruleRef"><a href="#declaration">declaration</a></span>* <span class="literal">'}'</span>) (<span class="literal">'else'</span> (<span class="ruleRef"><a href="#declaration">declaration</a></span> | <span class="literal">'{'</span> <span class="ruleRef"><a href="#declaration">declaration</a></span>* <span class="literal">'}'</span>))?
+    ;
+
+<span class="ruleDef"><a name="conditionalStatement">conditionalStatement</a></span>:
+    <span class="ruleRef"><a href="#compileCondition">compileCondition</a></span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span> (<span class="literal">'else'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="constraint">constraint</a></span>:
+    <span class="literal">'if'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="constructor">constructor</a></span>:
+      <span class="literal">'this'</span> <span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#memberFunctionAttribute">memberFunctionAttribute</a></span>* <span class="ruleRef"><a href="#constraint">constraint</a></span>? (<span class="ruleRef"><a href="#functionBody">functionBody</a></span> | <span class="literal">';'</span>)
+    ;
+
+<span class="ruleDef"><a name="continueStatement">continueStatement</a></span>:
+    <span class="literal">'continue'</span> <span class="literal">Identifier</span>? <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="debugCondition">debugCondition</a></span>:
+    <span class="literal">'debug'</span> (<span class="literal">'('</span> (<span class="literal">IntegerLiteral</span> | <span class="literal">Identifier</span>) <span class="literal">')'</span>)?
+    ;
+
+<span class="ruleDef"><a name="debugSpecification">debugSpecification</a></span>:
+    <span class="literal">'debug'</span> <span class="literal">'='</span> (<span class="literal">Identifier</span> | <span class="literal">IntegerLiteral</span>) <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="declaration">declaration</a></span>:
+    <span class="ruleRef"><a href="#attribute">attribute</a></span>*
+    ;
+<span class="ruleDef"><a name="declaration2">declaration2</a></span>:
+      <span class="ruleRef"><a href="#aliasDeclaration">aliasDeclaration</a></span>
+    | <span class="ruleRef"><a href="#aliasThisDeclaration">aliasThisDeclaration</a></span>
+    | <span class="ruleRef"><a href="#classDeclaration">classDeclaration</a></span>
+    | <span class="ruleRef"><a href="#conditionalDeclaration">conditionalDeclaration</a></span>
+    | <span class="ruleRef"><a href="#constructor">constructor</a></span>
+    | <span class="ruleRef"><a href="#destructor">destructor</a></span>
+    | <span class="ruleRef"><a href="#enumDeclaration">enumDeclaration</a></span>
+    | <span class="ruleRef"><a href="#functionDeclaration">functionDeclaration</a></span>
+    | <span class="ruleRef"><a href="#importDeclaration">importDeclaration</a></span>
+    | <span class="ruleRef"><a href="#interfaceDeclaration">interfaceDeclaration</a></span>
+    | <span class="ruleRef"><a href="#mixinDeclaration">mixinDeclaration</a></span>
+    | <span class="ruleRef"><a href="#mixinTemplateDeclaration">mixinTemplateDeclaration</a></span>
+    | <span class="ruleRef"><a href="#pragmaDeclaration">pragmaDeclaration</a></span>
+    | <span class="ruleRef"><a href="#sharedStaticConstructor">sharedStaticConstructor</a></span>
+    | <span class="ruleRef"><a href="#sharedStaticDestructor">sharedStaticDestructor</a></span>
+    | <span class="ruleRef"><a href="#staticAssertDeclaration">staticAssertDeclaration</a></span>
+    | <span class="ruleRef"><a href="#staticConstructor">staticConstructor</a></span>
+    | <span class="ruleRef"><a href="#staticDestructor">staticDestructor</a></span>
+    | <span class="ruleRef"><a href="#structDeclaration">structDeclaration</a></span>
+    | <span class="ruleRef"><a href="#templateDeclaration">templateDeclaration</a></span>
+    | <span class="ruleRef"><a href="#unionDeclaration">unionDeclaration</a></span>
+    | <span class="ruleRef"><a href="#unittest">unittest</a></span>
+    | <span class="ruleRef"><a href="#variableDeclaration">variableDeclaration</a></span>
+    | <span class="ruleRef"><a href="#attributeDeclaration">attributeDeclaration</a></span>
+    | <span class="ruleRef"><a href="#invariant">invariant</a></span>
+    | <span class="literal">'{'</span> <span class="ruleRef"><a href="#declaration">declaration</a></span>+ <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="declarationsAndStatements">declarationsAndStatements</a></span>:
+    <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>+
+    ;
+
+<span class="ruleDef"><a name="declarationOrStatement">declarationOrStatement</a></span>:
+      <span class="ruleRef"><a href="#declaration">declaration</a></span>
+    | <span class="ruleRef"><a href="#statement">statement</a></span>
+    ;
+
+<span class="ruleDef"><a name="declarator">declarator</a></span>:
+    <span class="literal">Identifier</span> (<span class="literal">'='</span> <span class="ruleRef"><a href="#initializer">initializer</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="defaultStatement">defaultStatement</a></span>:
+    <span class="literal">'default'</span> <span class="literal">':'</span> <span class="ruleRef"><a href="#declarationsAndStatements">declarationsAndStatements</a></span>
+    ;
+
+<span class="ruleDef"><a name="deleteExpression">deleteExpression</a></span>:
+    <span class="literal">'delete'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="deprecated">deprecated</a></span>:
+    <span class="literal">'deprecated'</span> (<span class="literal">'('</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">')'</span>)?
+    ;
+
+<span class="ruleDef"><a name="destructor">destructor</a></span>:
+    <span class="literal">'~'</span> <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">')'</span> (<span class="ruleRef"><a href="#functionBody">functionBody</a></span> | <span class="literal">';'</span>)
+    ;
+
+<span class="ruleDef"><a name="doStatement">doStatement</a></span>:
+    <span class="literal">'do'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span> <span class="literal">'while'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="enumBody">enumBody</a></span>:
+      <span class="literal">';'</span>
+    | <span class="literal">'{'</span> <span class="ruleRef"><a href="#enumMember">enumMember</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#enumMember">enumMember</a></span>?)* <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="enumDeclaration">enumDeclaration</a></span>:
+    <span class="literal">'enum'</span> <span class="literal">Identifier</span>? (<span class="literal">':'</span> <span class="ruleRef"><a href="#type">type</a></span>)? <span class="ruleRef"><a href="#enumBody">enumBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="enumMember">enumMember</a></span>:
+      <span class="literal">Identifier</span>
+    | (<span class="literal">Identifier</span> | <span class="ruleRef"><a href="#type">type</a></span>) <span class="literal">'='</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="equalExpression">equalExpression</a></span>:
+    <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span> (<span class="literal">'=='</span> | <span class="literal">'!='</span>) <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="expression">expression</a></span>:
+    <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="expressionStatement">expressionStatement</a></span>:
+    <span class="ruleRef"><a href="#"></a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="finalSwitchStatement">finalSwitchStatement</a></span>:
+    <span class="literal">'final'</span> <span class="ruleRef"><a href="#switchStatement">switchStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="finally">finally</a></span>:
+    <span class="literal">'finally'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="forStatement">forStatement</a></span>:
+    <span class="literal">'for'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span> <span class="ruleRef"><a href="#expression">expression</a></span>? <span class="literal">';'</span> <span class="ruleRef"><a href="#expression">expression</a></span>? <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="foreachStatement">foreachStatement</a></span>:
+      (<span class="literal">'foreach'</span> | <span class="literal">'foreach_reverse'</span>) <span class="literal">'('</span> <span class="ruleRef"><a href="#foreachTypeList">foreachTypeList</a></span> <span class="literal">';'</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    | (<span class="literal">'foreach'</span> | <span class="literal">'foreach_reverse'</span>) <span class="literal">'('</span> <span class="ruleRef"><a href="#foreachType">foreachType</a></span> <span class="literal">';'</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">'..'</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="foreachType">foreachType</a></span>:
+    <span class="ruleRef"><a href="#typeConstructors">typeConstructors</a></span>? <span class="ruleRef"><a href="#type">type</a></span>? <span class="literal">Identifier</span>
+    ;
+
+<span class="ruleDef"><a name="foreachTypeList">foreachTypeList</a></span>:
+    <span class="ruleRef"><a href="#foreachType">foreachType</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#foreachType">foreachType</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="functionAttribute">functionAttribute</a></span>:
+      <span class="ruleRef"><a href="#atAttribute">atAttribute</a></span>
+    | <span class="literal">'pure'</span>
+    | <span class="literal">'nothrow'</span>
+    ;
+
+<span class="ruleDef"><a name="functionBody">functionBody</a></span>:
+      <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    | (<span class="ruleRef"><a href="#inStatement">inStatement</a></span> | <span class="ruleRef"><a href="#outStatement">outStatement</a></span> | <span class="ruleRef"><a href="#outStatement">outStatement</a></span> <span class="ruleRef"><a href="#inStatement">inStatement</a></span> | <span class="ruleRef"><a href="#inStatement">inStatement</a></span> <span class="ruleRef"><a href="#outStatement">outStatement</a></span>)? <span class="ruleRef"><a href="#bodyStatement">bodyStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="functionCallExpression">functionCallExpression</a></span>:
+    <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="ruleRef"><a href="#templateArguments">templateArguments</a></span>? <span class="ruleRef"><a href="#arguments">arguments</a></span>
+    ;
+
+<span class="ruleDef"><a name="functionCallStatement">functionCallStatement</a></span>:
+    <span class="ruleRef"><a href="#functionCallExpression">functionCallExpression</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="functionDeclaration">functionDeclaration</a></span>:
+      (<span class="ruleRef"><a href="#storageClass">storageClass</a></span> | <span class="ruleRef"><a href="#type">type</a></span>) <span class="literal">Identifier</span> <span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#memberFunctionAttribute">memberFunctionAttribute</a></span>* <span class="ruleRef"><a href="#constraint">constraint</a></span>? (<span class="ruleRef"><a href="#functionBody">functionBody</a></span> | <span class="literal">';'</span>)
+    ;
+
+<span class="ruleDef"><a name="functionLiteralExpression">functionLiteralExpression</a></span>:
+    ((<span class="literal">'function'</span> | <span class="literal">'delegate'</span>) <span class="ruleRef"><a href="#type">type</a></span>?)? (<span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#functionAttribute">functionAttribute</a></span>*)? <span class="ruleRef"><a href="#functionBody">functionBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="gotoStatement">gotoStatement</a></span>:
+    <span class="literal">'goto'</span> (<span class="literal">Identifier</span> | <span class="literal">'default'</span> | <span class="literal">'case'</span> <span class="ruleRef"><a href="#expression">expression</a></span>?) <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="identifierChain">identifierChain</a></span>:
+    <span class="literal">Identifier</span> (<span class="literal">'.'</span> <span class="literal">Identifier</span>)*
+    ;
+
+<span class="ruleDef"><a name="identifierList">identifierList</a></span>:
+    <span class="literal">Identifier</span> (<span class="literal">','</span> <span class="literal">Identifier</span>)*
+    ;
+
+<span class="ruleDef"><a name="identifierOrTemplateChain">identifierOrTemplateChain</a></span>:
+    <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span> (<span class="literal">'.'</span> <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>:
+      <span class="literal">Identifier</span>
+    | <span class="ruleRef"><a href="#templateInstance">templateInstance</a></span>
+    ;
+
+<span class="ruleDef"><a name="identityExpression">identityExpression</a></span>:
+    <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span> (<span class="literal">'is'</span> | <span class="literal">'!'</span> <span class="literal">'is'</span>) <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="ifStatement">ifStatement</a></span>:
+    <span class="literal">'if'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#ifCondition">ifCondition</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span> (<span class="literal">'else'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>)?
+<span class="ruleDef"><a name="ifCondition">ifCondition</a></span>:
+      <span class="literal">'auto'</span> <span class="literal">Identifier</span> <span class="literal">'='</span> <span class="ruleRef"><a href="#expression">expression</a></span>
+    | <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">Identifier</span> <span class="literal">'='</span> <span class="ruleRef"><a href="#expression">expression</a></span>
+    | <span class="ruleRef"><a href="#expression">expression</a></span>
+    ;
+
+<span class="ruleDef"><a name="importBind">importBind</a></span>:
+    <span class="literal">Identifier</span> (<span class="literal">'='</span> <span class="literal">Identifier</span>)?
+    ;
+
+<span class="ruleDef"><a name="importBindings">importBindings</a></span>:
+    <span class="ruleRef"><a href="#"></a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#importBind">importBind</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#importBind">importBind</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="importDeclaration">importDeclaration</a></span>:
+      <span class="literal">'import'</span> <span class="ruleRef"><a href="#singleImport">singleImport</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#singleImport">singleImport</a></span>)* (<span class="literal">','</span> <span class="ruleRef"><a href="#importBindings">importBindings</a></span>)? <span class="literal">';'</span>
+    | <span class="literal">'import'</span> <span class="ruleRef"><a href="#importBindings">importBindings</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="importExpression">importExpression</a></span>:
+    <span class="literal">'import'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="indexExpression">indexExpression</a></span>:
+    <span class="ruleRef"><a href="#"></a></span> <span class="literal">'['</span> <span class="ruleRef"><a href="#argumentList">argumentList</a></span> <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="inExpression">inExpression</a></span>:
+    <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span> (<span class="literal">'in'</span> | <span class="literal">'!'</span> <span class="literal">'in'</span>) <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="inStatement">inStatement</a></span>:
+    <span class="literal">'in'</span> <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="initialize">initialize</a></span>:
+      <span class="literal">';'</span>
+    | <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="initializer">initializer</a></span>:
+      <span class="literal">'void'</span>
+    | <span class="ruleRef"><a href="#nonVoidInitializer">nonVoidInitializer</a></span>
+    ;
+
+<span class="ruleDef"><a name="interfaceDeclaration">interfaceDeclaration</a></span>:
+    <span class="literal">'interface'</span> <span class="literal">Identifier</span> (<span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#constraint">constraint</a></span>?)? (<span class="literal">':'</span> <span class="ruleRef"><a href="#baseClassList">baseClassList</a></span>)? <span class="ruleRef"><a href="#structBody">structBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="invariant">invariant</a></span>:
+    <span class="literal">'invariant'</span> (<span class="literal">'('</span> <span class="literal">')'</span>)? <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="isExpression">isExpression</a></span>:
+    <span class="literal">'is'</span> <span class="literal">'('</span> (<span class="ruleRef"><a href="#type">type</a></span> <span class="literal">Identifier</span>? ((<span class="literal">':'</span> | <span class="literal">'=='</span>) <span class="ruleRef"><a href="#typeSpecialization">typeSpecialization</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#templateParameterList">templateParameterList</a></span>)?)?) <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="keyValuePair">keyValuePair</a></span>:
+    <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="keyValuePairs">keyValuePairs</a></span>:
+    <span class="ruleRef"><a href="#keyValuePair">keyValuePair</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#keyValuePair">keyValuePair</a></span>)*
+    ;
+
+<span class="ruleDef"><a name="labeledStatement">labeledStatement</a></span>:
+    <span class="literal">Identifier</span> <span class="literal">':'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="lambdaExpression">lambdaExpression</a></span>:
+      <span class="literal">Identifier</span> <span class="literal">'=&gt;'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    | <span class="literal">'function'</span> <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#functionAttribute">functionAttribute</a></span>* <span class="literal">'=&gt;'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    | <span class="literal">'delegate'</span> <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#functionAttribute">functionAttribute</a></span>* <span class="literal">'=&gt;'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    | <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#functionAttribute">functionAttribute</a></span>* <span class="literal">'=&gt;'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="lastCatch">lastCatch</a></span>:
+    <span class="literal">'catch'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="linkageAttribute">linkageAttribute</a></span>:
+    <span class="literal">'extern'</span> <span class="literal">'('</span> <span class="literal">Identifier</span> <span class="literal">'++'</span>? <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="memberFunctionAttribute">memberFunctionAttribute</a></span>:
+      <span class="ruleRef"><a href="#functionAttribute">functionAttribute</a></span>
+    | <span class="literal">'immutable'</span>
+    | <span class="literal">'inout'</span>
+    | <span class="literal">'shared'</span>
+    | <span class="literal">'const'</span>
+    ;
+
+<span class="ruleDef"><a name="mixinDeclaration">mixinDeclaration</a></span>:
+      <span class="ruleRef"><a href="#mixinExpression">mixinExpression</a></span> <span class="literal">';'</span>
+    | <span class="ruleRef"><a href="#templateMixinExpression">templateMixinExpression</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="mixinExpression">mixinExpression</a></span>:
+    <span class="literal">'mixin'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="mixinTemplateDeclaration">mixinTemplateDeclaration</a></span>:
+    <span class="literal">'mixin'</span> <span class="ruleRef"><a href="#templateDeclaration">templateDeclaration</a></span>
+    ;
+
+<span class="ruleDef"><a name="mixinTemplateName">mixinTemplateName</a></span>:
+    (<span class="ruleRef"><a href="#typeofExpression">typeofExpression</a></span>? <span class="literal">'.'</span>)? <span class="ruleRef"><a href="#identifierOrTemplateChain">identifierOrTemplateChain</a></span>
+    ;
+
+<span class="ruleDef"><a name="module">module</a></span>:
+    <span class="ruleRef"><a href="#moduleDeclaration">moduleDeclaration</a></span>? <span class="ruleRef"><a href="#declaration">declaration</a></span>*
+    ;
+
+<span class="ruleDef"><a name="moduleDeclaration">moduleDeclaration</a></span>:
+    <span class="literal">'module'</span> <span class="ruleRef"><a href="#identifierChain">identifierChain</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="mulExpression">mulExpression</a></span>:
+      <span class="ruleRef"><a href="#powExpression">powExpression</a></span>
+    | <span class="ruleRef"><a href="#mulExpression">mulExpression</a></span> (<span class="literal">'*'</span> | <span class="literal">'/'</span> | <span class="literal">'%'</span>) <span class="ruleRef"><a href="#powExpression">powExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="newAnonClassExpression">newAnonClassExpression</a></span>:
+    <span class="literal">'new'</span> <span class="ruleRef"><a href="#arguments">arguments</a></span>? <span class="literal">'class'</span> <span class="ruleRef"><a href="#arguments">arguments</a></span>? <span class="ruleRef"><a href="#baseClassList">baseClassList</a></span>? <span class="ruleRef"><a href="#structBody">structBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="newExpression">newExpression</a></span>:
+      <span class="literal">'new'</span> <span class="ruleRef"><a href="#type">type</a></span> (<span class="literal">'['</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">']'</span> | <span class="ruleRef"><a href="#arguments">arguments</a></span>)?
+    | <span class="ruleRef"><a href="#newAnonClassExpression">newAnonClassExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>:
+      <span class="ruleRef"><a href="#labeledStatement">labeledStatement</a></span>
+    | <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    | <span class="ruleRef"><a href="#ifStatement">ifStatement</a></span>
+    | <span class="ruleRef"><a href="#whileStatement">whileStatement</a></span>
+    | <span class="ruleRef"><a href="#doStatement">doStatement</a></span>
+    | <span class="ruleRef"><a href="#forStatement">forStatement</a></span>
+    | <span class="ruleRef"><a href="#foreachStatement">foreachStatement</a></span>
+    | <span class="ruleRef"><a href="#switchStatement">switchStatement</a></span>
+    | <span class="ruleRef"><a href="#finalSwitchStatement">finalSwitchStatement</a></span>
+    | <span class="ruleRef"><a href="#continueStatement">continueStatement</a></span>
+    | <span class="ruleRef"><a href="#breakStatement">breakStatement</a></span>
+    | <span class="ruleRef"><a href="#returnStatement">returnStatement</a></span>
+    | <span class="ruleRef"><a href="#gotoStatement">gotoStatement</a></span>
+    | <span class="ruleRef"><a href="#withStatement">withStatement</a></span>
+    | <span class="ruleRef"><a href="#synchronizedStatement">synchronizedStatement</a></span>
+    | <span class="ruleRef"><a href="#tryStatement">tryStatement</a></span>
+    | <span class="ruleRef"><a href="#throwStatement">throwStatement</a></span>
+    | <span class="ruleRef"><a href="#scopeGuardStatement">scopeGuardStatement</a></span>
+    | <span class="ruleRef"><a href="#asmStatement">asmStatement</a></span>
+    | <span class="ruleRef"><a href="#conditionalStatement">conditionalStatement</a></span>
+    | <span class="ruleRef"><a href="#staticAssertStatement">staticAssertStatement</a></span>
+    | <span class="ruleRef"><a href="#versionSpecification">versionSpecification</a></span>
+    | <span class="ruleRef"><a href="#debugSpecification">debugSpecification</a></span>
+    | <span class="ruleRef"><a href="#expressionStatement">expressionStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="nonVoidInitializer">nonVoidInitializer</a></span>:
+      <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    | <span class="ruleRef"><a href="#arrayInitializer">arrayInitializer</a></span>
+    | <span class="ruleRef"><a href="#structInitializer">structInitializer</a></span>
+    ;
+
+<span class="ruleDef"><a name="operands">operands</a></span>:
+    <span class="ruleRef"><a href="#asmExp">asmExp</a></span>+
+    ;
+
+<span class="ruleDef"><a name="orExpression">orExpression</a></span>:
+      <span class="ruleRef"><a href="#xorExpression">xorExpression</a></span>
+    | <span class="ruleRef"><a href="#orExpression">orExpression</a></span> <span class="literal">'|'</span> <span class="ruleRef"><a href="#xorExpression">xorExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="orOrExpression">orOrExpression</a></span>:
+      <span class="ruleRef"><a href="#andAndExpression">andAndExpression</a></span>
+    | <span class="ruleRef"><a href="#orOrExpression">orOrExpression</a></span> <span class="literal">'||'</span> <span class="ruleRef"><a href="#andAndExpression">andAndExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="outStatement">outStatement</a></span>:
+    <span class="literal">'out'</span> (<span class="literal">'('</span> <span class="literal">Identifier</span> <span class="literal">')'</span>)? <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="parameter">parameter</a></span>:
+    <span class="ruleRef"><a href="#parameterAttribute">parameterAttribute</a></span>* <span class="ruleRef"><a href="#type">type</a></span> (<span class="literal">Identifier</span>? <span class="literal">'...'</span> | (<span class="literal">Identifier</span>? (<span class="literal">'='</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)?))?
+    ;
+
+<span class="ruleDef"><a name="parameterAttribute">parameterAttribute</a></span>:
+      <span class="ruleRef"><a href="#typeConstructor">typeConstructor</a></span>
+    | <span class="literal">'final'</span>
+    | <span class="literal">'in'</span>
+    | <span class="literal">'lazy'</span>
+    | <span class="literal">'out'</span>
+    | <span class="literal">'ref'</span>
+    | <span class="literal">'scope'</span>
+    | <span class="literal">'auto'</span>
+    ;
+
+<span class="ruleDef"><a name="parameters">parameters</a></span>:
+      <span class="literal">'('</span> <span class="ruleRef"><a href="#parameter">parameter</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#parameter">parameter</a></span>)* (<span class="literal">','</span> <span class="literal">'...'</span>)? <span class="literal">')'</span>
+    | <span class="literal">'('</span> <span class="literal">'...'</span> <span class="literal">')'</span>
+    | <span class="literal">'('</span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="postblit">postblit</a></span>:
+    <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">'this'</span> <span class="literal">')'</span> (<span class="ruleRef"><a href="#functionBody">functionBody</a></span> | <span class="literal">';'</span>)
+    ;
+
+<span class="ruleDef"><a name="postIncDecExpression">postIncDecExpression</a></span>:
+    <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> (<span class="literal">'++'</span> | <span class="literal">'--'</span>)
+    ;
+
+<span class="ruleDef"><a name="powExpression">powExpression</a></span>:
+      <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="ruleRef"><a href="#powExpression">powExpression</a></span> <span class="literal">'^^'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="pragmaDeclaration">pragmaDeclaration</a></span>:
+    <span class="ruleRef"><a href="#pragmaExpression">pragmaExpression</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="pragmaExpression">pragmaExpression</a></span>:
+    <span class="ruleRef"><a href="#'pragma'">'pragma'</a></span> <span class="literal">'('</span> <span class="literal">Identifier</span> (<span class="literal">','</span> <span class="ruleRef"><a href="#argumentList">argumentList</a></span>)? <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="preIncDecExpression">preIncDecExpression</a></span>:
+    (<span class="literal">'++'</span> | <span class="literal">'--'</span>) <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="primaryExpression">primaryExpression</a></span>:
+      <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>
+    | <span class="literal">'.'</span> <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>
+    | <span class="ruleRef"><a href="#builtinType">builtinType</a></span> <span class="literal">'.'</span> <span class="literal">Identifier</span>
+    | <span class="ruleRef"><a href="#typeofExpression">typeofExpression</a></span>
+    | <span class="ruleRef"><a href="#typeidExpression">typeidExpression</a></span>
+    | <span class="ruleRef"><a href="#vector">vector</a></span>
+    | <span class="ruleRef"><a href="#arrayLiteral">arrayLiteral</a></span>
+    | <span class="ruleRef"><a href="#assocArrayLiteral">assocArrayLiteral</a></span>
+    | <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span>
+    | <span class="ruleRef"><a href="#isExpression">isExpression</a></span>
+    | <span class="ruleRef"><a href="#lambdaExpression">lambdaExpression</a></span>
+    | <span class="ruleRef"><a href="#functionLiteralExpression">functionLiteralExpression</a></span>
+    | <span class="ruleRef"><a href="#traitsExpression">traitsExpression</a></span>
+    | <span class="ruleRef"><a href="#mixinExpression">mixinExpression</a></span>
+    | <span class="ruleRef"><a href="#importExpression">importExpression</a></span>
+    | <span class="literal">'$'</span>
+    | <span class="literal">'this'</span>
+    | <span class="literal">'super'</span>
+    | <span class="literal">'null'</span>
+    | <span class="literal">'true'</span>
+    | <span class="literal">'false'</span>
+    | <span class="literal">'__DATE__'</span>
+    | <span class="literal">'__TIME__'</span>
+    | <span class="literal">'__TIMESTAMP__'</span>
+    | <span class="literal">'__VENDOR__'</span>
+    | <span class="literal">'__VERSION__'</span>
+    | <span class="literal">'__FILE__'</span>
+    | <span class="literal">'__LINE__'</span>
+    | <span class="literal">'__MODULE__'</span>
+    | <span class="literal">'__FUNCTION__'</span>
+    | <span class="literal">'__PRETTY_FUNCTION__'</span>
+    | <span class="literal">IntegerLiteral</span>
+    | <span class="literal">FloatLiteral</span>
+    | <span class="literal">StringLiteral</span>+
+    | <span class="literal">CharacterLiteral</span>
+    ;
+
+<span class="ruleDef"><a name="register">register</a></span>:
+    <span class="literal">Identifier</span>
+    | <span class="literal">Identifier</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#IntegerLiteral">IntegerLiteral</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="relExpression">relExpression</a></span>:
+      <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    | <span class="ruleRef"><a href="#relExpression">relExpression</a></span> <span class="ruleRef"><a href="#relOperator">relOperator</a></span> <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span>
+    ;
+<span class="ruleDef"><a name="relOperator">relOperator</a></span>:
+      <span class="literal">'&lt;'</span>
+    | <span class="literal">'&lt;='</span>
+    | <span class="literal">'&gt;'</span>
+    | <span class="literal">'&gt;='</span>
+    | <span class="literal">'!&lt;&gt;='</span>
+    | <span class="literal">'!&lt;&gt;'</span>
+    | <span class="literal">'&lt;&gt;'</span>
+    | <span class="literal">'&lt;&gt;='</span>
+    | <span class="literal">'!&gt;'</span>
+    | <span class="literal">'!&gt;='</span>
+    | <span class="literal">'!&lt;'</span>
+    | <span class="literal">'!&lt;='</span>
+    ;
+
+<span class="ruleDef"><a name="returnStatement">returnStatement</a></span>:
+    <span class="literal">'return'</span> <span class="ruleRef"><a href="#expression">expression</a></span>? <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="scopeGuardStatement">scopeGuardStatement</a></span>:
+    <span class="literal">'scope'</span> <span class="literal">'('</span> <span class="literal">Identifier</span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="sharedStaticConstructor">sharedStaticConstructor</a></span>:
+    <span class="literal">'shared'</span> <span class="literal">'static'</span> <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">')'</span> <span class="ruleRef"><a href="#functionBody">functionBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="sharedStaticDestructor">sharedStaticDestructor</a></span>:
+    <span class="literal">'shared'</span> <span class="literal">'static'</span> <span class="literal">'~'</span> <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">')'</span> <span class="ruleRef"><a href="#functionBody">functionBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="shiftExpression">shiftExpression</a></span>:
+      <span class="ruleRef"><a href="#addExpression">addExpression</a></span>
+    | <span class="ruleRef"><a href="#shiftExpression">shiftExpression</a></span> (<span class="literal">'&lt;&lt;'</span> | <span class="literal">'&gt;&gt;'</span> | <span class="literal">'&gt;&gt;&gt;'</span>) <span class="ruleRef"><a href="#addExpression">addExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="singleImport">singleImport</a></span>:
+    (<span class="literal">Identifier</span> <span class="literal">'='</span>)? <span class="ruleRef"><a href="#identifierChain">identifierChain</a></span>
+    ;
+
+<span class="ruleDef"><a name="sliceExpression">sliceExpression</a></span>:
+      <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="literal">'['</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">'..'</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">']'</span>
+    | <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="literal">'['</span> <span class="literal">']'</span>
+    ;
+
+<span class="ruleDef"><a name="statement">statement</a></span>:
+      <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    | <span class="ruleRef"><a href="#caseStatement">caseStatement</a></span>
+    | <span class="ruleRef"><a href="#caseRangeStatement">caseRangeStatement</a></span>
+    | <span class="ruleRef"><a href="#defaultStatement">defaultStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="staticAssertDeclaration">staticAssertDeclaration</a></span>:
+    <span class="ruleRef"><a href="#staticAssertStatement">staticAssertStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="staticAssertStatement">staticAssertStatement</a></span>:
+    <span class="literal">'static'</span> <span class="ruleRef"><a href="#assertExpression">assertExpression</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="staticConstructor">staticConstructor</a></span>:
+    <span class="literal">'static'</span> <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">')'</span> <span class="ruleRef"><a href="#functionBody">functionBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="staticDestructor">staticDestructor</a></span>:
+    <span class="literal">'static'</span> <span class="literal">'~'</span> <span class="literal">'this'</span> <span class="literal">'('</span> <span class="literal">')'</span> <span class="ruleRef"><a href="#functionBody">functionBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="staticIfCondition">staticIfCondition</a></span>:
+    <span class="literal">'static'</span> <span class="literal">'if'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="storageClass">storageClass</a></span>:
+      <span class="ruleRef"><a href="#atAttribute">atAttribute</a></span>
+    | <span class="ruleRef"><a href="#typeConstructor">typeConstructor</a></span>
+    | <span class="ruleRef"><a href="#deprecated">deprecated</a></span>
+    | <span class="literal">'abstract'</span>
+    | <span class="literal">'auto'</span>
+    | <span class="literal">'enum'</span>
+    | <span class="literal">'extern'</span>
+    | <span class="literal">'final'</span>
+    | <span class="literal">'nothrow'</span>
+    | <span class="literal">'override'</span>
+    | <span class="literal">'pure'</span>
+    | <span class="literal">'ref'</span>
+    | <span class="literal">'__gshared'</span>
+    | <span class="literal">'scope'</span>
+    | <span class="literal">'static'</span>
+    | <span class="literal">'synchronized'</span>
+    ;
+
+<span class="ruleDef"><a name="structBody">structBody</a></span>:
+    <span class="literal">'{'</span> <span class="ruleRef"><a href="#declaration">declaration</a></span>* <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="structDeclaration">structDeclaration</a></span>:
+    <span class="literal">'struct'</span> <span class="literal">Identifier</span>? (<span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#constraint">constraint</a></span>? <span class="ruleRef"><a href="#structBody">structBody</a></span> | (<span class="ruleRef"><a href="#structBody">structBody</a></span> | <span class="literal">';'</span>))
+    ;
+
+<span class="ruleDef"><a name="structInitializer">structInitializer</a></span>:
+    <span class="literal">'{'</span> <span class="ruleRef"><a href="#structMemberInitializers">structMemberInitializers</a></span>? <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="structMemberInitializer">structMemberInitializer</a></span>:
+    (<span class="literal">Identifier</span> <span class="literal">':'</span>)? <span class="ruleRef"><a href="#nonVoidInitializer">nonVoidInitializer</a></span>
+    ;
+
+<span class="ruleDef"><a name="structMemberInitializers">structMemberInitializers</a></span>:
+    <span class="ruleRef"><a href="#structMemberInitializer">structMemberInitializer</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#structMemberInitializer">structMemberInitializer</a></span>?)*
+    ;
+
+<span class="ruleDef"><a name="switchBody">switchBody</a></span>:
+    <span class="literal">'{'</span> <span class="ruleRef"><a href="#statement">statement</a></span>+ <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="switchStatement">switchStatement</a></span>:
+    <span class="literal">'switch'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#switchBody">switchBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="symbol">symbol</a></span>:
+    <span class="literal">'.'</span>? <span class="ruleRef"><a href="#identifierOrTemplateChain">identifierOrTemplateChain</a></span>
+    ;
+
+<span class="ruleDef"><a name="synchronizedStatement">synchronizedStatement</a></span>:
+    <span class="literal">'synchronized'</span> (<span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span>)? <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="templateAliasParameter">templateAliasParameter</a></span>:
+    <span class="literal">'alias'</span> <span class="ruleRef"><a href="#type">type</a></span>? <span class="literal">Identifier</span> (<span class="literal">':'</span> (<span class="ruleRef"><a href="#type">type</a></span> | <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>))? (<span class="literal">'='</span> (<span class="ruleRef"><a href="#type">type</a></span> | <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>))?
+    ;
+
+<span class="ruleDef"><a name="templateArgument">templateArgument</a></span>:
+      <span class="ruleRef"><a href="#type">type</a></span>
+    | <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>
+    ;
+
+<span class="ruleDef"><a name="templateArgumentList">templateArgumentList</a></span>:
+    <span class="ruleRef"><a href="#templateArgument">templateArgument</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#templateArgument">templateArgument</a></span>?)*
+    ;
+
+<span class="ruleDef"><a name="templateArguments">templateArguments</a></span>:
+    <span class="literal">'!'</span> (<span class="literal">'('</span> <span class="ruleRef"><a href="#templateArgumentList">templateArgumentList</a></span>? <span class="literal">')'</span> | <span class="ruleRef"><a href="#templateSingleArgument">templateSingleArgument</a></span>)
+    ;
+
+<span class="ruleDef"><a name="templateDeclaration">templateDeclaration</a></span>:
+    <span class="literal">'template'</span> <span class="literal">Identifier</span> <span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#constraint">constraint</a></span>? <span class="literal">'{'</span> <span class="ruleRef"><a href="#declaration">declaration</a></span>* <span class="literal">'}'</span>
+    ;
+
+<span class="ruleDef"><a name="templateInstance">templateInstance</a></span>:
+    <span class="literal">Identifier</span> <span class="ruleRef"><a href="#templateArguments">templateArguments</a></span>
+    ;
+
+<span class="ruleDef"><a name="templateMixinExpression">templateMixinExpression</a></span>:
+    <span class="literal">'mixin'</span> <span class="ruleRef"><a href="#mixinTemplateName">mixinTemplateName</a></span> <span class="ruleRef"><a href="#templateArguments">templateArguments</a></span>? <span class="literal">Identifier</span>?
+    ;
+
+<span class="ruleDef"><a name="templateParameter">templateParameter</a></span>:
+      <span class="ruleRef"><a href="#templateTypeParameter">templateTypeParameter</a></span>
+    | <span class="ruleRef"><a href="#templateValueParameter">templateValueParameter</a></span>
+    | <span class="ruleRef"><a href="#templateAliasParameter">templateAliasParameter</a></span>
+    | <span class="ruleRef"><a href="#templateTupleParameter">templateTupleParameter</a></span>
+    | <span class="ruleRef"><a href="#templateThisParameter">templateThisParameter</a></span>
+    ;
+
+<span class="ruleDef"><a name="templateParameterList">templateParameterList</a></span>:
+    <span class="ruleRef"><a href="#templateParameter">templateParameter</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#templateParameter">templateParameter</a></span>?)*
+    ;
+
+<span class="ruleDef"><a name="templateParameters">templateParameters</a></span>:
+    <span class="literal">'('</span> <span class="ruleRef"><a href="#templateParameterList">templateParameterList</a></span>? <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="templateSingleArgument">templateSingleArgument</a></span>:
+      <span class="ruleRef"><a href="#builtinType">builtinType</a></span>
+    | <span class="literal">Identifier</span>
+    | <span class="literal">CharacterLiteral</span>
+    | <span class="literal">StringLiteral</span>
+    | <span class="literal">IntegerLiteral</span>
+    | <span class="literal">FloatLiteral</span>
+    | <span class="literal">'true'</span>
+    | <span class="literal">'false'</span>
+    | <span class="literal">'null'</span>
+    | <span class="literal">'this'</span>
+    | <span class="literal">'__DATE__'</span>
+    | <span class="literal">'__TIME__'</span>
+    | <span class="literal">'__TIMESTAMP__'</span>
+    | <span class="literal">'__VENDOR__'</span>
+    | <span class="literal">'__VERSION__'</span>
+    | <span class="literal">'__FILE__'</span>
+    | <span class="literal">'__LINE__'</span>
+    | <span class="literal">'__MODULE__'</span>
+    | <span class="literal">'__FUNCTION__'</span>
+    | <span class="literal">'__PRETTY_FUNCTION__'</span>
+    ;
+
+<span class="ruleDef"><a name="templateThisParameter">templateThisParameter</a></span>:
+    <span class="literal">'this'</span> <span class="ruleRef"><a href="#templateTypeParameter">templateTypeParameter</a></span>
+    ;
+
+<span class="ruleDef"><a name="templateTupleParameter">templateTupleParameter</a></span>:
+    <span class="literal">Identifier</span> <span class="literal">'...'</span>
+    ;
+
+<span class="ruleDef"><a name="templateTypeParameter">templateTypeParameter</a></span>:
+    <span class="literal">Identifier</span> (<span class="literal">':'</span> <span class="ruleRef"><a href="#type">type</a></span>)? (<span class="literal">'='</span> <span class="ruleRef"><a href="#type">type</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="templateValueParameter">templateValueParameter</a></span>:
+    <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">Identifier</span> (<span class="literal">':'</span> <span class="ruleRef"><a href="#expression">expression</a></span>)? <span class="ruleRef"><a href="#templateValueParameterDefault">templateValueParameterDefault</a></span>?
+    ;
+
+<span class="ruleDef"><a name="templateValueParameterDefault">templateValueParameterDefault</a></span>:
+    <span class="literal">'='</span> (<span class="literal">'__FILE__'</span> | <span class="literal">'__MODULE__'</span> | <span class="literal">'__LINE__'</span> | <span class="literal">'__FUNCTION__'</span> | <span class="literal">'__PRETTY_FUNCTION__'</span> | <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span>)
+    ;
+
+<span class="ruleDef"><a name="ternaryExpression">ternaryExpression</a></span>:
+    <span class="ruleRef"><a href="#orOrExpression">orOrExpression</a></span> (<span class="literal">'?'</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">':'</span> <span class="ruleRef"><a href="#ternaryExpression">ternaryExpression</a></span>)?
+    ;
+
+<span class="ruleDef"><a name="throwStatement">throwStatement</a></span>:
+    <span class="literal">'throw'</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="traitsExpression">traitsExpression</a></span>:
+    <span class="literal">'__traits'</span> <span class="literal">'('</span> <span class="literal">Identifier</span> <span class="literal">','</span> <span class="ruleRef"><a href="#TemplateArgumentList">TemplateArgumentList</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="tryStatement">tryStatement</a></span>:
+    <span class="literal">'try'</span> <span class="ruleRef"><a href="#declarationOrStatement">declarationOrStatement</a></span> (<span class="ruleRef"><a href="#catches">catches</a></span> | <span class="ruleRef"><a href="#catches">catches</a></span> <span class="ruleRef"><a href="#finally">finally</a></span> | <span class="ruleRef"><a href="#finally">finally</a></span>)
+    ;
+
+<span class="ruleDef"><a name="type">type</a></span>:
+    <span class="ruleRef"><a href="#attribute">attribute</a></span>? <span class="ruleRef"><a href="#type2">type2</a></span> <span class="ruleRef"><a href="#typeSuffix">typeSuffix</a></span>*
+    ;
+
+<span class="ruleDef"><a name="type2">type2</a></span>:
+      <span class="ruleRef"><a href="#builtinType">builtinType</a></span>
+    | <span class="ruleRef"><a href="#symbol">symbol</a></span>
+    | <span class="ruleRef"><a href="#typeofExpression">typeofExpression</a></span> (<span class="literal">'.'</span> <span class="ruleRef"><a href="#identifierOrTemplateChain">identifierOrTemplateChain</a></span>)?
+    | <span class="ruleRef"><a href="#typeConstructor">typeConstructor</a></span> <span class="literal">'('</span> <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="typeConstructor">typeConstructor</a></span>:
+      <span class="literal">'const'</span>
+    | <span class="literal">'immutable'</span>
+    | <span class="literal">'inout'</span>
+    | <span class="literal">'shared'</span>
+    | <span class="literal">'scope'</span>
+    ;
+
+<span class="ruleDef"><a name="typeConstructors">typeConstructors</a></span>:
+    <span class="ruleRef"><a href="#typeConstructor">typeConstructor</a></span>+
+    ;
+
+<span class="ruleDef"><a name="typeSpecialization">typeSpecialization</a></span>:
+      <span class="ruleRef"><a href="#type">type</a></span>
+    | <span class="literal">'struct'</span>
+    | <span class="literal">'union'</span>
+    | <span class="literal">'class'</span>
+    | <span class="literal">'interface'</span>
+    | <span class="literal">'enum'</span>
+    | <span class="literal">'function'</span>
+    | <span class="literal">'delegate'</span>
+    | <span class="literal">'super'</span>
+    | <span class="literal">'const'</span>
+    | <span class="literal">'immutable'</span>
+    | <span class="literal">'inout'</span>
+    | <span class="literal">'shared'</span>
+    | <span class="literal">'return'</span>
+    | <span class="literal">'typedef'</span>
+    | <span class="literal">'__parameters'</span>
+    ;
+
+<span class="ruleDef"><a name="typeSuffix">typeSuffix</a></span>:
+      <span class="literal">'*'</span>
+    | <span class="literal">'['</span> <span class="ruleRef"><a href="#type">type</a></span>? <span class="literal">']'</span>
+    | <span class="literal">'['</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">']'</span>
+    | <span class="literal">'['</span> <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">'..'</span>  <span class="ruleRef"><a href="#assignExpression">assignExpression</a></span> <span class="literal">']'</span>
+    | (<span class="literal">'delegate'</span> | <span class="literal">'function'</span>) <span class="ruleRef"><a href="#parameters">parameters</a></span> <span class="ruleRef"><a href="#memberFunctionAttribute">memberFunctionAttribute</a></span>*
+    ;
+
+<span class="ruleDef"><a name="typeidExpression">typeidExpression</a></span>:
+    <span class="literal">'typeid'</span> <span class="literal">'('</span> (<span class="ruleRef"><a href="#type">type</a></span> | <span class="ruleRef"><a href="#expression">expression</a></span>) <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="typeofExpression">typeofExpression</a></span>:
+    <span class="literal">'typeof'</span> <span class="literal">'('</span> (<span class="ruleRef"><a href="#expression">expression</a></span> | <span class="literal">'return'</span>) <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="unaryExpression">unaryExpression</a></span>:
+      <span class="ruleRef"><a href="#primaryExpression">primaryExpression</a></span>
+    | <span class="literal">'&amp;'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'!'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'*'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'+'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'-'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'~'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'++'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="literal">'--'</span> <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span>
+    | <span class="ruleRef"><a href="#newExpression">newExpression</a></span>
+    | <span class="ruleRef"><a href="#deleteExpression">deleteExpression</a></span>
+    | <span class="ruleRef"><a href="#castExpression">castExpression</a></span>
+    | <span class="ruleRef"><a href="#assertExpression">assertExpression</a></span>
+    | <span class="ruleRef"><a href="#functionCallExpression">functionCallExpression</a></span>
+    | <span class="ruleRef"><a href="#sliceExpression">sliceExpression</a></span>
+    | <span class="ruleRef"><a href="#indexExpression">indexExpression</a></span>
+    | <span class="literal">'$LPAREN'</span> <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">'$RPAREN'</span> <span class="literal">'.'</span> <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>
+    | <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="literal">'.'</span> <span class="ruleRef"><a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a></span>
+    | <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="literal">'--'</span>
+    | <span class="ruleRef"><a href="#unaryExpression">unaryExpression</a></span> <span class="literal">'++'</span>
+    ;
+
+<span class="ruleDef"><a name="unionDeclaration">unionDeclaration</a></span>:
+      <span class="literal">'union'</span> <span class="literal">Identifier</span> <span class="ruleRef"><a href="#templateParameters">templateParameters</a></span> <span class="ruleRef"><a href="#constraint">constraint</a></span>? <span class="ruleRef"><a href="#structBody">structBody</a></span>
+    | <span class="literal">'union'</span> <span class="literal">Identifier</span> (<span class="ruleRef"><a href="#structBody">structBody</a></span> | <span class="literal">';'</span>)
+    | <span class="literal">'union'</span> <span class="ruleRef"><a href="#structBody">structBody</a></span>
+    ;
+
+<span class="ruleDef"><a name="unittest">unittest</a></span>:
+    <span class="literal">'unittest'</span> <span class="ruleRef"><a href="#blockStatement">blockStatement</a></span>
+    ;
+
+<span class="ruleDef"><a name="variableDeclaration">variableDeclaration</a></span>:
+      <span class="ruleRef"><a href="#type">type</a></span> <span class="ruleRef"><a href="#declarator">declarator</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#declarator">declarator</a></span>)* <span class="literal">';'</span>
+    | <span class="ruleRef"><a href="#autoDeclaration">autoDeclaration</a></span>
+    ;
+
+<span class="ruleDef"><a name="vector">vector</a></span>:
+    <span class="literal">'__vector'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#type">type</a></span> <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="versionCondition">versionCondition</a></span>:
+    <span class="literal">'version'</span> <span class="literal">'('</span> (<span class="literal">IntegerLiteral</span> | <span class="literal">Identifier</span> | <span class="literal">'unittest'</span> | <span class="literal">'assert'</span>) <span class="literal">')'</span>
+    ;
+
+<span class="ruleDef"><a name="versionSpecification">versionSpecification</a></span>:
+    <span class="literal">'version'</span> <span class="literal">'='</span> (<span class="literal">Identifier</span> | <span class="literal">IntegerLiteral</span>) <span class="literal">';'</span>
+    ;
+
+<span class="ruleDef"><a name="whileStatement">whileStatement</a></span>:
+    <span class="literal">'while'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="withStatement">withStatement</a></span>:
+    <span class="literal">'with'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a></span>
+    ;
+
+<span class="ruleDef"><a name="xorExpression">xorExpression</a></span>:
+      <span class="ruleRef"><a href="#andExpression">andExpression</a></span>
+    | <span class="ruleRef"><a href="#xorExpression">xorExpression</a></span> <span class="literal">'^'</span> <span class="ruleRef"><a href="#andExpression">andExpression</a></span>
+    ;</pre>
+
+	</body>
+</html>
