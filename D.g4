@@ -807,7 +807,7 @@ keyValuePair:
     ;
 
 keyValuePairs:
-    keyValuePair (',' keyValuePair)*
+    keyValuePair (',' keyValuePair)* ','?
     ;
 
 labeledStatement:
