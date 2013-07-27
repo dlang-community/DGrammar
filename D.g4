@@ -799,7 +799,7 @@ invariant:
     ;
 
 isExpression:
-    'is' '(' (type Identifier? ((':' | '==') typeSpecialization (',' templateParameterList)?)?) ')'
+    'is' '(' type Identifier? ((':' | '==') typeSpecialization (',' templateParameterList)?)? ')'
     ;
 
 keyValuePair:
