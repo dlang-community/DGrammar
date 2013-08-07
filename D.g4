@@ -1326,7 +1326,7 @@ unaryExpression:
     | functionCallExpression
     | sliceExpression
     | indexExpression
-    | '$LPAREN' type '$RPAREN' '.' identifierOrTemplateInstance
+    | '(' type ')' '.' identifierOrTemplateInstance
     | unaryExpression '.' identifierOrTemplateInstance
     | unaryExpression '--'
     | unaryExpression '++'
