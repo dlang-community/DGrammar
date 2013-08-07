@@ -888,12 +888,8 @@
     <span class="ruleRef"><a href="#structMemberInitializer">structMemberInitializer</a></span> (<span class="literal">','</span> <span class="ruleRef"><a href="#structMemberInitializer">structMemberInitializer</a></span>?)*
     ;
 
-<span class="ruleDef"><a name="switchBody">switchBody</a></span>:
-    <span class="literal">'{'</span> <span class="ruleRef"><a href="#statement">statement</a></span>+ <span class="literal">'}'</span>
-    ;
-
 <span class="ruleDef"><a name="switchStatement">switchStatement</a></span>:
-    <span class="literal">'switch'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#switchBody">switchBody</a></span>
+    <span class="literal">'switch'</span> <span class="literal">'('</span> <span class="ruleRef"><a href="#expression">expression</a></span> <span class="literal">')'</span> <span class="ruleRef"><a href="#statement">statement</a></span>
     ;
 
 <span class="ruleDef"><a name="symbol">symbol</a></span>:

@@ -1131,12 +1131,8 @@ structMemberInitializers:
     structMemberInitializer (',' structMemberInitializer?)*
     ;
 
-switchBody:
-    '{' statement+ '}'
-    ;
-
 switchStatement:
-    'switch' '(' expression ')' switchBody
+    'switch' '(' expression ')' statement
     ;
 
 symbol:
