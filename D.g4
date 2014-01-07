@@ -675,12 +675,12 @@ finally:
     ;
 
 forStatement:
-    'for' '(' declarationOrStatement expression? ';' expression? ')' statementNoCaseNoDefault
+    'for' '(' declarationOrStatement expression? ';' expression? ')' declarationOrStatement
     ;
 
 foreachStatement:
-      ('foreach' | 'foreach_reverse') '(' foreachTypeList ';' expression ')' statementNoCaseNoDefault
-    | ('foreach' | 'foreach_reverse') '(' foreachType ';' expression '..' expression ')' statementNoCaseNoDefault
+      ('foreach' | 'foreach_reverse') '(' foreachTypeList ';' expression ')' declarationOrStatement
+    | ('foreach' | 'foreach_reverse') '(' foreachType ';' expression '..' expression ')' declarationOrStatement
     ;
 
 foreachType:
@@ -1356,7 +1356,7 @@ versionSpecification:
     ;
 
 whileStatement:
-    'while' '(' expression ')' statementNoCaseNoDefault
+    'while' '(' expression ')' declarationOrStatement
     ;
 
 withStatement:
