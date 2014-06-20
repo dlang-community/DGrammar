@@ -3,4 +3,4 @@ DGrammar
 
 An attempt to completely and correctly document the grammar of the D programming language
 
-The file that you're probably looking for is grammar.html. The ANTLR file is not up-to-date.
+The files that you're probably looking for are grammar.html and D.g4.
