@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,128 +12,110 @@
 		</style>
   </head>
   <body>
-    <pre class="grammar"><b><a name="addExpression"/> addExpression</b>:
-       <a href="#mulExpression">mulExpression</a>
-     | <a href="#addExpression">addExpression</a> (<font color="red"><i>'+'</i></font> | <font color="red"><i>'-'</i></font> | <font color="red"><i>'~'</i></font>) <a href="#mulExpression">mulExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="aliasDeclaration"/> aliasDeclaration</b>:
-       <font color="red"><i>'alias'</i></font> <a href="#aliasInitializer">aliasInitializer</a> (<font color="red"><i>','</i></font> <a href="#aliasInitializer">aliasInitializer</a>)* <font color="red"><i>';'</i></font>
-     | <font color="red"><i>'alias'</i></font> <a href="#linkageAttribute">linkageAttribute</a>? <a href="#type">type</a> <font color="red"><i>identifier</i></font> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="aliasInitializer"/> aliasInitializer</b>:
-     <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#type">type</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="aliasThisDeclaration"/> aliasThisDeclaration</b>:
+<pre class="grammar"><b><a name="addExpression"></a> addExpression</b>:
+       <a href="#mulExpression"><b>mulExpression</b></a>
+     | <a href="#addExpression"><b>addExpression</b></a> (<font color="red"><i>'+'</i></font> | <font color="red"><i>'-'</i></font> | <font color="red"><i>'~'</i></font>) <a href="#mulExpression"><b>mulExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="aliasDeclaration"></a> aliasDeclaration</b>:
+       <font color="red"><i>'alias'</i></font> <a href="#aliasInitializer"><b>aliasInitializer</b></a> (<font color="red"><i>','</i></font> <a href="#aliasInitializer"><b>aliasInitializer</b></a>)* <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'alias'</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a> <font color="red"><i>identifierList</i></font> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="aliasInitializer"></a> aliasInitializer</b>:
+     <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a>? <font color="red"><i>'='</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a>
+     ;</pre><pre class="grammar"><b><a name="aliasThisDeclaration"></a> aliasThisDeclaration</b>:
      <font color="red"><i>'alias'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="alignAttribute"/> alignAttribute</b>:
+     ;</pre><pre class="grammar"><b><a name="alignAttribute"></a> alignAttribute</b>:
      <font color="red"><i>'align'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>IntegerLiteral</i></font> <font color="red"><i>')'</i></font>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="andAndExpression"/> andAndExpression</b>:
-       <a href="#orExpression">orExpression</a>
-     | <a href="#andAndExpression">andAndExpression</a> <font color="red"><i>'&amp;&amp;'</i></font> <a href="#orExpression">orExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="andExpression"/> andExpression</b>:
-       <a href="#cmpExpression">cmpExpression</a>
-     | <a href="#andExpression">andExpression</a> <font color="red"><i>'&amp;'</i></font> <a href="#cmpExpression">cmpExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="argumentList"/> argumentList</b>:
-     <a href="#assignExpression">assignExpression</a> (<font color="red"><i>','</i></font> <a href="#assignExpression">assignExpression</a>?)*
-     ;</pre>
-    <pre class="grammar"><b><a name="arguments"/> arguments</b>:
-     <font color="red"><i>'('</i></font> <a href="#argumentList">argumentList</a>? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="arrayInitializer"/> arrayInitializer</b>:
+     ;</pre><pre class="grammar"><b><a name="andAndExpression"></a> andAndExpression</b>:
+       <a href="#orExpression"><b>orExpression</b></a>
+     | <a href="#andAndExpression"><b>andAndExpression</b></a> <font color="red"><i>'&amp;&amp;'</i></font> <a href="#orExpression"><b>orExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="andExpression"></a> andExpression</b>:
+       <a href="#cmpExpression"><b>cmpExpression</b></a>
+     | <a href="#andExpression"><b>andExpression</b></a> <font color="red"><i>'&amp;'</i></font> <a href="#cmpExpression"><b>cmpExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="argumentList"></a> argumentList</b>:
+     <a href="#assignExpression"><b>assignExpression</b></a> (<font color="red"><i>','</i></font> <a href="#assignExpression"><b>assignExpression</b></a>?)*
+     ;</pre><pre class="grammar"><b><a name="arguments"></a> arguments</b>:
+     <font color="red"><i>'('</i></font> <a href="#argumentList"><b>argumentList</b></a>? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="arrayInitializer"></a> arrayInitializer</b>:
        <font color="red"><i>'['</i></font> <font color="red"><i>']'</i></font>
-     | <font color="red"><i>'['</i></font> <a href="#arrayMemberInitialization">arrayMemberInitialization</a> (<font color="red"><i>','</i></font> <a href="#arrayMemberInitialization">arrayMemberInitialization</a>?)* <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="arrayLiteral"/> arrayLiteral</b>:
-     <font color="red"><i>'['</i></font> <a href="#argumentList">argumentList</a>? <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="arrayMemberInitialization"/> arrayMemberInitialization</b>:
-     (<a href="#assignExpression">assignExpression</a> <font color="red"><i>':'</i></font>)? <a href="#nonVoidInitializer">nonVoidInitializer</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmAddExp"/> asmAddExp</b>:
-       <a href="#asmMulExp">asmMulExp</a>
-     | <a href="#asmAddExp">asmAddExp</a> (<font color="red"><i>'+'</i></font> | <font color="red"><i>'-'</i></font>) <a href="#asmMulExp">asmMulExp</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmAndExp"/> asmAndExp</b>:
-     <a href="#asmEqualExp">asmEqualExp</a> (<font color="red"><i>'&amp;'</i></font> <a href="#asmEqualExp">asmEqualExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmBrExp"/> asmBrExp</b>:
-       <a href="#asmUnaExp">asmUnaExp</a>
-     | <a href="#asmBrExp">asmBrExp</a> <font color="red"><i>'['</i></font> <a href="#asmExp">asmExp</a> <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmEqualExp"/> asmEqualExp</b>:
-     <a href="#asmRelExp">asmRelExp</a> (('==' | '!=') <a href="#asmRelExp">asmRelExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmExp"/> asmExp</b>:
-     <a href="#asmLogOrExp">asmLogOrExp</a> (<font color="red"><i>'?'</i></font> <a href="#asmExp">asmExp</a> <font color="red"><i>':'</i></font> <a href="#asmExp">asmExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmInstruction"/> asmInstruction</b>:
-     <font color="red"><i>Identifier</i></font>
+     | <font color="red"><i>'['</i></font> <a href="#arrayMemberInitialization"><b>arrayMemberInitialization</b></a> (<font color="red"><i>','</i></font> <a href="#arrayMemberInitialization"><b>arrayMemberInitialization</b></a>?)* <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="arrayLiteral"></a> arrayLiteral</b>:
+     <font color="red"><i>'['</i></font> <a href="#argumentList"><b>argumentList</b></a>? <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="arrayMemberInitialization"></a> arrayMemberInitialization</b>:
+     (<a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>':'</i></font>)? <a href="#nonVoidInitializer"><b>nonVoidInitializer</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmAddExp"></a> asmAddExp</b>:
+       <a href="#asmMulExp"><b>asmMulExp</b></a>
+     | <a href="#asmAddExp"><b>asmAddExp</b></a> (<font color="red"><i>'+'</i></font> | <font color="red"><i>'-'</i></font>) <a href="#asmMulExp"><b>asmMulExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmAndExp"></a> asmAndExp</b>:
+       <a href="#asmEqualExp"><b>asmEqualExp</b></a>
+     | <a href="#asmAndExp"><b>asmAndExp</b></a> <font color="red"><i>'&amp;'</i></font> <a href="#asmEqualExp"><b>asmEqualExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmBrExp"></a> asmBrExp</b>:
+       <a href="#asmUnaExp"><b>asmUnaExp</b></a>
+     | <a href="#asmBrExp"><b>asmBrExp</b></a>? <font color="red"><i>'['</i></font> <a href="#asmExp"><b>asmExp</b></a> <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="asmEqualExp"></a> asmEqualExp</b>:
+       <a href="#asmRelExp"><b>asmRelExp</b></a>
+     | <a href="#asmEqualExp"><b>asmEqualExp</b></a> ('==' | '!=') <a href="#asmRelExp"><b>asmRelExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmExp"></a> asmExp</b>:
+     <a href="#asmLogOrExp"><b>asmLogOrExp</b></a> (<font color="red"><i>'?'</i></font> <a href="#asmExp"><b>asmExp</b></a> <font color="red"><i>':'</i></font> <a href="#asmExp"><b>asmExp</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="asmInstruction"></a> asmInstruction</b>:
+       <font color="red"><i>Identifier</i></font>
      | <font color="red"><i>'align'</i></font> <font color="red"><i>IntegerLiteral</i></font>
      | <font color="red"><i>'align'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font> <a href="#asmInstruction">asmInstruction</a>
-     | <font color="red"><i>Identifier</i></font> <a href="#asmExp">asmExp</a>
-     | <font color="red"><i>Identifier</i></font> <a href="#operands">operands</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmLogAndExp"/> asmLogAndExp</b>:
-     <a href="#asmOrExp">asmOrExp</a> ('&amp;&amp;' <a href="#asmOrExp">asmOrExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmLogOrExp"/> asmLogOrExp</b>:
-     <a href="#asmLogAndExp">asmLogAndExp</a> ('||' <a href="#asmLogAndExp">asmLogAndExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmMulExp"/> asmMulExp</b>:
-     <a href="#asmBrExp">asmBrExp</a> ((<font color="red"><i>'*'</i></font> | <font color="red"><i>'/'</i></font> | <font color="red"><i>'%'</i></font>) <a href="#asmBrExp">asmBrExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmOrExp"/> asmOrExp</b>:
-     <a href="#asmXorExp">asmXorExp</a> (<font color="red"><i>'|'</i></font> <a href="#asmXorExp">asmXorExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmPrimaryExp"/> asmPrimaryExp</b>:
+     | <font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font> <a href="#asmInstruction"><b>asmInstruction</b></a>
+     | <font color="red"><i>Identifier</i></font> <a href="#operands"><b>operands</b></a>
+     | <font color="red"><i>'in'</i></font> <a href="#operands"><b>operands</b></a>
+     | <font color="red"><i>'out'</i></font> <a href="#operands"><b>operands</b></a>
+     | <font color="red"><i>'int'</i></font> <a href="#operands"><b>operands</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmLogAndExp"></a> asmLogAndExp</b>:
+     <a href="#asmOrExp"><b>asmOrExp</b></a>
+     <a href="#asmLogAndExp"><b>asmLogAndExp</b></a> <font color="red"><i>'&amp;&amp;'</i></font> <a href="#asmOrExp"><b>asmOrExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmLogOrExp"></a> asmLogOrExp</b>:
+       <a href="#asmLogAndExp"><b>asmLogAndExp</b></a>
+     | <a href="#asmLogOrExp"><b>asmLogOrExp</b></a> '||' <a href="#asmLogAndExp"><b>asmLogAndExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmMulExp"></a> asmMulExp</b>:
+       <a href="#asmBrExp"><b>asmBrExp</b></a>
+     | <a href="#asmMulExp"><b>asmMulExp</b></a> (<font color="red"><i>'*'</i></font> | <font color="red"><i>'/'</i></font> | <font color="red"><i>'%'</i></font>) <a href="#asmBrExp"><b>asmBrExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmOrExp"></a> asmOrExp</b>:
+       <a href="#asmXorExp"><b>asmXorExp</b></a>
+     | <a href="#asmOrExp"><b>asmOrExp</b></a> <font color="red"><i>'|'</i></font> <a href="#asmXorExp"><b>asmXorExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmPrimaryExp"></a> asmPrimaryExp</b>:
        <font color="red"><i>IntegerLiteral</i></font>
      | <font color="red"><i>FloatLiteral</i></font>
-     | <a href="#register">register</a>
-     | <a href="#identifierChain">identifierChain</a>
+     | <font color="red"><i>StringLiteral</i></font>
+     | <a href="#register"><b>register</b></a>
+     | <a href="#identifierChain"><b>identifierChain</b></a>
      | <font color="red"><i>'$'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmRelExp"/> asmRelExp</b>:
-     <a href="#asmShiftExp">asmShiftExp</a> ((<font color="red"><i>'&lt;'</i></font> | <font color="red"><i>'&lt;='</i></font> | <font color="red"><i>'&gt;'</i></font> | <font color="red"><i>'&gt;='</i></font>) <a href="#asmShiftExp">asmShiftExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmShiftExp"/> asmShiftExp</b>:
-     <a href="#asmAddExp">asmAddExp</a> ((<font color="red"><i>'&lt;&lt;'</i></font> | <font color="red"><i>'&gt;&gt;'</i></font> | <font color="red"><i>'&gt;&gt;&gt;'</i></font>) <a href="#asmAddExp">asmAddExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="asmStatement"/> asmStatement</b>:
-     <font color="red"><i>'asm'</i></font> <font color="red"><i>'{'</i></font> <a href="#asmInstruction">asmInstruction</a>+ <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmTypePrefix"/> asmTypePrefix</b>:
-       <font color="red"><i>Identifier</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'byte'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'short'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'int'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'float'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'double'</i></font> <font color="red"><i>Identifier</i></font>
-     | <font color="red"><i>'real'</i></font> <font color="red"><i>Identifier</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmUnaExp"/> asmUnaExp</b>:
-       <a href="#asmTypePrefix">asmTypePrefix</a> <a href="#asmExp">asmExp</a>
-     | <font color="red"><i>Identifier</i></font> <a href="#asmExp">asmExp</a>
-     | <font color="red"><i>'+'</i></font> <a href="#asmUnaExp">asmUnaExp</a>
-     | <font color="red"><i>'-'</i></font> <a href="#asmUnaExp">asmUnaExp</a>
-     | <font color="red"><i>'!'</i></font> <a href="#asmUnaExp">asmUnaExp</a>
-     | <font color="red"><i>'~'</i></font> <a href="#asmUnaExp">asmUnaExp</a>
-     | <a href="#asmPrimaryExp">asmPrimaryExp</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="asmXorExp"/> asmXorExp</b>:
-     <a href="#asmAndExp">asmAndExp</a> (<font color="red"><i>'^'</i></font> <a href="#asmAndExp">asmAndExp</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="assertExpression"/> assertExpression</b>:
-     <font color="red"><i>'assert'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression">assignExpression</a> (<font color="red"><i>','</i></font> <a href="#assignExpression">assignExpression</a>)? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="assignExpression"/> assignExpression</b>:
-     <a href="#ternaryExpression">ternaryExpression</a> (<a href="#assignOperator">assignOperator</a> <a href="#assignExpression">assignExpression</a>)?
+     ;</pre><pre class="grammar"><b><a name="asmRelExp"></a> asmRelExp</b>:
+       <a href="#asmShiftExp"><b>asmShiftExp</b></a>
+     | <a href="#asmRelExp"><b>asmRelExp</b></a> ((<font color="red"><i>'&lt;'</i></font> | <font color="red"><i>'&lt;='</i></font> | <font color="red"><i>'&gt;'</i></font> | <font color="red"><i>'&gt;='</i></font>) <a href="#asmShiftExp"><b>asmShiftExp</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="asmShiftExp"></a> asmShiftExp</b>:
+     <a href="#asmAddExp"><b>asmAddExp</b></a>
+     <a href="#asmShiftExp"><b>asmShiftExp</b></a> (<font color="red"><i>'&lt;&lt;'</i></font> | <font color="red"><i>'&gt;&gt;'</i></font> | <font color="red"><i>'&gt;&gt;&gt;'</i></font>) <a href="#asmAddExp"><b>asmAddExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmStatement"></a> asmStatement</b>:
+     <font color="red"><i>'asm'</i></font> <a href="#functionAttributes"><b>functionAttributes</b></a>? <font color="red"><i>'{'</i></font> <a href="#asmInstruction"><b>asmInstruction</b></a>+ <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="asmTypePrefix"></a> asmTypePrefix</b>:
+       <font color="red"><i>Identifier</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'byte'</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'short'</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'int'</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'float'</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'double'</i></font> <font color="red"><i>Identifier</i></font>?
+     | <font color="red"><i>'real'</i></font> <font color="red"><i>Identifier</i></font>?
+     ;</pre><pre class="grammar"><b><a name="asmUnaExp"></a> asmUnaExp</b>:
+       <a href="#asmTypePrefix"><b>asmTypePrefix</b></a> <a href="#asmExp"><b>asmExp</b></a>
+     | <font color="red"><i>Identifier</i></font> <a href="#asmExp"><b>asmExp</b></a>
+     | <font color="red"><i>'+'</i></font> <a href="#asmUnaExp"><b>asmUnaExp</b></a>
+     | <font color="red"><i>'-'</i></font> <a href="#asmUnaExp"><b>asmUnaExp</b></a>
+     | <font color="red"><i>'!'</i></font> <a href="#asmUnaExp"><b>asmUnaExp</b></a>
+     | <font color="red"><i>'~'</i></font> <a href="#asmUnaExp"><b>asmUnaExp</b></a>
+     | <a href="#asmPrimaryExp"><b>asmPrimaryExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="asmXorExp"></a> asmXorExp</b>:
+       <a href="#asmAndExp"><b>asmAndExp</b></a>
+     | <a href="#asmXorExp"><b>asmXorExp</b></a> <font color="red"><i>'^'</i></font> <a href="#asmAndExp"><b>asmAndExp</b></a>
+     ;</pre><pre class="grammar"><b><a name="assertExpression"></a> assertExpression</b>:
+     <font color="red"><i>'assert'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression"><b>assignExpression</b></a> (<font color="red"><i>','</i></font> <a href="#assignExpression"><b>assignExpression</b></a>)? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="assignExpression"></a> assignExpression</b>:
+     <a href="#ternaryExpression"><b>ternaryExpression</b></a> (<a href="#assignOperator"><b>assignOperator</b></a> <a href="#assignExpression"><b>assignExpression</b></a>)?
      ;
-<b><a name="assignOperator"/> assignOperator</b>:
+<b><a name="assignOperator"></a> assignOperator</b>:
        <font color="red"><i>'='</i></font>
      | <font color="red"><i>'&gt;&gt;&gt;='</i></font>
      | <font color="red"><i>'&gt;&gt;='</i></font>
@@ -149,46 +130,54 @@
      | <font color="red"><i>'^^='</i></font>
      | <font color="red"><i>'^='</i></font>
      | <font color="red"><i>'~='</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="assocArrayLiteral"/> assocArrayLiteral</b>:
-     <font color="red"><i>'['</i></font> <a href="#keyValuePairs">keyValuePairs</a> <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="atAttribute"/> atAttribute</b>:
-     <font color="red"><i>'@'</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>'('</i></font> <a href="#argumentList">argumentList</a> <font color="red"><i>')'</i></font> | <a href="#functionCallExpression">functionCallExpression</a>)
-     ;</pre>
-    <pre class="grammar"><b><a name="attribute"/> attribute</b>:
-       <a href="#alignAttribute">alignAttribute</a>
-     | <a href="#linkageAttribute">linkageAttribute</a>
-     | <a href="#pragmaExpression">pragmaExpression</a>
-     | <a href="#storageClass">storageClass</a>
+     ;</pre><pre class="grammar"><b><a name="assocArrayLiteral"></a> assocArrayLiteral</b>:
+     <font color="red"><i>'['</i></font> <a href="#keyValuePairs"><b>keyValuePairs</b></a> <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="atAttribute"></a> atAttribute</b>:
+       <font color="red"><i>'@'</i></font> <font color="red"><i>Identifier</i></font>
+     | <font color="red"><i>'@'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'('</i></font> <a href="#argumentList"><b>argumentList</b></a>? <font color="red"><i>')'</i></font>
+     | <font color="red"><i>'@'</i></font> <font color="red"><i>'('</i></font> <a href="#argumentList"><b>argumentList</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="attribute"></a> attribute</b>:
+     | <a href="#pragmaExpression"><b>pragmaExpression</b></a>
+     | <a href="#alignAttribute"><b>alignAttribute</b></a>
+     | <a href="#deprecated"><b>deprecated</b></a>
+     | <a href="#atAttribute"><b>atAttribute</b></a>
+     | <a href="#linkageAttribute"><b>linkageAttribute</b></a>
      | <font color="red"><i>'export'</i></font>
      | <font color="red"><i>'package'</i></font>
      | <font color="red"><i>'private'</i></font>
      | <font color="red"><i>'protected'</i></font>
      | <font color="red"><i>'public'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="attributeDeclaration"/> attributeDeclaration</b>:
-     <a href="#attribute"><i>attribute</i></a> <font color="red"><i>':'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="autoDeclaration"/> autoDeclaration</b>:
-     <a href="#storageClass">storageClass</a> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#initializer">initializer</a> (<font color="red"><i>','</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#initializer">initializer</a>)* <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="blockStatement"/> blockStatement</b>:
-     <font color="red"><i>'{'</i></font> <a href="#declarationsAndStatements">declarationsAndStatements</a>? <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="bodyStatement"/> bodyStatement</b>:
-     <font color="red"><i>'body'</i></font> <a href="#blockStatement">blockStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="breakStatement"/> breakStatement</b>:
+     | <font color="red"><i>'static'</i></font>
+     | <font color="red"><i>'extern'</i></font>
+     | <font color="red"><i>'abstract'</i></font>
+     | <font color="red"><i>'final'</i></font>
+     | <font color="red"><i>'override'</i></font>
+     | <font color="red"><i>'synchronized'</i></font>
+     | <font color="red"><i>'auto'</i></font>
+     | <font color="red"><i>'scope'</i></font>
+     | <font color="red"><i>'const'</i></font>
+     | <font color="red"><i>'immutable'</i></font>
+     | <font color="red"><i>'inout'</i></font>
+     | <font color="red"><i>'shared'</i></font>
+     | <font color="red"><i>'_gshared'</i></font>
+     | <font color="red"><i>'nothrow'</i></font>
+     | <font color="red"><i>'pure'</i></font>
+     | <font color="red"><i>'ref'</i></font>
+     ;</pre><pre class="grammar"><b><a name="attributeDeclaration"></a> attributeDeclaration</b>:
+     <a href="#&lt;i&gt;attribute&lt;/i&gt;"><b><i>attribute</i></b></a> <font color="red"><i>':'</i></font>
+     ;</pre><pre class="grammar"><b><a name="autoDeclaration"></a> autoDeclaration</b>:
+     <a href="#storageClass"><b>storageClass</b></a> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#initializer"><b>initializer</b></a> (<font color="red"><i>','</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#initializer"><b>initializer</b></a>)* <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="blockStatement"></a> blockStatement</b>:
+     <font color="red"><i>'{'</i></font> <a href="#declarationsAndStatements"><b>declarationsAndStatements</b></a>? <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="bodyStatement"></a> bodyStatement</b>:
+     <font color="red"><i>'body'</i></font> <a href="#blockStatement"><b>blockStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="breakStatement"></a> breakStatement</b>:
      <font color="red"><i>'break'</i></font> <font color="red"><i>Identifier</i></font>? <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="baseClass"/> baseClass</b>:
-     (<a href="#typeofExpression">typeofExpression</a> <font color="red"><i>'.'</i></font>)? <a href="#identifierOrTemplateChain">identifierOrTemplateChain</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="baseClassList"/> baseClassList</b>:
-     <a href="#baseClass">baseClass</a> (<font color="red"><i>','</i></font> <a href="#baseClass">baseClass</a>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="builtinType"/> builtinType</b>:
+     ;</pre><pre class="grammar"><b><a name="baseClass"></a> baseClass</b>:
+     <a href="#type2"><b>type2</b></a>
+     ;</pre><pre class="grammar"><b><a name="baseClassList"></a> baseClassList</b>:
+     <a href="#baseClass"><b>baseClass</b></a> (<font color="red"><i>','</i></font> <a href="#baseClass"><b>baseClass</b></a>)*
+     ;</pre><pre class="grammar"><b><a name="builtinType"></a> builtinType</b>:
       <font color="red"><i>'bool'</i></font>
     | <font color="red"><i>'byte'</i></font>
     | <font color="red"><i>'ubyte'</i></font>
@@ -211,17 +200,13 @@
     | <font color="red"><i>'cdouble'</i></font>
     | <font color="red"><i>'creal'</i></font>
     | <font color="red"><i>'void'</i></font>
-    ;</pre>
-    <pre class="grammar"><b><a name="caseRangeStatement"/> caseRangeStatement</b>:
-     <font color="red"><i>'case'</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>':'</i></font> <font color="red"><i>'...'</i></font> <font color="red"><i>'case'</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements">declarationsAndStatements</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="caseStatement"/> caseStatement</b>:
-     <font color="red"><i>'case'</i></font> <a href="#argumentList"><i>argumentList</i></a> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements">declarationsAndStatements</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="castExpression"/> castExpression</b>:
-     <font color="red"><i>'cast'</i></font> <font color="red"><i>'('</i></font> (<a href="#type">type</a> | <a href="#castQualifier">castQualifier</a>)? <font color="red"><i>')'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="castQualifier"/> castQualifier</b>:
+    ;</pre><pre class="grammar"><b><a name="caseRangeStatement"></a> caseRangeStatement</b>:
+     <font color="red"><i>'case'</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>':'</i></font> <font color="red"><i>'...'</i></font> <font color="red"><i>'case'</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements"><b>declarationsAndStatements</b></a>
+     ;</pre><pre class="grammar"><b><a name="caseStatement"></a> caseStatement</b>:
+     <font color="red"><i>'case'</i></font> <a href="#&lt;i&gt;argumentList&lt;/i&gt;"><b><i>argumentList</i></b></a> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements"><b>declarationsAndStatements</b></a>
+     ;</pre><pre class="grammar"><b><a name="castExpression"></a> castExpression</b>:
+     <font color="red"><i>'cast'</i></font> <font color="red"><i>'('</i></font> (<a href="#type"><b>type</b></a> | <a href="#castQualifier"><b>castQualifier</b></a>)? <font color="red"><i>')'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="castQualifier"></a> castQualifier</b>:
       <font color="red"><i>'const'</i></font>
     | <font color="red"><i>'const'</i></font> <font color="red"><i>'shared'</i></font>
     | <font color="red"><i>'immutable'</i></font>
@@ -230,347 +215,254 @@
     | <font color="red"><i>'shared'</i></font>
     | <font color="red"><i>'shared'</i></font> <font color="red"><i>'const'</i></font>
     | <font color="red"><i>'shared'</i></font> <font color="red"><i>'inout'</i></font>
-    ;</pre>
-    <pre class="grammar"><b><a name="catch"/> catch</b>:
-     <font color="red"><i>'catch'</i></font> <font color="red"><i>'('</i></font> <a href="#type">type</a> <font color="red"><i>Identifier</i></font>? <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="catches"/> catches</b>:
-       <a href="#catch">catch</a>+
-     | <a href="#catch">catch</a>* <a href="#lastCatch">lastCatch</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="classDeclaration"/> classDeclaration</b>:
-       <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#baseClassList">baseClassList</a>)? <font color="red"><i>';'</i></font>
-     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#baseClassList">baseClassList</a>)? <a href="#structBody">structBody</a>
-     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> <a href="#constraint">constraint</a>? (<font color="red"><i>':'</i></font> <a href="#baseClassList">baseClassList</a>)? <a href="#structBody">structBody</a>
-     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> (<font color="red"><i>':'</i></font> <a href="#baseClassList">baseClassList</a>)? <a href="#constraint">constraint</a>? <a href="#structBody">structBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="cmpExpression"/> cmpExpression</b>:
-       <a href="#shiftExpression">shiftExpression</a>
-     | <a href="#equalExpression">equalExpression</a>
-     | <a href="#identityExpression">identityExpression</a>
-     | <a href="#relExpression">relExpression</a>
-     | <a href="#inExpression">inExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="compileCondition"/> compileCondition</b>:
-       <a href="#versionCondition">versionCondition</a>
-     | <a href="#debugCondition">debugCondition</a>
-     | <a href="#staticIfCondition">staticIfCondition</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="conditionalDeclaration"/> conditionalDeclaration</b>:
-       <a href="#compileCondition">compileCondition</a> <a href="#declaration">declaration</a>
-     | <a href="#compileCondition">compileCondition</a> <font color="red"><i>':'</i></font> <a href="#declaration">declaration</a>+
-     | <a href="#compileCondition">compileCondition</a> <a href="#declaration">declaration</a> (<font color="red"><i>'else'</i></font> <a href="#declaration">declaration</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="conditionalStatement"/> conditionalStatement</b>:
-     <a href="#compileCondition">compileCondition</a> <a href="#declarationOrStatement">declarationOrStatement</a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="constraint"/> constraint</b>:
-     <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="constructor"/> constructor</b>:
-       <font color="red"><i>'this'</i></font> <a href="#templateParameters">templateParameters</a> <a href="#parameters">parameters</a> <a href="#memberFunctionAttribute">memberFunctionAttribute</a>* <a href="#constraint">constraint</a>? (<a href="#functionBody">functionBody</a> | <font color="red"><i>';'</i></font>)
-     ;</pre>
-    <pre class="grammar"><b><a name="continueStatement"/> continueStatement</b>:
+    ;</pre><pre class="grammar"><b><a name="catch"></a> catch</b>:
+     <font color="red"><i>'catch'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font>? <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="catches"></a> catches</b>:
+       <a href="#catch"><b>catch</b></a>+
+     | <a href="#catch"><b>catch</b></a>* <a href="#lastCatch"><b>lastCatch</b></a>
+     ;</pre><pre class="grammar"><b><a name="classDeclaration"></a> classDeclaration</b>:
+       <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#structBody"><b>structBody</b></a>
+     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? (<a href="#structBody"><b>structBody</b></a> | <font color="red"><i>';'</i></font>)
+     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#structBody"><b>structBody</b></a>
+     | <font color="red"><i>'class'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#constraint"><b>constraint</b></a>? <a href="#structBody"><b>structBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="cmpExpression"></a> cmpExpression</b>:
+       <a href="#shiftExpression"><b>shiftExpression</b></a>
+     | <a href="#equalExpression"><b>equalExpression</b></a>
+     | <a href="#identityExpression"><b>identityExpression</b></a>
+     | <a href="#relExpression"><b>relExpression</b></a>
+     | <a href="#inExpression"><b>inExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="compileCondition"></a> compileCondition</b>:
+       <a href="#versionCondition"><b>versionCondition</b></a>
+     | <a href="#debugCondition"><b>debugCondition</b></a>
+     | <a href="#staticIfCondition"><b>staticIfCondition</b></a>
+     ;</pre><pre class="grammar"><b><a name="conditionalDeclaration"></a> conditionalDeclaration</b>:
+       <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>+
+     | <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a> <font color="red"><i>'else'</i></font> <a href="#declaration"><b>declaration</b></a>
+     ;</pre><pre class="grammar"><b><a name="conditionalStatement"></a> conditionalStatement</b>:
+     <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="constraint"></a> constraint</b>:
+     <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="constructor"></a> constructor</b>:
+       <font color="red"><i>'this'</i></font> <a href="#templateParameters"><b>templateParameters</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* <a href="#constraint"><b>constraint</b></a>? (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
+     ;</pre><pre class="grammar"><b><a name="continueStatement"></a> continueStatement</b>:
      <font color="red"><i>'continue'</i></font> <font color="red"><i>Identifier</i></font>? <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="debugCondition"/> debugCondition</b>:
+     ;</pre><pre class="grammar"><b><a name="debugCondition"></a> debugCondition</b>:
      <font color="red"><i>'debug'</i></font> (<font color="red"><i>'('</i></font> (<font color="red"><i>IntegerLiteral</i></font> | <font color="red"><i>Identifier</i></font>) <font color="red"><i>')'</i></font>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="debugSpecification"/> debugSpecification</b>:
+     ;</pre><pre class="grammar"><b><a name="debugSpecification"></a> debugSpecification</b>:
      <font color="red"><i>'debug'</i></font> <font color="red"><i>'='</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>IntegerLiteral</i></font>) <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="declaration"/> declaration</b>:
-     <a href="#attribute">attribute</a>*
+     ;</pre><pre class="grammar"><b><a name="declaration"></a> declaration</b>:
+     <a href="#attribute"><b>attribute</b></a>* 
      ;
- <b><a name="declaration2"/> declaration2</b>:
-       <a href="#aliasDeclaration">aliasDeclaration</a>
-     | <a href="#aliasThisDeclaration">aliasThisDeclaration</a>
-     | <a href="#classDeclaration">classDeclaration</a>
-     | <a href="#conditionalDeclaration">conditionalDeclaration</a>
-     | <a href="#constructor">constructor</a>
-     | <a href="#destructor">destructor</a>
-     | <a href="#enumDeclaration">enumDeclaration</a>
-     | <a href="#functionDeclaration">functionDeclaration</a>
-     | <a href="#importDeclaration">importDeclaration</a>
-     | <a href="#interfaceDeclaration">interfaceDeclaration</a>
-     | <a href="#mixinDeclaration">mixinDeclaration</a>
-     | <a href="#mixinTemplateDeclaration">mixinTemplateDeclaration</a>
-     | <a href="#pragmaDeclaration">pragmaDeclaration</a>
-     | <a href="#sharedStaticConstructor">sharedStaticConstructor</a>
-     | <a href="#sharedStaticDestructor">sharedStaticDestructor</a>
-     | <a href="#staticAssertDeclaration">staticAssertDeclaration</a>
-     | <a href="#staticConstructor">staticConstructor</a>
-     | <a href="#staticDestructor">staticDestructor</a>
-     | <a href="#structDeclaration">structDeclaration</a>
-     | <a href="#templateDeclaration">templateDeclaration</a>
-     | <a href="#unionDeclaration">unionDeclaration</a>
-     | <a href="#unittest">unittest</a>
-     | <a href="#variableDeclaration">variableDeclaration</a>
-     | <a href="#attributeDeclaration">attributeDeclaration</a>
-     | <a href="#invariant">invariant</a>
-     | <font color="red"><i>'{'</i></font> <a href="#declaration">declaration</a>+ <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="declarationsAndStatements"/> declarationsAndStatements</b>:
-     <a href="#declarationOrStatement">declarationOrStatement</a>+
-     ;</pre>
-    <pre class="grammar"><b><a name="declarationOrStatement"/> declarationOrStatement</b>:
-       <a href="#declaration">declaration</a>
-     | <a href="#statement">statement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="declarator"/> declarator</b>:
-     <font color="red"><i>Identifier</i></font> (<font color="red"><i>'='</i></font> <a href="#initializer">initializer</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="defaultStatement"/> defaultStatement</b>:
-     <font color="red"><i>'default'</i></font> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements">declarationsAndStatements</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="deleteExpression"/> deleteExpression</b>:
-     <font color="red"><i>'delete'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="deprecated"/> deprecated</b>:
-     <font color="red"><i>'deprecated'</i></font> (<font color="red"><i>'('</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>')'</i></font>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="destructor"/> destructor</b>:
-     <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#memberFunctionAttribute">memberFunctionAttribute</a>* (<a href="#functionBody">functionBody</a> | <font color="red"><i>';'</i></font>)
-     ;</pre>
-    <pre class="grammar"><b><a name="doStatement"/> doStatement</b>:
-     <font color="red"><i>'do'</i></font> <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a> <font color="red"><i>'while'</i></font> <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="enumBody"/> enumBody</b>:
-       <font color="red"><i>';'</i></font>
-     | <font color="red"><i>'{'</i></font> <a href="#enumMember">enumMember</a> (<font color="red"><i>','</i></font> <a href="#enumMember">enumMember</a>?)* <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="enumDeclaration"/> enumDeclaration</b>:
-     <font color="red"><i>'enum'</i></font> <font color="red"><i>Identifier</i></font>? (<font color="red"><i>':'</i></font> <a href="#type">type</a>)? <a href="#enumBody">enumBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="enumMember"/> enumMember</b>:
+ <b><a name="declaration2"></a> declaration2</b>:
+       <a href="#aliasDeclaration"><b>aliasDeclaration</b></a>
+     | <a href="#aliasThisDeclaration"><b>aliasThisDeclaration</b></a>
+     | <a href="#attributeDeclaration"><b>attributeDeclaration</b></a>
+     | <a href="#classDeclaration"><b>classDeclaration</b></a>
+     | <a href="#conditionalDeclaration"><b>conditionalDeclaration</b></a>
+     | <a href="#constructor"><b>constructor</b></a>
+     | <a href="#debugSpecification"><b>debugSpecification</b></a>
+     | <a href="#destructor"><b>destructor</b></a>
+     | <a href="#enumDeclaration"><b>enumDeclaration</b></a>
+     | <a href="#eponymousTemplateDeclaration"><b>eponymousTemplateDeclaration</b></a>
+     | <a href="#functionDeclaration"><b>functionDeclaration</b></a>
+     | <a href="#importDeclaration"><b>importDeclaration</b></a>
+     | <a href="#interfaceDeclaration"><b>interfaceDeclaration</b></a>
+     | <a href="#invariant"><b>invariant</b></a>
+     | <a href="#mixinDeclaration"><b>mixinDeclaration</b></a>
+     | <a href="#mixinTemplateDeclaration"><b>mixinTemplateDeclaration</b></a>
+     | <a href="#pragmaDeclaration"><b>pragmaDeclaration</b></a>
+     | <a href="#sharedStaticConstructor"><b>sharedStaticConstructor</b></a>
+     | <a href="#sharedStaticDestructor"><b>sharedStaticDestructor</b></a>
+     | <a href="#staticAssertDeclaration"><b>staticAssertDeclaration</b></a>
+     | <a href="#staticConstructor"><b>staticConstructor</b></a>
+     | <a href="#staticDestructor"><b>staticDestructor</b></a>
+     | <a href="#structDeclaration"><b>structDeclaration</b></a>
+     | <a href="#templateDeclaration"><b>templateDeclaration</b></a>
+     | <a href="#unionDeclaration"><b>unionDeclaration</b></a>
+     | <a href="#unittest"><b>unittest</b></a>
+     | <a href="#variableDeclaration"><b>variableDeclaration</b></a>
+     | <a href="#versionSpecification"><b>versionSpecification</b></a>
+     | <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>+ <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="declarationsAndStatements"></a> declarationsAndStatements</b>:
+     <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>+
+     ;</pre><pre class="grammar"><b><a name="declarationOrStatement"></a> declarationOrStatement</b>:
+       <a href="#declaration"><b>declaration</b></a>
+     | <a href="#statement"><b>statement</b></a>
+     ;</pre><pre class="grammar"><b><a name="declarator"></a> declarator</b>:
        <font color="red"><i>Identifier</i></font>
-     | (<font color="red"><i>Identifier</i></font> | <a href="#type">type</a>) <font color="red"><i>'='</i></font> <a href="#assignExpression">assignExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="equalExpression"/> equalExpression</b>:
-     <a href="#shiftExpression">shiftExpression</a> (<font color="red"><i>'=='</i></font> | <font color="red"><i>'!='</i></font>) <a href="#shiftExpression">shiftExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="expression"/> expression</b>:
-     <a href="#assignExpression">assignExpression</a> (<font color="red"><i>','</i></font> <a href="#assignExpression">assignExpression</a>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="expressionStatement"/> expressionStatement</b>:
-     <a href="#expression"><i>expression</i></a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="finalSwitchStatement"/> finalSwitchStatement</b>:
-     <font color="red"><i>'final'</i></font> <a href="#switchStatement">switchStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="finally"/> finally</b>:
-     <font color="red"><i>'finally'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="forStatement"/> forStatement</b>:
-     <font color="red"><i>'for'</i></font> <font color="red"><i>'('</i></font> <a href="#declarationOrStatement">declarationOrStatement</a> <a href="#expression">expression</a>? <font color="red"><i>';'</i></font> <a href="#expression">expression</a>? <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="foreachStatement"/> foreachStatement</b>:
-       (<font color="red"><i>'foreach'</i></font> | <font color="red"><i>'foreach_reverse'</i></font>) <font color="red"><i>'('</i></font> <a href="#foreachTypeList">foreachTypeList</a> <font color="red"><i>';'</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     | (<font color="red"><i>'foreach'</i></font> | <font color="red"><i>'foreach_reverse'</i></font>) <font color="red"><i>'('</i></font> <a href="#foreachType">foreachType</a> <font color="red"><i>';'</i></font> <a href="#expression">expression</a> <font color="red"><i>'..'</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="foreachType"/> foreachType</b>:
-     <a href="#typeConstructors">typeConstructors</a>? <a href="#type">type</a>? <font color="red"><i>Identifier</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="foreachTypeList"/> foreachTypeList</b>:
-     <a href="#foreachType">foreachType</a> (<font color="red"><i>','</i></font> <a href="#foreachType">foreachType</a>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="functionAttribute"/> functionAttribute</b>:
-       <a href="#atAttribute">atAttribute</a>
+     | <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#initializer"><b>initializer</b></a>
+     | <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <font color="red"><i>'='</i></font> <a href="#initializer"><b>initializer</b></a>
+     ;</pre><pre class="grammar"><b><a name="defaultStatement"></a> defaultStatement</b>:
+     <font color="red"><i>'default'</i></font> <font color="red"><i>':'</i></font> <a href="#declarationsAndStatements"><b>declarationsAndStatements</b></a>
+     ;</pre><pre class="grammar"><b><a name="deleteExpression"></a> deleteExpression</b>:
+     <font color="red"><i>'delete'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="deprecated"></a> deprecated</b>:
+     <font color="red"><i>'deprecated'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>StringLiteral</i></font> <font color="red"><i>')'</i></font>)?
+     ;</pre><pre class="grammar"><b><a name="destructor"></a> destructor</b>:
+     <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
+     ;</pre><pre class="grammar"><b><a name="doStatement"></a> doStatement</b>:
+     <font color="red"><i>'do'</i></font> <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a> <font color="red"><i>'while'</i></font> <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="enumBody"></a> enumBody</b>:
+       <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'{'</i></font> <a href="#enumMember"><b>enumMember</b></a> (<font color="red"><i>','</i></font> <a href="#enumMember"><b>enumMember</b></a>?)* <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="enumDeclaration"></a> enumDeclaration</b>:
+     <font color="red"><i>'enum'</i></font> <font color="red"><i>Identifier</i></font>? (<font color="red"><i>':'</i></font> <a href="#type"><b>type</b></a>)? <a href="#enumBody"><b>enumBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="enumMember"></a> enumMember</b>:
+       <font color="red"><i>Identifier</i></font>
+     | <a href="#type"><b>type</b></a>? <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="eponymousTemplateDeclaration"></a> eponymousTemplateDeclaration</b>:
+     <font color="red"><i>'enum'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <font color="red"><i>'='</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="equalExpression"></a> equalExpression</b>:
+     <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'=='</i></font> | <font color="red"><i>'!='</i></font>) <a href="#shiftExpression"><b>shiftExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="expression"></a> expression</b>:
+     <a href="#assignExpression"><b>assignExpression</b></a> (<font color="red"><i>','</i></font> <a href="#assignExpression"><b>assignExpression</b></a>)*
+     ;</pre><pre class="grammar"><b><a name="expressionStatement"></a> expressionStatement</b>:
+     <a href="#&lt;i&gt;expression&lt;/i&gt;"><b><i>expression</i></b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="finalSwitchStatement"></a> finalSwitchStatement</b>:
+     <font color="red"><i>'final'</i></font> <a href="#switchStatement"><b>switchStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="finally"></a> finally</b>:
+     <font color="red"><i>'finally'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="forStatement"></a> forStatement</b>:
+     <font color="red"><i>'for'</i></font> <font color="red"><i>'('</i></font> (<a href="#declaration"><b>declaration</b></a> | <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>) <a href="#expression"><b>expression</b></a>? <font color="red"><i>';'</i></font> <a href="#expression"><b>expression</b></a>? <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="foreachStatement"></a> foreachStatement</b>:
+       (<font color="red"><i>'foreach'</i></font> | <font color="red"><i>'foreach_reverse'</i></font>) <font color="red"><i>'('</i></font> <a href="#foreachTypeList"><b>foreachTypeList</b></a> <font color="red"><i>';'</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     | (<font color="red"><i>'foreach'</i></font> | <font color="red"><i>'foreach_reverse'</i></font>) <font color="red"><i>'('</i></font> <a href="#foreachType"><b>foreachType</b></a> <font color="red"><i>';'</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>'..'</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="foreachType"></a> foreachType</b>:
+     <a href="#typeConstructors"><b>typeConstructors</b></a>? <a href="#type"><b>type</b></a>? <font color="red"><i>Identifier</i></font>
+     ;</pre><pre class="grammar"><b><a name="foreachTypeList"></a> foreachTypeList</b>:
+     <a href="#foreachType"><b>foreachType</b></a> (<font color="red"><i>','</i></font> <a href="#foreachType"><b>foreachType</b></a>)*
+     ;</pre><pre class="grammar"><b><a name="functionAttribute"></a> functionAttribute</b>:
+       <a href="#atAttribute"><b>atAttribute</b></a>
      | <font color="red"><i>'pure'</i></font>
      | <font color="red"><i>'nothrow'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="functionBody"/> functionBody</b>:
-       <a href="#blockStatement">blockStatement</a>
-     | (<a href="#inStatement">inStatement</a> | <a href="#outStatement">outStatement</a> | <a href="#outStatement">outStatement</a> <a href="#inStatement">inStatement</a> | <a href="#inStatement">inStatement</a> <a href="#outStatement">outStatement</a>)? <a href="#bodyStatement">bodyStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="functionCallExpression"/> functionCallExpression</b>:
-      <a href="#unaryExpression">unaryExpression</a> <a href="#templateArguments">templateArguments</a>? <a href="#arguments">arguments</a>
-     | <a href="#type">type</a> <a href="#arguments">arguments</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="functionCallStatement"/> functionCallStatement</b>:
-     <a href="#functionCallExpression">functionCallExpression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="functionDeclaration"/> functionDeclaration</b>:
-       (<a href="#storageClass">storageClass</a> | <a href="#type">type</a>) <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> <a href="#parameters">parameters</a> <a href="#memberFunctionAttribute">memberFunctionAttribute</a>* <a href="#constraint">constraint</a>? (<a href="#functionBody">functionBody</a> | <font color="red"><i>';'</i></font>)
-     ;</pre>
-    <pre class="grammar"><b><a name="functionLiteralExpression"/> functionLiteralExpression</b>:
-     ((<font color="red"><i>'function'</i></font> | <font color="red"><i>'delegate'</i></font>) <a href="#type">type</a>?)? (<a href="#parameters">parameters</a> <a href="#functionAttribute">functionAttribute</a>*)? <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="gotoStatement"/> gotoStatement</b>:
-     <font color="red"><i>'goto'</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>'default'</i></font> | <font color="red"><i>'case'</i></font> <a href="#expression">expression</a>?) <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="identifierChain"/> identifierChain</b>:
+     ;</pre><pre class="grammar"><b><a name="functionBody"></a> functionBody</b>:
+       <a href="#blockStatement"><b>blockStatement</b></a>
+     | (<a href="#inStatement"><b>inStatement</b></a> | <a href="#outStatement"><b>outStatement</b></a> | <a href="#outStatement"><b>outStatement</b></a> <a href="#inStatement"><b>inStatement</b></a> | <a href="#inStatement"><b>inStatement</b></a> <a href="#outStatement"><b>outStatement</b></a>)? <a href="#bodyStatement"><b>bodyStatement</b></a>?
+     ;</pre><pre class="grammar"><b><a name="functionCallExpression"></a> functionCallExpression</b>:
+      <a href="#symbol"><b>symbol</b></a> <a href="#arguments"><b>arguments</b></a>
+      <a href="#unaryExpression"><b>unaryExpression</b></a> <a href="#arguments"><b>arguments</b></a>
+     | <a href="#type"><b>type</b></a> <a href="#arguments"><b>arguments</b></a>
+     ;</pre><pre class="grammar"><b><a name="functionDeclaration"></a> functionDeclaration</b>:
+       (<a href="#storageClass"><b>storageClass</b></a>+ | <a href="#type"><b>type</b></a>) <font color="red"><i>Identifier</i></font> <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
+     | (<a href="#storageClass"><b>storageClass</b></a>+ | <a href="#type"><b>type</b></a>) <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* <a href="#constraint"><b>constraint</b></a>? (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
+     ;</pre><pre class="grammar"><b><a name="functionLiteralExpression"></a> functionLiteralExpression</b>:
+     ((<font color="red"><i>'function'</i></font> | <font color="red"><i>'delegate'</i></font>) <a href="#type"><b>type</b></a>?)? (<a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>*)? <a href="#functionBody"><b>functionBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="gotoStatement"></a> gotoStatement</b>:
+     <font color="red"><i>'goto'</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>'default'</i></font> | <font color="red"><i>'case'</i></font> <a href="#expression"><b>expression</b></a>?) <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="identifierChain"></a> identifierChain</b>:
      <font color="red"><i>Identifier</i></font> (<font color="red"><i>'.'</i></font> <font color="red"><i>Identifier</i></font>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="identifierList"/> identifierList</b>:
+     ;</pre><pre class="grammar"><b><a name="identifierList"></a> identifierList</b>:
      <font color="red"><i>Identifier</i></font> (<font color="red"><i>','</i></font> <font color="red"><i>Identifier</i></font>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="identifierOrTemplateChain"/> identifierOrTemplateChain</b>:
-     <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a> (<font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="identifierOrTemplateInstance"/> identifierOrTemplateInstance</b>:
+     ;</pre><pre class="grammar"><b><a name="identifierOrTemplateChain"></a> identifierOrTemplateChain</b>:
+     <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a> (<font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>)*
+     ;</pre><pre class="grammar"><b><a name="identifierOrTemplateInstance"></a> identifierOrTemplateInstance</b>:
        <font color="red"><i>Identifier</i></font>
-     | <a href="#templateInstance">templateInstance</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="identityExpression"/> identityExpression</b>:
-     <a href="#shiftExpression">shiftExpression</a> (<font color="red"><i>'is'</i></font> | <font color="red"><i>'!'</i></font> <font color="red"><i>'is'</i></font>) <a href="#shiftExpression">shiftExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="ifStatement"/> ifStatement</b>:
-     <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#ifCondition">ifCondition</a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>)?
- <b><a name="ifCondition"/> ifCondition</b>:
-       <font color="red"><i>'auto'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression">expression</a>
-     | <a href="#type">type</a> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression">expression</a>
-     | <a href="#expression">expression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="importBind"/> importBind</b>:
+     | <a href="#templateInstance"><b>templateInstance</b></a>
+     ;</pre><pre class="grammar"><b><a name="identityExpression"></a> identityExpression</b>:
+     <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'is'</i></font> | (<font color="red"><i>'!'</i></font> <font color="red"><i>'is'</i></font>)) <a href="#shiftExpression"><b>shiftExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="ifStatement"></a> ifStatement</b>:
+     <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#ifCondition"><b>ifCondition</b></a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>)?
+ <b><a name="ifCondition"></a> ifCondition</b>:
+       <font color="red"><i>'auto'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression"><b>expression</b></a>
+     | <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression"><b>expression</b></a>
+     | <a href="#expression"><b>expression</b></a>
+     ;</pre><pre class="grammar"><b><a name="importBind"></a> importBind</b>:
      <font color="red"><i>Identifier</i></font> (<font color="red"><i>'='</i></font> <font color="red"><i>Identifier</i></font>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="importBindings"/> importBindings</b>:
-     <a href="#singleImport"><i>singleImport</i></a> <font color="red"><i>':'</i></font> <a href="#importBind">importBind</a> (<font color="red"><i>','</i></font> <a href="#importBind">importBind</a>)*
-     ;</pre>
-    <pre class="grammar"><b><a name="importDeclaration"/> importDeclaration</b>:
-       <font color="red"><i>'import'</i></font> <a href="#singleImport">singleImport</a> (<font color="red"><i>','</i></font> <a href="#singleImport">singleImport</a>)* (<font color="red"><i>','</i></font> <a href="#importBindings">importBindings</a>)? <font color="red"><i>';'</i></font>
-     | <font color="red"><i>'import'</i></font> <a href="#importBindings">importBindings</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="importExpression"/> importExpression</b>:
-     <font color="red"><i>'import'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="indexExpression"/> indexExpression</b>:
-     <a href="#unaryExpression"><i>unaryExpression</i></a> <font color="red"><i>'['</i></font> <a href="#argumentList">argumentList</a> <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="inExpression"/> inExpression</b>:
-     <a href="#shiftExpression">shiftExpression</a> (<font color="red"><i>'in'</i></font> | <font color="red"><i>'!'</i></font> <font color="red"><i>'in'</i></font>) <a href="#shiftExpression">shiftExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="inStatement"/> inStatement</b>:
-     <font color="red"><i>'in'</i></font> <a href="#blockStatement">blockStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="initialize"/> initialize</b>:
-       <font color="red"><i>';'</i></font>
-     | <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="initializer"/> initializer</b>:
+     ;</pre><pre class="grammar"><b><a name="importBindings"></a> importBindings</b>:
+     <a href="#&lt;i&gt;singleImport&lt;/i&gt;"><b><i>singleImport</i></b></a> <font color="red"><i>':'</i></font> <a href="#importBind"><b>importBind</b></a> (<font color="red"><i>','</i></font> <a href="#importBind"><b>importBind</b></a>)*
+     ;</pre><pre class="grammar"><b><a name="importDeclaration"></a> importDeclaration</b>:
+       <font color="red"><i>'import'</i></font> <a href="#singleImport"><b>singleImport</b></a> (<font color="red"><i>','</i></font> <a href="#singleImport"><b>singleImport</b></a>)* (<font color="red"><i>','</i></font> <a href="#importBindings"><b>importBindings</b></a>)? <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'import'</i></font> <a href="#importBindings"><b>importBindings</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="importExpression"></a> importExpression</b>:
+     <font color="red"><i>'import'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="indexExpression"></a> indexExpression</b>:
+     <a href="#&lt;i&gt;unaryExpression&lt;/i&gt;"><b><i>unaryExpression</i></b></a> <font color="red"><i>'['</i></font> <a href="#argumentList"><b>argumentList</b></a> <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="inExpression"></a> inExpression</b>:
+     <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'in'</i></font> | (<font color="red"><i>'!'</i></font> <font color="red"><i>'in'</i></font>)) <a href="#shiftExpression"><b>shiftExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="inStatement"></a> inStatement</b>:
+     <font color="red"><i>'in'</i></font> <a href="#blockStatement"><b>blockStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="initializer"></a> initializer</b>:
        <font color="red"><i>'void'</i></font>
-     | <a href="#nonVoidInitializer">nonVoidInitializer</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="interfaceDeclaration"/> interfaceDeclaration</b>:
-     <font color="red"><i>'interface'</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>';'</i></font> | (<a href="#templateParameters">templateParameters</a> <a href="#constraint">constraint</a>?)? (<font color="red"><i>':'</i></font> <a href="#baseClassList">baseClassList</a>)? <a href="#structBody">structBody</a>)
-     ;</pre>
-    <pre class="grammar"><b><a name="invariant"/> invariant</b>:
-     <font color="red"><i>'invariant'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font>)? <a href="#blockStatement">blockStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="isExpression"/> isExpression</b>:
-     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type">type</a> <font color="red"><i>Identifier</i></font>? ((<font color="red"><i>':'</i></font> | <font color="red"><i>'=='</i></font>) <a href="#typeSpecialization">typeSpecialization</a> (<font color="red"><i>','</i></font> <a href="#templateParameterList">templateParameterList</a>)?)? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="keyValuePair"/> keyValuePair</b>:
-     <a href="#assignExpression">assignExpression</a> <font color="red"><i>':'</i></font> <a href="#assignExpression">assignExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="keyValuePairs"/> keyValuePairs</b>:
-     <a href="#keyValuePair">keyValuePair</a> (<font color="red"><i>','</i></font> <a href="#keyValuePair">keyValuePair</a>)* <font color="red"><i>','</i></font>?
-     ;</pre>
-    <pre class="grammar"><b><a name="labeledStatement"/> labeledStatement</b>:
-     <font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="lambdaExpression"/> lambdaExpression</b>:
-       <font color="red"><i>Identifier</i></font> <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression">assignExpression</a>
-     | <font color="red"><i>'function'</i></font> <a href="#parameters">parameters</a> <a href="#functionAttribute">functionAttribute</a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression">assignExpression</a>
-     | <font color="red"><i>'delegate'</i></font> <a href="#parameters">parameters</a> <a href="#functionAttribute">functionAttribute</a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression">assignExpression</a>
-     | <a href="#parameters">parameters</a> <a href="#functionAttribute">functionAttribute</a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression">assignExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="lastCatch"/> lastCatch</b>:
-     <font color="red"><i>'catch'</i></font> <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="linkageAttribute"/> linkageAttribute</b>:
-     <font color="red"><i>'extern'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>'++'</i></font> (<font color="red"><i>','</i></font> <a href="#identifierChain">identifierChain</a>)?)? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="memberFunctionAttribute"/> memberFunctionAttribute</b>:
-       <a href="#functionAttribute">functionAttribute</a>
+     | <a href="#nonVoidInitializer"><b>nonVoidInitializer</b></a>
+     ;</pre><pre class="grammar"><b><a name="interfaceDeclaration"></a> interfaceDeclaration</b>:
+       <font color="red"><i>'interface'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'interface'</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#structBody"><b>structBody</b></a>
+     | <font color="red"><i>'interface'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#structBody"><b>structBody</b></a>
+     | <font color="red"><i>'interface'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> (<font color="red"><i>':'</i></font> <a href="#baseClassList"><b>baseClassList</b></a>)? <a href="#constraint"><b>constraint</b></a>? <a href="#structBody"><b>structBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="invariant"></a> invariant</b>:
+     <font color="red"><i>'invariant'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font>)? <a href="#blockStatement"><b>blockStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="isExpression"></a> isExpression</b>:
+     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>identifier</i></font>? <font color="red"><i>')'</i></font>
+     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>identifier</i></font>? <font color="red"><i>':'</i></font> <a href="#typeSpecialization"><b>typeSpecialization</b></a> <font color="red"><i>')'</i></font>
+     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>identifier</i></font>? <font color="red"><i>'='</i></font> <a href="#typeSpecialization"><b>typeSpecialization</b></a> <font color="red"><i>')'</i></font>
+     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>identifier</i></font>? <font color="red"><i>':'</i></font> <a href="#typeSpecialization"><b>typeSpecialization</b></a> <font color="red"><i>','</i></font> <a href="#templateParameterList"><b>templateParameterList</b></a> <font color="red"><i>')'</i></font>
+     <font color="red"><i>'is'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>identifier</i></font>? <font color="red"><i>'='</i></font> <a href="#typeSpecialization"><b>typeSpecialization</b></a> <font color="red"><i>','</i></font> <a href="#templateParameterList"><b>templateParameterList</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="keyValuePair"></a> keyValuePair</b>:
+     <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>':'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="keyValuePairs"></a> keyValuePairs</b>:
+     <a href="#keyValuePair"><b>keyValuePair</b></a> (<font color="red"><i>','</i></font> <a href="#keyValuePair"><b>keyValuePair</b></a>)* <font color="red"><i>','</i></font>?
+     ;</pre><pre class="grammar"><b><a name="labeledStatement"></a> labeledStatement</b>:
+     <font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="lambdaExpression"></a> lambdaExpression</b>:
+       <font color="red"><i>Identifier</i></font> <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <font color="red"><i>'function'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <font color="red"><i>'delegate'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="lastCatch"></a> lastCatch</b>:
+     <font color="red"><i>'catch'</i></font> <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
+     ;</pre><pre class="grammar"><b><a name="linkageAttribute"></a> linkageAttribute</b>:
+     <font color="red"><i>'extern'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>'++'</i></font> (<font color="red"><i>','</i></font> <a href="#identifierChain"><b>identifierChain</b></a>)?)? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="memberFunctionAttribute"></a> memberFunctionAttribute</b>:
+       <a href="#functionAttribute"><b>functionAttribute</b></a>
      | <font color="red"><i>'immutable'</i></font>
      | <font color="red"><i>'inout'</i></font>
      | <font color="red"><i>'shared'</i></font>
      | <font color="red"><i>'const'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="mixinDeclaration"/> mixinDeclaration</b>:
-       <a href="#mixinExpression">mixinExpression</a> <font color="red"><i>';'</i></font>
-     | <a href="#templateMixinExpression">templateMixinExpression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="mixinExpression"/> mixinExpression</b>:
-     <font color="red"><i>'mixin'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="mixinTemplateDeclaration"/> mixinTemplateDeclaration</b>:
-     <font color="red"><i>'mixin'</i></font> <a href="#templateDeclaration">templateDeclaration</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="mixinTemplateName"/> mixinTemplateName</b>:
-       <a href="#symbol">symbol</a>
-     | <a href="#typeofExpression">typeofExpression</a> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateChain">identifierOrTemplateChain</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="module"/> module</b>:
-     <a href="#moduleDeclaration">moduleDeclaration</a>? <a href="#declaration">declaration</a>*
-     ;</pre>
-    <pre class="grammar"><b><a name="moduleDeclaration"/> moduleDeclaration</b>:
-     <font color="red"><i>'module'</i></font> <a href="#identifierChain">identifierChain</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="mulExpression"/> mulExpression</b>:
-       <a href="#powExpression">powExpression</a>
-     | <a href="#mulExpression">mulExpression</a> (<font color="red"><i>'*'</i></font> | <font color="red"><i>'/'</i></font> | <font color="red"><i>'%'</i></font>) <a href="#powExpression">powExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="newAnonClassExpression"/> newAnonClassExpression</b>:
-     <font color="red"><i>'new'</i></font> <a href="#arguments">arguments</a>? <font color="red"><i>'class'</i></font> <a href="#arguments">arguments</a>? <a href="#baseClassList">baseClassList</a>? <a href="#structBody">structBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="newExpression"/> newExpression</b>:
-       <font color="red"><i>'new'</i></font> <a href="#type">type</a> (<font color="red"><i>'['</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>']'</i></font> | <a href="#arguments">arguments</a>)?
-     | <a href="#newAnonClassExpression">newAnonClassExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="statementNoCaseNoDefault"/> statementNoCaseNoDefault</b>:
-       <a href="#labeledStatement">labeledStatement</a>
-     | <a href="#blockStatement">blockStatement</a>
-     | <a href="#ifStatement">ifStatement</a>
-     | <a href="#whileStatement">whileStatement</a>
-     | <a href="#doStatement">doStatement</a>
-     | <a href="#forStatement">forStatement</a>
-     | <a href="#foreachStatement">foreachStatement</a>
-     | <a href="#switchStatement">switchStatement</a>
-     | <a href="#finalSwitchStatement">finalSwitchStatement</a>
-     | <a href="#continueStatement">continueStatement</a>
-     | <a href="#breakStatement">breakStatement</a>
-     | <a href="#returnStatement">returnStatement</a>
-     | <a href="#gotoStatement">gotoStatement</a>
-     | <a href="#withStatement">withStatement</a>
-     | <a href="#synchronizedStatement">synchronizedStatement</a>
-     | <a href="#tryStatement">tryStatement</a>
-     | <a href="#throwStatement">throwStatement</a>
-     | <a href="#scopeGuardStatement">scopeGuardStatement</a>
-     | <a href="#asmStatement">asmStatement</a>
-     | <a href="#conditionalStatement">conditionalStatement</a>
-     | <a href="#staticAssertStatement">staticAssertStatement</a>
-     | <a href="#versionSpecification">versionSpecification</a>
-     | <a href="#debugSpecification">debugSpecification</a>
-     | <a href="#expressionStatement">expressionStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="nonVoidInitializer"/> nonVoidInitializer</b>:
-       <a href="#assignExpression">assignExpression</a>
-     | <a href="#arrayInitializer">arrayInitializer</a>
-     | <a href="#structInitializer">structInitializer</a>
-     | <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="operands"/> operands</b>:
-     <a href="#asmExp">asmExp</a>+
-     ;</pre>
-    <pre class="grammar"><b><a name="orExpression"/> orExpression</b>:
-       <a href="#xorExpression">xorExpression</a>
-     | <a href="#orExpression">orExpression</a> <font color="red"><i>'|'</i></font> <a href="#xorExpression">xorExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="orOrExpression"/> orOrExpression</b>:
-       <a href="#andAndExpression">andAndExpression</a>
-     | <a href="#orOrExpression">orOrExpression</a> <font color="red"><i>'||'</i></font> <a href="#andAndExpression">andAndExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="outStatement"/> outStatement</b>:
-     <font color="red"><i>'out'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>')'</i></font>)? <a href="#blockStatement">blockStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="parameter"/> parameter</b>:
-     <a href="#parameterAttribute">parameterAttribute</a>* <a href="#type">type</a> (<font color="red"><i>Identifier</i></font>? <font color="red"><i>'...'</i></font> | (<font color="red"><i>Identifier</i></font>? (<font color="red"><i>'='</i></font> <a href="#assignExpression">assignExpression</a>)?))?
-     ;</pre>
-    <pre class="grammar"><b><a name="parameterAttribute"/> parameterAttribute</b>:
-       <a href="#typeConstructor">typeConstructor</a>
+     ;</pre><pre class="grammar"><b><a name="mixinDeclaration"></a> mixinDeclaration</b>:
+       <a href="#mixinExpression"><b>mixinExpression</b></a> <font color="red"><i>';'</i></font>
+     | <a href="#templateMixinExpression"><b>templateMixinExpression</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="mixinExpression"></a> mixinExpression</b>:
+     <font color="red"><i>'mixin'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="mixinTemplateDeclaration"></a> mixinTemplateDeclaration</b>:
+     <font color="red"><i>'mixin'</i></font> <a href="#templateDeclaration"><b>templateDeclaration</b></a>
+     ;</pre><pre class="grammar"><b><a name="mixinTemplateName"></a> mixinTemplateName</b>:
+       <a href="#symbol"><b>symbol</b></a>
+     | <a href="#typeofExpression"><b>typeofExpression</b></a> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateChain"><b>identifierOrTemplateChain</b></a>
+     ;</pre><pre class="grammar"><b><a name="module"></a> module</b>:
+     <a href="#moduleDeclaration"><b>moduleDeclaration</b></a>? <a href="#declaration"><b>declaration</b></a>*
+     ;</pre><pre class="grammar"><b><a name="moduleDeclaration"></a> moduleDeclaration</b>:
+     <a href="#deprecated"><b>deprecated</b></a>? <font color="red"><i>'module'</i></font> <a href="#identifierChain"><b>identifierChain</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="mulExpression"></a> mulExpression</b>:
+       <a href="#powExpression"><b>powExpression</b></a>
+     | <a href="#mulExpression"><b>mulExpression</b></a> (<font color="red"><i>'*'</i></font> | <font color="red"><i>'/'</i></font> | <font color="red"><i>'%'</i></font>) <a href="#powExpression"><b>powExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="newAnonClassExpression"></a> newAnonClassExpression</b>:
+     <font color="red"><i>'new'</i></font> <a href="#arguments"><b>arguments</b></a>? <font color="red"><i>'class'</i></font> <a href="#arguments"><b>arguments</b></a>? <a href="#baseClassList"><b>baseClassList</b></a>? <a href="#structBody"><b>structBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="newExpression"></a> newExpression</b>:
+       <font color="red"><i>'new'</i></font> <a href="#type2"><b>type2</b></a> ((<font color="red"><i>'['</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>']'</i></font>) | <a href="#arguments"><b>arguments</b></a>)?
+     | <a href="#newAnonClassExpression"><b>newAnonClassExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="nonVoidInitializer"></a> nonVoidInitializer</b>:
+       <a href="#assignExpression"><b>assignExpression</b></a>
+     | <a href="#arrayInitializer"><b>arrayInitializer</b></a>
+     | <a href="#structInitializer"><b>structInitializer</b></a>
+     ;</pre><pre class="grammar"><b><a name="operands"></a> operands</b>:
+       <a href="#asmExp"><b>asmExp</b></a>
+     | <a href="#asmExp"><b>asmExp</b></a> <font color="red"><i>','</i></font> <a href="#operands"><b>operands</b></a>
+     ;</pre><pre class="grammar"><b><a name="orExpression"></a> orExpression</b>:
+       <a href="#xorExpression"><b>xorExpression</b></a>
+     | <a href="#orExpression"><b>orExpression</b></a> <font color="red"><i>'|'</i></font> <a href="#xorExpression"><b>xorExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="orOrExpression"></a> orOrExpression</b>:
+       <a href="#andAndExpression"><b>andAndExpression</b></a>
+     | <a href="#orOrExpression"><b>orOrExpression</b></a> <font color="red"><i>'||'</i></font> <a href="#andAndExpression"><b>andAndExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="outStatement"></a> outStatement</b>:
+     <font color="red"><i>'out'</i></font> (<font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>')'</i></font>)? <a href="#blockStatement"><b>blockStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="parameter"></a> parameter</b>:
+     <a href="#parameterAttribute"><b>parameterAttribute</b></a>* <a href="#type"><b>type</b></a>
+     <a href="#parameterAttribute"><b>parameterAttribute</b></a>* <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font>? <font color="red"><i>'...'</i></font>
+     <a href="#parameterAttribute"><b>parameterAttribute</b></a>* <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font>? (<font color="red"><i>'='</i></font> <a href="#assignExpression"><b>assignExpression</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="parameterAttribute"></a> parameterAttribute</b>:
+       <a href="#typeConstructor"><b>typeConstructor</b></a>
      | <font color="red"><i>'final'</i></font>
      | <font color="red"><i>'in'</i></font>
      | <font color="red"><i>'lazy'</i></font>
@@ -578,47 +470,37 @@
      | <font color="red"><i>'ref'</i></font>
      | <font color="red"><i>'scope'</i></font>
      | <font color="red"><i>'auto'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="parameters"/> parameters</b>:
-       <font color="red"><i>'('</i></font> <a href="#parameter">parameter</a> (<font color="red"><i>','</i></font> <a href="#parameter">parameter</a>)* (<font color="red"><i>','</i></font> <font color="red"><i>'...'</i></font>)? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="parameters"></a> parameters</b>:
+       <font color="red"><i>'('</i></font> <a href="#parameter"><b>parameter</b></a> (<font color="red"><i>','</i></font> <a href="#parameter"><b>parameter</b></a>)* (<font color="red"><i>','</i></font> <font color="red"><i>'...'</i></font>)? <font color="red"><i>')'</i></font>
      | <font color="red"><i>'('</i></font> <font color="red"><i>'...'</i></font> <font color="red"><i>')'</i></font>
      | <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="postblit"/> postblit</b>:
-     <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>')'</i></font> <a href="#memberFunctionAttribute">memberFunctionAttribute</a>* (<a href="#functionBody">functionBody</a> | <font color="red"><i>';'</i></font>)
-     ;</pre>
-    <pre class="grammar"><b><a name="postIncDecExpression"/> postIncDecExpression</b>:
-     <a href="#unaryExpression">unaryExpression</a> (<font color="red"><i>'++'</i></font> | <font color="red"><i>'--'</i></font>)
-     ;</pre>
-    <pre class="grammar"><b><a name="powExpression"/> powExpression</b>:
-       <a href="#unaryExpression">unaryExpression</a>
-     | <a href="#powExpression">powExpression</a> <font color="red"><i>'^^'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="pragmaDeclaration"/> pragmaDeclaration</b>:
-     <a href="#pragmaExpression">pragmaExpression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="pragmaExpression"/> pragmaExpression</b>:
-     <a href="#'pragma'">'pragma'</a> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>','</i></font> <a href="#argumentList">argumentList</a>)? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="preIncDecExpression"/> preIncDecExpression</b>:
-     (<font color="red"><i>'++'</i></font> | <font color="red"><i>'--'</i></font>) <a href="#unaryExpression">unaryExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="primaryExpression"/> primaryExpression</b>:
-       <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a>
-     | <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a>
-     | <a href="#basicType">basicType</a> <font color="red"><i>'.'</i></font> <font color="red"><i>Identifier</i></font>
-     | <a href="#typeofExpression">typeofExpression</a>
-     | <a href="#typeidExpression">typeidExpression</a>
-     | <a href="#vector">vector</a>
-     | <a href="#arrayLiteral">arrayLiteral</a>
-     | <a href="#assocArrayLiteral">assocArrayLiteral</a>
-     | <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font>
-     | <a href="#isExpression">isExpression</a>
-     | <a href="#lambdaExpression">lambdaExpression</a>
-     | <a href="#functionLiteralExpression">functionLiteralExpression</a>
-     | <a href="#traitsExpression">traitsExpression</a>
-     | <a href="#mixinExpression">mixinExpression</a>
-     | <a href="#importExpression">importExpression</a>
+     ;</pre><pre class="grammar"><b><a name="postblit"></a> postblit</b>:
+     <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>')'</i></font> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
+     ;</pre><pre class="grammar"><b><a name="powExpression"></a> powExpression</b>:
+       <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <a href="#powExpression"><b>powExpression</b></a> <font color="red"><i>'^^'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="pragmaDeclaration"></a> pragmaDeclaration</b>:
+     <a href="#pragmaExpression"><b>pragmaExpression</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="pragmaExpression"></a> pragmaExpression</b>:
+     <a href="#'pragma'"><b>'pragma'</b></a> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> (<font color="red"><i>','</i></font> <a href="#argumentList"><b>argumentList</b></a>)? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="primaryExpression"></a> primaryExpression</b>:
+       <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
+     | <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
+     | <a href="#typeConstructor"><b>typeConstructor</b></a> <font color="red"><i>'('</i></font> <a href="#basicType"><b>basicType</b></a> <font color="red"><i>')'</i></font> <font color="red"><i>'.'</i></font> <font color="red"><i>Identifier</i></font>
+     | <a href="#basicType"><b>basicType</b></a> <font color="red"><i>'.'</i></font> <font color="red"><i>Identifier</i></font>
+     | <a href="#basicType"><b>basicType</b></a> <a href="#arguments"><b>arguments</b></a>
+     | <a href="#typeofExpression"><b>typeofExpression</b></a>
+     | <a href="#typeidExpression"><b>typeidExpression</b></a>
+     | <a href="#vector"><b>vector</b></a>
+     | <a href="#arrayLiteral"><b>arrayLiteral</b></a>
+     | <a href="#assocArrayLiteral"><b>assocArrayLiteral</b></a>
+     | <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font>
+     | <a href="#isExpression"><b>isExpression</b></a>
+     | <a href="#lambdaExpression"><b>lambdaExpression</b></a>
+     | <a href="#functionLiteralExpression"><b>functionLiteralExpression</b></a>
+     | <a href="#traitsExpression"><b>traitsExpression</b></a>
+     | <a href="#mixinExpression"><b>mixinExpression</b></a>
+     | <a href="#importExpression"><b>importExpression</b></a>
      | <font color="red"><i>'$'</i></font>
      | <font color="red"><i>'this'</i></font>
      | <font color="red"><i>'super'</i></font>
@@ -639,16 +521,14 @@
      | <font color="red"><i>FloatLiteral</i></font>
      | <font color="red"><i>StringLiteral</i></font>+
      | <font color="red"><i>CharacterLiteral</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="register"/> register</b>:
-     <font color="red"><i>Identifier</i></font>
+     ;</pre><pre class="grammar"><b><a name="register"></a> register</b>:
+       <font color="red"><i>Identifier</i></font>
      | <font color="red"><i>Identifier</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>IntegerLiteral</i></font> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="relExpression"/> relExpression</b>:
-       <a href="#shiftExpression">shiftExpression</a>
-     | <a href="#relExpression">relExpression</a> <a href="#relOperator">relOperator</a> <a href="#shiftExpression">shiftExpression</a>
+     ;</pre><pre class="grammar"><b><a name="relExpression"></a> relExpression</b>:
+       <a href="#shiftExpression"><b>shiftExpression</b></a>
+     | <a href="#relExpression"><b>relExpression</b></a> <a href="#relOperator"><b>relOperator</b></a> <a href="#shiftExpression"><b>shiftExpression</b></a>
      ;
-<b><a name="relOperator"/> relOperator</b>:
+<b><a name="relOperator"></a> relOperator</b>:
        <font color="red"><i>'&lt;'</i></font>
      | <font color="red"><i>'&lt;='</i></font>
      | <font color="red"><i>'&gt;'</i></font>
@@ -661,55 +541,68 @@
      | <font color="red"><i>'!&gt;='</i></font>
      | <font color="red"><i>'!&lt;'</i></font>
      | <font color="red"><i>'!&lt;='</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="returnStatement"/> returnStatement</b>:
-     <font color="red"><i>'return'</i></font> <a href="#expression">expression</a>? <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="scopeGuardStatement"/> scopeGuardStatement</b>:
-     <font color="red"><i>'scope'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>')'</i></font> <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="sharedStaticConstructor"/> sharedStaticConstructor</b>:
-     <font color="red"><i>'shared'</i></font> <font color="red"><i>'static'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="sharedStaticDestructor"/> sharedStaticDestructor</b>:
-     <font color="red"><i>'shared'</i></font> <font color="red"><i>'static'</i></font> <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="shiftExpression"/> shiftExpression</b>:
-       <a href="#addExpression">addExpression</a>
-     | <a href="#shiftExpression">shiftExpression</a> (<font color="red"><i>'&lt;&lt;'</i></font> | <font color="red"><i>'&gt;&gt;'</i></font> | <font color="red"><i>'&gt;&gt;&gt;'</i></font>) <a href="#addExpression">addExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="singleImport"/> singleImport</b>:
-     (<font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font>)? <a href="#identifierChain">identifierChain</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="sliceExpression"/> sliceExpression</b>:
-       <a href="#unaryExpression">unaryExpression</a> <font color="red"><i>'['</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>'..'</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>']'</i></font>
-     | <a href="#unaryExpression">unaryExpression</a> <font color="red"><i>'['</i></font> <font color="red"><i>']'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="statement"/> statement</b>:
-       <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     | <a href="#caseStatement">caseStatement</a>
-     | <a href="#caseRangeStatement">caseRangeStatement</a>
-     | <a href="#defaultStatement">defaultStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="staticAssertDeclaration"/> staticAssertDeclaration</b>:
-     <a href="#staticAssertStatement">staticAssertStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="staticAssertStatement"/> staticAssertStatement</b>:
-     <font color="red"><i>'static'</i></font> <a href="#assertExpression">assertExpression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="staticConstructor"/> staticConstructor</b>:
-     <font color="red"><i>'static'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="staticDestructor"/> staticDestructor</b>:
-     <font color="red"><i>'static'</i></font> <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody">functionBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="staticIfCondition"/> staticIfCondition</b>:
-     <font color="red"><i>'static'</i></font> <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="storageClass"/> storageClass</b>:
-       <a href="#atAttribute">atAttribute</a>
-     | <a href="#typeConstructor">typeConstructor</a>
-     | <a href="#deprecated">deprecated</a>
+     ;</pre><pre class="grammar"><b><a name="returnStatement"></a> returnStatement</b>:
+     <font color="red"><i>'return'</i></font> <a href="#expression"><b>expression</b></a>? <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="scopeGuardStatement"></a> scopeGuardStatement</b>:
+     <font color="red"><i>'scope'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>')'</i></font> <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
+     ;</pre><pre class="grammar"><b><a name="sharedStaticConstructor"></a> sharedStaticConstructor</b>:
+     <font color="red"><i>'shared'</i></font> <font color="red"><i>'static'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody"><b>functionBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="sharedStaticDestructor"></a> sharedStaticDestructor</b>:
+     <font color="red"><i>'shared'</i></font> <font color="red"><i>'static'</i></font> <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody"><b>functionBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="shiftExpression"></a> shiftExpression</b>:
+       <a href="#addExpression"><b>addExpression</b></a>
+     | <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'&lt;&lt;'</i></font> | <font color="red"><i>'&gt;&gt;'</i></font> | <font color="red"><i>'&gt;&gt;&gt;'</i></font>) <a href="#addExpression"><b>addExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="singleImport"></a> singleImport</b>:
+     (<font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font>)? <a href="#identifierChain"><b>identifierChain</b></a>
+     ;</pre><pre class="grammar"><b><a name="sliceExpression"></a> sliceExpression</b>:
+       <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'['</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>'..'</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>']'</i></font>
+     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'['</i></font> <font color="red"><i>']'</i></font>
+     ;</pre><pre class="grammar"><b><a name="statement"></a> statement</b>:
+       <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
+     | <a href="#caseStatement"><b>caseStatement</b></a>
+     | <a href="#caseRangeStatement"><b>caseRangeStatement</b></a>
+     | <a href="#defaultStatement"><b>defaultStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="statementNoCaseNoDefault"></a> statementNoCaseNoDefault</b>:
+       <a href="#labeledStatement"><b>labeledStatement</b></a>
+     | <a href="#blockStatement"><b>blockStatement</b></a>
+     | <a href="#ifStatement"><b>ifStatement</b></a>
+     | <a href="#whileStatement"><b>whileStatement</b></a>
+     | <a href="#doStatement"><b>doStatement</b></a>
+     | <a href="#forStatement"><b>forStatement</b></a>
+     | <a href="#foreachStatement"><b>foreachStatement</b></a>
+     | <a href="#switchStatement"><b>switchStatement</b></a>
+     | <a href="#finalSwitchStatement"><b>finalSwitchStatement</b></a>
+     | <a href="#continueStatement"><b>continueStatement</b></a>
+     | <a href="#breakStatement"><b>breakStatement</b></a>
+     | <a href="#returnStatement"><b>returnStatement</b></a>
+     | <a href="#gotoStatement"><b>gotoStatement</b></a>
+     | <a href="#withStatement"><b>withStatement</b></a>
+     | <a href="#synchronizedStatement"><b>synchronizedStatement</b></a>
+     | <a href="#tryStatement"><b>tryStatement</b></a>
+     | <a href="#throwStatement"><b>throwStatement</b></a>
+     | <a href="#scopeGuardStatement"><b>scopeGuardStatement</b></a>
+     | <a href="#asmStatement"><b>asmStatement</b></a>
+     | <a href="#conditionalStatement"><b>conditionalStatement</b></a>
+     | <a href="#staticAssertStatement"><b>staticAssertStatement</b></a>
+     | <a href="#versionSpecification"><b>versionSpecification</b></a>
+     | <a href="#debugSpecification"><b>debugSpecification</b></a>
+     | <a href="#expressionStatement"><b>expressionStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="staticAssertDeclaration"></a> staticAssertDeclaration</b>:
+     <a href="#staticAssertStatement"><b>staticAssertStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="staticAssertStatement"></a> staticAssertStatement</b>:
+     <font color="red"><i>'static'</i></font> <a href="#assertExpression"><b>assertExpression</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="staticConstructor"></a> staticConstructor</b>:
+     <font color="red"><i>'static'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody"><b>functionBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="staticDestructor"></a> staticDestructor</b>:
+     <font color="red"><i>'static'</i></font> <font color="red"><i>'~'</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>')'</i></font> <a href="#functionBody"><b>functionBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="staticIfCondition"></a> staticIfCondition</b>:
+     <font color="red"><i>'static'</i></font> <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="storageClass"></a> storageClass</b>:
+       <a href="#alignAttribute"><b>alignAttribute</b></a>
+     | <a href="#linkageAttribute"><b>linkageAttribute</b></a>
+     | <a href="#atAttribute"><b>atAttribute</b></a>
+     | <a href="#typeConstructor"><b>typeConstructor</b></a>
+     | <a href="#deprecated"><b>deprecated</b></a>
      | <font color="red"><i>'abstract'</i></font>
      | <font color="red"><i>'auto'</i></font>
      | <font color="red"><i>'enum'</i></font>
@@ -723,72 +616,49 @@
      | <font color="red"><i>'scope'</i></font>
      | <font color="red"><i>'static'</i></font>
      | <font color="red"><i>'synchronized'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="structBody"/> structBody</b>:
-     <font color="red"><i>'{'</i></font> <a href="#declaration">declaration</a>* <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="structDeclaration"/> structDeclaration</b>:
-     <font color="red"><i>'struct'</i></font> <font color="red"><i>Identifier</i></font>? (<a href="#templateParameters">templateParameters</a> <a href="#constraint">constraint</a>? <a href="#structBody">structBody</a> | (<a href="#structBody">structBody</a> | <font color="red"><i>';'</i></font>))
-     ;</pre>
-    <pre class="grammar"><b><a name="structInitializer"/> structInitializer</b>:
-     <font color="red"><i>'{'</i></font> <a href="#structMemberInitializers">structMemberInitializers</a>? <font color="red"><i>'}'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="structMemberInitializer"/> structMemberInitializer</b>:
-     (<font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font>)? <a href="#nonVoidInitializer">nonVoidInitializer</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="structMemberInitializers"/> structMemberInitializers</b>:
-     <a href="#structMemberInitializer">structMemberInitializer</a> (<font color="red"><i>','</i></font> <a href="#structMemberInitializer">structMemberInitializer</a>?)*
-     ;</pre>
-    <pre class="grammar"><b><a name="switchStatement"/> switchStatement</b>:
-     <font color="red"><i>'switch'</i></font> <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <a href="#statement">statement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="symbol"/> symbol</b>:
-     <font color="red"><i>'.'</i></font>? <a href="#identifierOrTemplateChain">identifierOrTemplateChain</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="synchronizedStatement"/> synchronizedStatement</b>:
-     <font color="red"><i>'synchronized'</i></font> (<font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font>)? <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateAliasParameter"/> templateAliasParameter</b>:
-     <font color="red"><i>'alias'</i></font> <a href="#type">type</a>? <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> (<a href="#type">type</a> | <a href="#assignExpression">assignExpression</a>))? (<font color="red"><i>'='</i></font> (<a href="#type">type</a> | <a href="#assignExpression">assignExpression</a>))?
-     ;</pre>
-    <pre class="grammar"><b><a name="templateArgument"/> templateArgument</b>:
-       <a href="#type">type</a>
-     | <a href="#assignExpression">assignExpression</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateArgumentList"/> templateArgumentList</b>:
-     <a href="#templateArgument">templateArgument</a> (<font color="red"><i>','</i></font> <a href="#templateArgument">templateArgument</a>?)*
-     ;</pre>
-    <pre class="grammar"><b><a name="templateArguments"/> templateArguments</b>:
-     <font color="red"><i>'!'</i></font> (<font color="red"><i>'('</i></font> <a href="#templateArgumentList">templateArgumentList</a>? <font color="red"><i>')'</i></font> | <a href="#templateSingleArgument">templateSingleArgument</a>)
-     ;</pre>
-    <pre class="grammar"><b><a name="templateDeclaration"/> templateDeclaration</b>:
-       <font color="red"><i>'template'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> <a href="#constraint">constraint</a>? <font color="red"><i>'{'</i></font> <a href="#declaration">declaration</a>* <font color="red"><i>'}'</i></font>
-     | <a href="#eponymousTemplateDeclaration">eponymousTemplateDeclaration</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="eponymousTemplateDeclaration"/> eponymousTemplateDeclaration</b>:
-     <font color="red"><i>'enum'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> <font color="red"><i>'='</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateInstance"/> templateInstance</b>:
-     <font color="red"><i>Identifier</i></font> <a href="#templateArguments">templateArguments</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateMixinExpression"/> templateMixinExpression</b>:
-     <font color="red"><i>'mixin'</i></font> <a href="#mixinTemplateName">mixinTemplateName</a> <a href="#templateArguments">templateArguments</a>? <font color="red"><i>Identifier</i></font>?
-     ;</pre>
-    <pre class="grammar"><b><a name="templateParameter"/> templateParameter</b>:
-       <a href="#templateTypeParameter">templateTypeParameter</a>
-     | <a href="#templateValueParameter">templateValueParameter</a>
-     | <a href="#templateAliasParameter">templateAliasParameter</a>
-     | <a href="#templateTupleParameter">templateTupleParameter</a>
-     | <a href="#templateThisParameter">templateThisParameter</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateParameterList"/> templateParameterList</b>:
-     <a href="#templateParameter">templateParameter</a> (<font color="red"><i>','</i></font> <a href="#templateParameter">templateParameter</a>?)*
-     ;</pre>
-    <pre class="grammar"><b><a name="templateParameters"/> templateParameters</b>:
-     <font color="red"><i>'('</i></font> <a href="#templateParameterList">templateParameterList</a>? <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateSingleArgument"/> templateSingleArgument</b>:
-       <a href="#builtinType">builtinType</a>
+     ;</pre><pre class="grammar"><b><a name="structBody"></a> structBody</b>:
+     <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="structDeclaration"></a> structDeclaration</b>:
+     <font color="red"><i>'struct'</i></font> <font color="red"><i>Identifier</i></font>? (<a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? <a href="#structBody"><b>structBody</b></a> | (<a href="#structBody"><b>structBody</b></a> | <font color="red"><i>';'</i></font>))
+     ;</pre><pre class="grammar"><b><a name="structInitializer"></a> structInitializer</b>:
+     <font color="red"><i>'{'</i></font> <a href="#structMemberInitializers"><b>structMemberInitializers</b></a>? <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="structMemberInitializer"></a> structMemberInitializer</b>:
+     (<font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font>)? <a href="#nonVoidInitializer"><b>nonVoidInitializer</b></a>
+     ;</pre><pre class="grammar"><b><a name="structMemberInitializers"></a> structMemberInitializers</b>:
+     <a href="#structMemberInitializer"><b>structMemberInitializer</b></a> (<font color="red"><i>','</i></font> <a href="#structMemberInitializer"><b>structMemberInitializer</b></a>?)*
+     ;</pre><pre class="grammar"><b><a name="switchStatement"></a> switchStatement</b>:
+     <font color="red"><i>'switch'</i></font> <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <a href="#statement"><b>statement</b></a>
+     ;</pre><pre class="grammar"><b><a name="symbol"></a> symbol</b>:
+     (<font color="red"><i>'super'</i></font>?  <font color="red"><i>'this'</i></font>)? <font color="red"><i>'.'</i></font>? <a href="#identifierOrTemplateChain"><b>identifierOrTemplateChain</b></a>
+     ;</pre><pre class="grammar"><b><a name="synchronizedStatement"></a> synchronizedStatement</b>:
+     <font color="red"><i>'synchronized'</i></font> (<font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font>)? <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateAliasParameter"></a> templateAliasParameter</b>:
+     <font color="red"><i>'alias'</i></font> <a href="#type"><b>type</b></a>? <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> (<a href="#type"><b>type</b></a> | <a href="#assignExpression"><b>assignExpression</b></a>))? (<font color="red"><i>'='</i></font> (<a href="#type"><b>type</b></a> | <a href="#assignExpression"><b>assignExpression</b></a>))?
+     ;</pre><pre class="grammar"><b><a name="templateArgument"></a> templateArgument</b>:
+       <a href="#type"><b>type</b></a>
+     | <a href="#assignExpression"><b>assignExpression</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateArgumentList"></a> templateArgumentList</b>:
+     <a href="#templateArgument"><b>templateArgument</b></a> (<font color="red"><i>','</i></font> <a href="#templateArgument"><b>templateArgument</b></a>?)*
+     ;</pre><pre class="grammar"><b><a name="templateArguments"></a> templateArguments</b>:
+     <font color="red"><i>'!'</i></font> (<font color="red"><i>'('</i></font> <a href="#templateArgumentList"><b>templateArgumentList</b></a>? <font color="red"><i>')'</i></font>) | <a href="#templateSingleArgument"><b>templateSingleArgument</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateDeclaration"></a> templateDeclaration</b>:
+       <font color="red"><i>'template'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
+     ;</pre><pre class="grammar"><b><a name="templateInstance"></a> templateInstance</b>:
+     <font color="red"><i>Identifier</i></font> <a href="#templateArguments"><b>templateArguments</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateMixinExpression"></a> templateMixinExpression</b>:
+     <font color="red"><i>'mixin'</i></font> <a href="#mixinTemplateName"><b>mixinTemplateName</b></a> <a href="#templateArguments"><b>templateArguments</b></a>? <font color="red"><i>Identifier</i></font>?
+     ;</pre><pre class="grammar"><b><a name="templateParameter"></a> templateParameter</b>:
+       <a href="#templateTypeParameter"><b>templateTypeParameter</b></a>
+     | <a href="#templateValueParameter"><b>templateValueParameter</b></a>
+     | <a href="#templateAliasParameter"><b>templateAliasParameter</b></a>
+     | <a href="#templateTupleParameter"><b>templateTupleParameter</b></a>
+     | <a href="#templateThisParameter"><b>templateThisParameter</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateParameterList"></a> templateParameterList</b>:
+     <a href="#templateParameter"><b>templateParameter</b></a> (<font color="red"><i>','</i></font> <a href="#templateParameter"><b>templateParameter</b></a>?)*
+     ;</pre><pre class="grammar"><b><a name="templateParameters"></a> templateParameters</b>:
+     <font color="red"><i>'('</i></font> <a href="#templateParameterList"><b>templateParameterList</b></a>? <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="templateSingleArgument"></a> templateSingleArgument</b>:
+       <a href="#builtinType"><b>builtinType</b></a>
      | <font color="red"><i>Identifier</i></font>
      | <font color="red"><i>CharacterLiteral</i></font>
      | <font color="red"><i>StringLiteral</i></font>
@@ -808,55 +678,41 @@
      | <font color="red"><i>'__MODULE__'</i></font>
      | <font color="red"><i>'__FUNCTION__'</i></font>
      | <font color="red"><i>'__PRETTY_FUNCTION__'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateThisParameter"/> templateThisParameter</b>:
-     <font color="red"><i>'this'</i></font> <a href="#templateTypeParameter">templateTypeParameter</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateTupleParameter"/> templateTupleParameter</b>:
+     ;</pre><pre class="grammar"><b><a name="templateThisParameter"></a> templateThisParameter</b>:
+     <font color="red"><i>'this'</i></font> <a href="#templateTypeParameter"><b>templateTypeParameter</b></a>
+     ;</pre><pre class="grammar"><b><a name="templateTupleParameter"></a> templateTupleParameter</b>:
      <font color="red"><i>Identifier</i></font> <font color="red"><i>'...'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="templateTypeParameter"/> templateTypeParameter</b>:
-     <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#type">type</a>)? (<font color="red"><i>'='</i></font> <a href="#type">type</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="templateValueParameter"/> templateValueParameter</b>:
-     <a href="#type">type</a> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#expression">expression</a>)? <a href="#templateValueParameterDefault">templateValueParameterDefault</a>?
-     ;</pre>
-    <pre class="grammar"><b><a name="templateValueParameterDefault"/> templateValueParameterDefault</b>:
-     <font color="red"><i>'='</i></font> (<font color="red"><i>'__FILE__'</i></font> | <font color="red"><i>'__MODULE__'</i></font> | <font color="red"><i>'__LINE__'</i></font> | <font color="red"><i>'__FUNCTION__'</i></font> | <font color="red"><i>'__PRETTY_FUNCTION__'</i></font> | <a href="#assignExpression">assignExpression</a>)
-     ;</pre>
-    <pre class="grammar"><b><a name="ternaryExpression"/> ternaryExpression</b>:
-     <a href="#orOrExpression">orOrExpression</a> (<font color="red"><i>'?'</i></font> <a href="#expression">expression</a> <font color="red"><i>':'</i></font> <a href="#ternaryExpression">ternaryExpression</a>)?
-     ;</pre>
-    <pre class="grammar"><b><a name="throwStatement"/> throwStatement</b>:
-     <font color="red"><i>'throw'</i></font> <a href="#expression">expression</a> <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="traitsExpression"/> traitsExpression</b>:
-     <font color="red"><i>'__traits'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>','</i></font> <a href="#TemplateArgumentList">TemplateArgumentList</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="tryStatement"/> tryStatement</b>:
-     <font color="red"><i>'try'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a> (<a href="#catches">catches</a> | <a href="#catches">catches</a> <a href="#finally">finally</a> | <a href="#finally">finally</a>)
-     ;</pre>
-    <pre class="grammar"><b><a name="type"/> type</b>:
-     <a href="#attribute">attribute</a>? <a href="#type2">type2</a> <a href="#typeSuffix">typeSuffix</a>*
-     ;</pre>
-    <pre class="grammar"><b><a name="type2"/> type2</b>:
-       <a href="#builtinType">builtinType</a>
-     | <a href="#symbol">symbol</a>
-     | <a href="#typeofExpression">typeofExpression</a> (<font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateChain">identifierOrTemplateChain</a>)?
-     | <a href="#typeConstructor">typeConstructor</a> <font color="red"><i>'('</i></font> <a href="#type">type</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="typeConstructor"/> typeConstructor</b>:
+     ;</pre><pre class="grammar"><b><a name="templateTypeParameter"></a> templateTypeParameter</b>:
+     <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#type"><b>type</b></a>)? (<font color="red"><i>'='</i></font> <a href="#type"><b>type</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="templateValueParameter"></a> templateValueParameter</b>:
+     <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font> (<font color="red"><i>':'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>)? <a href="#templateValueParameterDefault"><b>templateValueParameterDefault</b></a>?
+     ;</pre><pre class="grammar"><b><a name="templateValueParameterDefault"></a> templateValueParameterDefault</b>:
+     <font color="red"><i>'='</i></font> (<font color="red"><i>'__FILE__'</i></font> | <font color="red"><i>'__MODULE__'</i></font> | <font color="red"><i>'__LINE__'</i></font> | <font color="red"><i>'__FUNCTION__'</i></font> | <font color="red"><i>'__PRETTY_FUNCTION__'</i></font> | <a href="#assignExpression"><b>assignExpression</b></a>)
+     ;</pre><pre class="grammar"><b><a name="ternaryExpression"></a> ternaryExpression</b>:
+     <a href="#orOrExpression"><b>orOrExpression</b></a> (<font color="red"><i>'?'</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>':'</i></font> <a href="#ternaryExpression"><b>ternaryExpression</b></a>)?
+     ;</pre><pre class="grammar"><b><a name="throwStatement"></a> throwStatement</b>:
+     <font color="red"><i>'throw'</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>';'</i></font>
+     ;</pre><pre class="grammar"><b><a name="traitsExpression"></a> traitsExpression</b>:
+     <font color="red"><i>'__traits'</i></font> <font color="red"><i>'('</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>','</i></font> <a href="#TemplateArgumentList"><b>TemplateArgumentList</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="tryStatement"></a> tryStatement</b>:
+     <font color="red"><i>'try'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a> (<a href="#catches"><b>catches</b></a> | <a href="#catches"><b>catches</b></a> <a href="#finally"><b>finally</b></a> | <a href="#finally"><b>finally</b></a>)
+     ;</pre><pre class="grammar"><b><a name="type"></a> type</b>:
+     <a href="#typeConstructors"><b>typeConstructors</b></a>? <a href="#type2"><b>type2</b></a> <a href="#typeSuffix"><b>typeSuffix</b></a>*
+     ;</pre><pre class="grammar"><b><a name="type2"></a> type2</b>:
+       <a href="#builtinType"><b>builtinType</b></a>
+     | <a href="#symbol"><b>symbol</b></a>
+     | <a href="#typeofExpression"><b>typeofExpression</b></a> (<font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateChain"><b>identifierOrTemplateChain</b></a>)?
+     | <a href="#typeConstructor"><b>typeConstructor</b></a> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>')'</i></font>
+     | <a href="#vector"><b>vector</b></a>
+     ;</pre><pre class="grammar"><b><a name="typeConstructor"></a> typeConstructor</b>:
        <font color="red"><i>'const'</i></font>
      | <font color="red"><i>'immutable'</i></font>
      | <font color="red"><i>'inout'</i></font>
      | <font color="red"><i>'shared'</i></font>
-     | <font color="red"><i>'scope'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="typeConstructors"/> typeConstructors</b>:
-     <a href="#typeConstructor">typeConstructor</a>+
-     ;</pre>
-    <pre class="grammar"><b><a name="typeSpecialization"/> typeSpecialization</b>:
-       <a href="#type">type</a>
+     ;</pre><pre class="grammar"><b><a name="typeConstructors"></a> typeConstructors</b>:
+     <a href="#typeConstructor"><b>typeConstructor</b></a>+
+     ;</pre><pre class="grammar"><b><a name="typeSpecialization"></a> typeSpecialization</b>:
+       <a href="#type"><b>type</b></a>
      | <font color="red"><i>'struct'</i></font>
      | <font color="red"><i>'union'</i></font>
      | <font color="red"><i>'class'</i></font>
@@ -872,73 +728,59 @@
      | <font color="red"><i>'return'</i></font>
      | <font color="red"><i>'typedef'</i></font>
      | <font color="red"><i>'__parameters'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="typeSuffix"/> typeSuffix</b>:
+     ;</pre><pre class="grammar"><b><a name="typeSuffix"></a> typeSuffix</b>:
        <font color="red"><i>'*'</i></font>
-     | <font color="red"><i>'['</i></font> <a href="#type">type</a>? <font color="red"><i>']'</i></font>
-     | <font color="red"><i>'['</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>']'</i></font>
-     | <font color="red"><i>'['</i></font> <a href="#assignExpression">assignExpression</a> <font color="red"><i>'..'</i></font>  <a href="#assignExpression">assignExpression</a> <font color="red"><i>']'</i></font>
-     | (<font color="red"><i>'delegate'</i></font> | <font color="red"><i>'function'</i></font>) <a href="#parameters">parameters</a> <a href="#memberFunctionAttribute">memberFunctionAttribute</a>*
-     ;</pre>
-    <pre class="grammar"><b><a name="typeidExpression"/> typeidExpression</b>:
-     <font color="red"><i>'typeid'</i></font> <font color="red"><i>'('</i></font> (<a href="#type">type</a> | <a href="#expression">expression</a>) <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="typeofExpression"/> typeofExpression</b>:
-     <font color="red"><i>'typeof'</i></font> <font color="red"><i>'('</i></font> (<a href="#expression">expression</a> | <font color="red"><i>'return'</i></font>) <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="unaryExpression"/> unaryExpression</b>:
-       <a href="#primaryExpression">primaryExpression</a>
-     | <font color="red"><i>'&amp;'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'!'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'*'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'+'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'-'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'~'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'++'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <font color="red"><i>'--'</i></font> <a href="#unaryExpression">unaryExpression</a>
-     | <a href="#newExpression">newExpression</a>
-     | <a href="#deleteExpression">deleteExpression</a>
-     | <a href="#castExpression">castExpression</a>
-     | <a href="#assertExpression">assertExpression</a>
-     | <a href="#functionCallExpression">functionCallExpression</a>
-     | <a href="#sliceExpression">sliceExpression</a>
-     | <a href="#indexExpression">indexExpression</a>
-     | <font color="red"><i>'('</i></font> <a href="#type">type</a> <font color="red"><i>')'</i></font> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a>
-     | <a href="#unaryExpression">unaryExpression</a> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance">identifierOrTemplateInstance</a>
-     | <a href="#unaryExpression">unaryExpression</a> <font color="red"><i>'--'</i></font>
-     | <a href="#unaryExpression">unaryExpression</a> <font color="red"><i>'++'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="unionDeclaration"/> unionDeclaration</b>:
-       <font color="red"><i>'union'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters">templateParameters</a> <a href="#constraint">constraint</a>? <a href="#structBody">structBody</a>
-     | <font color="red"><i>'union'</i></font> <font color="red"><i>Identifier</i></font> (<a href="#structBody">structBody</a> | <font color="red"><i>';'</i></font>)
-     | <font color="red"><i>'union'</i></font> <a href="#structBody">structBody</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="unittest"/> unittest</b>:
-     <font color="red"><i>'unittest'</i></font> <a href="#blockStatement">blockStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="variableDeclaration"/> variableDeclaration</b>:
-       <a href="#type">type</a> <a href="#declarator">declarator</a> (<font color="red"><i>','</i></font> <a href="#declarator">declarator</a>)* <font color="red"><i>';'</i></font>
-     | <a href="#type">type</a> <a href="#declarator">declarator</a> <font color="red"><i>'='</i></font> <a href="#functionBody">functionBody</a>
-     | <a href="#autoDeclaration">autoDeclaration</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="vector"/> vector</b>:
-     <font color="red"><i>'__vector'</i></font> <font color="red"><i>'('</i></font> <a href="#type">type</a> <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="versionCondition"/> versionCondition</b>:
+     | <font color="red"><i>'['</i></font> <a href="#type"><b>type</b></a>? <font color="red"><i>']'</i></font>
+     | <font color="red"><i>'['</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>']'</i></font>
+     | <font color="red"><i>'['</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>'..'</i></font>  <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>']'</i></font>
+     | (<font color="red"><i>'delegate'</i></font> | <font color="red"><i>'function'</i></font>) <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>*
+     ;</pre><pre class="grammar"><b><a name="typeidExpression"></a> typeidExpression</b>:
+     <font color="red"><i>'typeid'</i></font> <font color="red"><i>'('</i></font> (<a href="#type"><b>type</b></a> | <a href="#expression"><b>expression</b></a>) <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="typeofExpression"></a> typeofExpression</b>:
+     <font color="red"><i>'typeof'</i></font> <font color="red"><i>'('</i></font> (<a href="#expression"><b>expression</b></a> | <font color="red"><i>'return'</i></font>) <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="unaryExpression"></a> unaryExpression</b>:
+       <a href="#primaryExpression"><b>primaryExpression</b></a>
+     | <font color="red"><i>'&amp;'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'!'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'*'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'+'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'-'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'~'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'++'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <font color="red"><i>'--'</i></font> <a href="#unaryExpression"><b>unaryExpression</b></a>
+     | <a href="#newExpression"><b>newExpression</b></a>
+     | <a href="#deleteExpression"><b>deleteExpression</b></a>
+     | <a href="#castExpression"><b>castExpression</b></a>
+     | <a href="#assertExpression"><b>assertExpression</b></a>
+     | <a href="#functionCallExpression"><b>functionCallExpression</b></a>
+     | <a href="#sliceExpression"><b>sliceExpression</b></a>
+     | <a href="#indexExpression"><b>indexExpression</b></a>
+     | <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>')'</i></font> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
+     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
+     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'--'</i></font>
+     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'++'</i></font>
+     ;</pre><pre class="grammar"><b><a name="unionDeclaration"></a> unionDeclaration</b>:
+       <font color="red"><i>'union'</i></font> <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#constraint"><b>constraint</b></a>? <a href="#structBody"><b>structBody</b></a>
+     | <font color="red"><i>'union'</i></font> <font color="red"><i>Identifier</i></font> (<a href="#structBody"><b>structBody</b></a> | <font color="red"><i>';'</i></font>)
+     | <font color="red"><i>'union'</i></font> <a href="#structBody"><b>structBody</b></a>
+     ;</pre><pre class="grammar"><b><a name="unittest"></a> unittest</b>:
+     <font color="red"><i>'unittest'</i></font> <a href="#blockStatement"><b>blockStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="variableDeclaration"></a> variableDeclaration</b>:
+       <a href="#storageClass"><b>storageClass</b></a>* <a href="#&lt;i&gt;type&lt;/i&gt;"><b><i>type</i></b></a> <a href="#declarator"><b>declarator</b></a> (<font color="red"><i>','</i></font> <a href="#declarator"><b>declarator</b></a>)* <font color="red"><i>';'</i></font>
+     | <a href="#storageClass"><b>storageClass</b></a>* <a href="#&lt;i&gt;type&lt;/i&gt;"><b><i>type</i></b></a> <font color="red"><i>identifier</i></font> <font color="red"><i>'='</i></font> <a href="#functionBody"><b>functionBody</b></a> <font color="red"><i>';'</i></font>
+     | <a href="#autoDeclaration"><b>autoDeclaration</b></a>
+     ;</pre><pre class="grammar"><b><a name="vector"></a> vector</b>:
+     <font color="red"><i>'__vector'</i></font> <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>')'</i></font>
+     ;</pre><pre class="grammar"><b><a name="versionCondition"></a> versionCondition</b>:
      <font color="red"><i>'version'</i></font> <font color="red"><i>'('</i></font> (<font color="red"><i>IntegerLiteral</i></font> | <font color="red"><i>Identifier</i></font> | <font color="red"><i>'unittest'</i></font> | <font color="red"><i>'assert'</i></font>) <font color="red"><i>')'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="versionSpecification"/> versionSpecification</b>:
+     ;</pre><pre class="grammar"><b><a name="versionSpecification"></a> versionSpecification</b>:
      <font color="red"><i>'version'</i></font> <font color="red"><i>'='</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>IntegerLiteral</i></font>) <font color="red"><i>';'</i></font>
-     ;</pre>
-    <pre class="grammar"><b><a name="whileStatement"/> whileStatement</b>:
-     <font color="red"><i>'while'</i></font> <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement">declarationOrStatement</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="withStatement"/> withStatement</b>:
-     <font color="red"><i>'with'</i></font> <font color="red"><i>'('</i></font> <a href="#expression">expression</a> <font color="red"><i>')'</i></font> <a href="#statementNoCaseNoDefault">statementNoCaseNoDefault</a>
-     ;</pre>
-    <pre class="grammar"><b><a name="xorExpression"/> xorExpression</b>:
-       <a href="#andExpression">andExpression</a>
-     | <a href="#xorExpression">xorExpression</a> <font color="red"><i>'^'</i></font> <a href="#andExpression">andExpression</a>
-     ;</pre>
-  </body>
+     ;</pre><pre class="grammar"><b><a name="whileStatement"></a> whileStatement</b>:
+     <font color="red"><i>'while'</i></font> <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>
+     ;</pre><pre class="grammar"><b><a name="withStatement"></a> withStatement</b>:
+     <font color="red"><i>'with'</i></font> <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font> <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
+     ;</pre><pre class="grammar"><b><a name="xorExpression"></a> xorExpression</b>:
+       <a href="#andExpression"><b>andExpression</b></a>
+     | <a href="#xorExpression"><b>xorExpression</b></a> <font color="red"><i>'^'</i></font> <a href="#andExpression"><b>andExpression</b></a>
+     ;</pre>	</body>
 </html>
