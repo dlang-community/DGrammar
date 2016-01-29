@@ -17,9 +17,10 @@
      | <a href="#addExpression"><b>addExpression</b></a> (<font color="red"><i>'+'</i></font> | <font color="red"><i>'-'</i></font> | <font color="red"><i>'~'</i></font>) <a href="#mulExpression"><b>mulExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="aliasDeclaration"></a> aliasDeclaration</b>:
        <font color="red"><i>'alias'</i></font> <a href="#aliasInitializer"><b>aliasInitializer</b></a> (<font color="red"><i>','</i></font> <a href="#aliasInitializer"><b>aliasInitializer</b></a>)* <font color="red"><i>';'</i></font>
-     | <font color="red"><i>'alias'</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a> <font color="red"><i>identifierList</i></font> <font color="red"><i>';'</i></font>
+     | <font color="red"><i>'alias'</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a> <a href="#identifierList"><b>identifierList</b></a> <font color="red"><i>';'</i></font>
      ;</pre><pre class="grammar"><b><a name="aliasInitializer"></a> aliasInitializer</b>:
-     <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a>? <font color="red"><i>'='</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a>
+       <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a>? <font color="red"><i>'='</i></font> <a href="#storageClass"><b>storageClass</b></a>* <a href="#type"><b>type</b></a>
+     | <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a>? <font color="red"><i>'='</i></font> <a href="#functionLiteralExpression"><b>functionLiteralExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="aliasThisDeclaration"></a> aliasThisDeclaration</b>:
      <font color="red"><i>'alias'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'this'</i></font> <font color="red"><i>';'</i></font>
      ;</pre><pre class="grammar"><b><a name="alignAttribute"></a> alignAttribute</b>:
@@ -136,6 +137,7 @@
        <font color="red"><i>'@'</i></font> <font color="red"><i>Identifier</i></font>
      | <font color="red"><i>'@'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'('</i></font> <a href="#argumentList"><b>argumentList</b></a>? <font color="red"><i>')'</i></font>
      | <font color="red"><i>'@'</i></font> <font color="red"><i>'('</i></font> <a href="#argumentList"><b>argumentList</b></a> <font color="red"><i>')'</i></font>
+     | <font color="red"><i>'@'</i></font> <a href="#TemplateInstance"><b>TemplateInstance</b></a>
      ;</pre><pre class="grammar"><b><a name="attribute"></a> attribute</b>:
      | <a href="#pragmaExpression"><b>pragmaExpression</b></a>
      | <a href="#alignAttribute"><b>alignAttribute</b></a>
@@ -238,8 +240,17 @@
      | <a href="#staticIfCondition"><b>staticIfCondition</b></a>
      ;</pre><pre class="grammar"><b><a name="conditionalDeclaration"></a> conditionalDeclaration</b>:
        <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
      | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>+
+     | <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a> <font color="red"><i>'else'</i></font> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>*
      | <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a> <font color="red"><i>'else'</i></font> <a href="#declaration"><b>declaration</b></a>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declaration"><b>declaration</b></a> <font color="red"><i>'else'</i></font> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font> <font color="red"><i>'else'</i></font> <a href="#declaration"><b>declaration</b></a>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font> <font color="red"><i>'else'</i></font> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font> <font color="red"><i>'else'</i></font> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>*
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>+ <font color="red"><i>'else'</i></font> <a href="#declaration"><b>declaration</b></a>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>+ <font color="red"><i>'else'</i></font> <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
+     | <a href="#compileCondition"><b>compileCondition</b></a> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>+ <font color="red"><i>'else'</i></font> <font color="red"><i>':'</i></font> <a href="#declaration"><b>declaration</b></a>*
      ;</pre><pre class="grammar"><b><a name="conditionalStatement"></a> conditionalStatement</b>:
      <a href="#compileCondition"><b>compileCondition</b></a> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>)?
      ;</pre><pre class="grammar"><b><a name="constraint"></a> constraint</b>:
@@ -253,7 +264,8 @@
      ;</pre><pre class="grammar"><b><a name="debugSpecification"></a> debugSpecification</b>:
      <font color="red"><i>'debug'</i></font> <font color="red"><i>'='</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>IntegerLiteral</i></font>) <font color="red"><i>';'</i></font>
      ;</pre><pre class="grammar"><b><a name="declaration"></a> declaration</b>:
-     <a href="#attribute"><b>attribute</b></a>* <a href="#declaration2"><b>declaration2</b></a>
+       <a href="#attribute"><b>attribute</b></a>* <a href="#declaration2"><b>declaration2</b></a>
+     | <a href="#attribute"><b>attribute</b></a>+ <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>* <font color="red"><i>'}'</i></font>
      ;
  <b><a name="declaration2"></a> declaration2</b>:
        <a href="#aliasDeclaration"><b>aliasDeclaration</b></a>
@@ -285,7 +297,6 @@
      | <a href="#unittest"><b>unittest</b></a>
      | <a href="#variableDeclaration"><b>variableDeclaration</b></a>
      | <a href="#versionSpecification"><b>versionSpecification</b></a>
-     | <font color="red"><i>'{'</i></font> <a href="#declaration"><b>declaration</b></a>+ <font color="red"><i>'}'</i></font>
      ;</pre><pre class="grammar"><b><a name="declarationsAndStatements"></a> declarationsAndStatements</b>:
      <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>+
      ;</pre><pre class="grammar"><b><a name="declarationOrStatement"></a> declarationOrStatement</b>:
@@ -356,7 +367,14 @@
        (<a href="#storageClass"><b>storageClass</b></a>+ | <a href="#type"><b>type</b></a>) <font color="red"><i>Identifier</i></font> <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
      | (<a href="#storageClass"><b>storageClass</b></a>+ | <a href="#type"><b>type</b></a>) <font color="red"><i>Identifier</i></font> <a href="#templateParameters"><b>templateParameters</b></a> <a href="#parameters"><b>parameters</b></a> <a href="#memberFunctionAttribute"><b>memberFunctionAttribute</b></a>* <a href="#constraint"><b>constraint</b></a>? (<a href="#functionBody"><b>functionBody</b></a> | <font color="red"><i>';'</i></font>)
      ;</pre><pre class="grammar"><b><a name="functionLiteralExpression"></a> functionLiteralExpression</b>:
-     ((<font color="red"><i>'function'</i></font> | <font color="red"><i>'delegate'</i></font>) <a href="#type"><b>type</b></a>?)? (<a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>*)? <a href="#functionBody"><b>functionBody</b></a>
+     | <font color="red"><i>'delegate'</i></font> <a href="#type"><b>type</b></a>? (<a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>*)? <a href="#functionBody"><b>functionBody</b></a>
+     | <font color="red"><i>'function'</i></font> <a href="#type"><b>type</b></a>? (<a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>*)? <a href="#functionBody"><b>functionBody</b></a>
+     | <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <a href="#functionBody"><b>functionBody</b></a>
+     | <a href="#functionBody"><b>functionBody</b></a>
+     | <font color="red"><i>Identifier</i></font> <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <font color="red"><i>'function'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <font color="red"><i>'delegate'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
+     | <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="gotoStatement"></a> gotoStatement</b>:
      <font color="red"><i>'goto'</i></font> (<font color="red"><i>Identifier</i></font> | <font color="red"><i>'default'</i></font> | <font color="red"><i>'case'</i></font> <a href="#expression"><b>expression</b></a>?) <font color="red"><i>';'</i></font>
      ;</pre><pre class="grammar"><b><a name="identifierChain"></a> identifierChain</b>:
@@ -372,7 +390,7 @@
      <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'is'</i></font> | (<font color="red"><i>'!'</i></font> <font color="red"><i>'is'</i></font>)) <a href="#shiftExpression"><b>shiftExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="ifStatement"></a> ifStatement</b>:
      <font color="red"><i>'if'</i></font> <font color="red"><i>'('</i></font> <a href="#ifCondition"><b>ifCondition</b></a> <font color="red"><i>')'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a> (<font color="red"><i>'else'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>)?
- <b><a name="ifCondition"></a> ifCondition</b>:
+<b><a name="ifCondition"></a> ifCondition</b>:
        <font color="red"><i>'auto'</i></font> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression"><b>expression</b></a>
      | <a href="#type"><b>type</b></a> <font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font> <a href="#expression"><b>expression</b></a>
      | <a href="#expression"><b>expression</b></a>
@@ -385,9 +403,14 @@
      | <font color="red"><i>'import'</i></font> <a href="#importBindings"><b>importBindings</b></a> <font color="red"><i>';'</i></font>
      ;</pre><pre class="grammar"><b><a name="importExpression"></a> importExpression</b>:
      <font color="red"><i>'import'</i></font> <font color="red"><i>'('</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>')'</i></font>
-     ;</pre><pre class="grammar"><b><a name="indexExpression"></a> indexExpression</b>:
-     <a href="#&lt;i&gt;unaryExpression&lt;/i&gt;"><b><i>unaryExpression</i></b></a> <font color="red"><i>'['</i></font> <a href="#argumentList"><b>argumentList</b></a> <font color="red"><i>']'</i></font>
-     ;</pre><pre class="grammar"><b><a name="inExpression"></a> inExpression</b>:
+     ;</pre><pre class="grammar"><b><a name="index"></a> index</b>:
+     <a href="#assignExpression"><b>assignExpression</b></a> (<font color="red"><i>'..'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>)?
+     ;
+ </pre><pre class="grammar"><b><a name="indexExpression"></a> indexExpression</b>:
+       <a href="#&lt;i&gt;unaryExpression&lt;/i&gt;"><b><i>unaryExpression</i></b></a> <font color="red"><i>'['</i></font> <font color="red"><i>']'</i></font>
+     | <a href="#&lt;i&gt;unaryExpression&lt;/i&gt;"><b><i>unaryExpression</i></b></a> <font color="red"><i>'['</i></font> <a href="#index"><b>index</b></a> (<font color="red"><i>','</i></font> <a href="#index"><b>index</b></a>)* <font color="red"><i>']'</i></font>
+     ;
+ </pre><pre class="grammar"><b><a name="inExpression"></a> inExpression</b>:
      <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'in'</i></font> | (<font color="red"><i>'!'</i></font> <font color="red"><i>'in'</i></font>)) <a href="#shiftExpression"><b>shiftExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="inStatement"></a> inStatement</b>:
      <font color="red"><i>'in'</i></font> <a href="#blockStatement"><b>blockStatement</b></a>
@@ -413,11 +436,6 @@
      <a href="#keyValuePair"><b>keyValuePair</b></a> (<font color="red"><i>','</i></font> <a href="#keyValuePair"><b>keyValuePair</b></a>)* <font color="red"><i>','</i></font>?
      ;</pre><pre class="grammar"><b><a name="labeledStatement"></a> labeledStatement</b>:
      <font color="red"><i>Identifier</i></font> <font color="red"><i>':'</i></font> <a href="#declarationOrStatement"><b>declarationOrStatement</b></a>?
-     ;</pre><pre class="grammar"><b><a name="lambdaExpression"></a> lambdaExpression</b>:
-       <font color="red"><i>Identifier</i></font> <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
-     | <font color="red"><i>'function'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
-     | <font color="red"><i>'delegate'</i></font> <a href="#type"><b>type</b></a>? <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
-     | <a href="#parameters"><b>parameters</b></a> <a href="#functionAttribute"><b>functionAttribute</b></a>* <font color="red"><i>'=&gt;'</i></font> <a href="#assignExpression"><b>assignExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="lastCatch"></a> lastCatch</b>:
      <font color="red"><i>'catch'</i></font> <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
      ;</pre><pre class="grammar"><b><a name="linkageAttribute"></a> linkageAttribute</b>:
@@ -506,7 +524,6 @@
      | <a href="#assocArrayLiteral"><b>assocArrayLiteral</b></a>
      | <font color="red"><i>'('</i></font> <a href="#expression"><b>expression</b></a> <font color="red"><i>')'</i></font>
      | <a href="#isExpression"><b>isExpression</b></a>
-     | <a href="#lambdaExpression"><b>lambdaExpression</b></a>
      | <a href="#functionLiteralExpression"><b>functionLiteralExpression</b></a>
      | <a href="#traitsExpression"><b>traitsExpression</b></a>
      | <a href="#mixinExpression"><b>mixinExpression</b></a>
@@ -564,9 +581,6 @@
      | <a href="#shiftExpression"><b>shiftExpression</b></a> (<font color="red"><i>'&lt;&lt;'</i></font> | <font color="red"><i>'&gt;&gt;'</i></font> | <font color="red"><i>'&gt;&gt;&gt;'</i></font>) <a href="#addExpression"><b>addExpression</b></a>
      ;</pre><pre class="grammar"><b><a name="singleImport"></a> singleImport</b>:
      (<font color="red"><i>Identifier</i></font> <font color="red"><i>'='</i></font>)? <a href="#identifierChain"><b>identifierChain</b></a>
-     ;</pre><pre class="grammar"><b><a name="sliceExpression"></a> sliceExpression</b>:
-       <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'['</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>'..'</i></font> <a href="#assignExpression"><b>assignExpression</b></a> <font color="red"><i>']'</i></font>
-     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'['</i></font> <font color="red"><i>']'</i></font>
      ;</pre><pre class="grammar"><b><a name="statement"></a> statement</b>:
        <a href="#statementNoCaseNoDefault"><b>statementNoCaseNoDefault</b></a>
      | <a href="#caseStatement"><b>caseStatement</b></a>
@@ -763,9 +777,9 @@
      | <a href="#castExpression"><b>castExpression</b></a>
      | <a href="#assertExpression"><b>assertExpression</b></a>
      | <a href="#functionCallExpression"><b>functionCallExpression</b></a>
-     | <a href="#sliceExpression"><b>sliceExpression</b></a>
      | <a href="#indexExpression"><b>indexExpression</b></a>
      | <font color="red"><i>'('</i></font> <a href="#type"><b>type</b></a> <font color="red"><i>')'</i></font> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
+     | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'.'</i></font> <a href="#newExpression"><b>newExpression</b></a>
      | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'.'</i></font> <a href="#identifierOrTemplateInstance"><b>identifierOrTemplateInstance</b></a>
      | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'--'</i></font>
      | <a href="#unaryExpression"><b>unaryExpression</b></a> <font color="red"><i>'++'</i></font>

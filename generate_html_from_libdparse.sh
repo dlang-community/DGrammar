@@ -1,6 +1,6 @@
-LIBDPARSE_PATH=../dscanner/libdparse
+LIBDPARSE_PATH=../dcd/libdparse
 
-dmd -D ${LIBDPARSE_PATH}/src/std/d/parser.d\
+dmd -D ${LIBDPARSE_PATH}/src/dparse/parser.d\
 	-I${LIBDPARSE_PATH}/src\
 	${LIBDPARSE_PATH}/macros.ddoc -c
 
